@@ -20,7 +20,8 @@ np.random.seed(SEED)
 # Definindo paths
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 DATASET_PATH = os.path.join(BASE_PATH, 'C:\\Projetos\\2024_Phd_ObstacleDetectionModel\\via-dataset-extended')
-RESULT_PATH = os.path.join(BASE_PATH, 'features', 'features.csv')
+FEATURE_PATH = os.path.join(BASE_PATH, 'features')
+
 
 def load_data():
     # Definir extensões de arquivos válidos (imagens)
@@ -46,6 +47,7 @@ def load_data():
     return df
 
 def extract_features(df, model, preprocessing_function, image_size):
+
     # Atualiza os nomes de categoria
     df["category"] = df["category"].replace({1: 'clear', 0: 'non-clear'})
 
@@ -110,7 +112,15 @@ def feature_model_extract(df):
 
     return features_MobileNetV2, time_feature_extraction
 
+#utilizado pelo modulo obstacleDetectionModel
+def modular_extract_features(df):
+    # Extraindo as características das imagens
+    features, time_feature_extraction = feature_model_extract(df)
+
+    return features
+
 # ----------------------- MAIN ------------------------------------------------
+#utilizar para execução direta do programa extract_features.py
 def main_extract_features():
     # Carregando as imagens em um dataframe
     df = load_data()
@@ -122,7 +132,7 @@ def main_extract_features():
     df_csv = pd.DataFrame(features)
 
     # Salvando o dataframe em um arquivo CSV
-    df_csv.to_csv(RESULT_PATH)
+    df_csv.to_csv(FEATURE_PATH)
 
     print(f"Extração de features concluída em {time_feature_extraction:.2f} segundos.")
 

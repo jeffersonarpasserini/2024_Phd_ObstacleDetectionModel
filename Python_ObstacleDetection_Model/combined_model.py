@@ -1,5 +1,6 @@
 import os
 import tensorflow as tf
+import pandas as pd
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.models import load_model, Model
 from tensorflow.keras.layers import Flatten, Input
@@ -11,14 +12,11 @@ BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 # Definição dos caminhos
 MODEL_DIR = os.path.join(BASE_PATH, 'model')
 COMBINED_MODEL_DIR = os.path.join(MODEL_DIR, 'combined_model')
-TFLITE_MODEL_COMBINED_DIR = os.path.join(COMBINED_MODEL_DIR, 'tflite')
-DENSE_MODEL_PATH = os.path.join(MODEL_DIR, 'classifier_model', 'classifier_model.h5')
-COMBINED_MODEL_PATH = os.path.join(COMBINED_MODEL_DIR, 'model_combined_image_input_mobilenetv2.h5')
-TFLITE_MODEL_COMBINED_PATH = os.path.join(TFLITE_MODEL_COMBINED_DIR, 'model_combined.tflite')
+#TFLITE_MODEL_COMBINED_DIR = os.path.join(COMBINED_MODEL_DIR, 'tflite')
 
 # Garantir que os diretórios existem
 os.makedirs(COMBINED_MODEL_DIR, exist_ok=True)
-os.makedirs(TFLITE_MODEL_COMBINED_DIR, exist_ok=True)
+#os.makedirs(TFLITE_MODEL_COMBINED_DIR, exist_ok=True)
 
 # Renomeia as camadas de um modelo adicionando um prefixo.
 def rename_layers(model, prefix):
@@ -27,15 +25,31 @@ def rename_layers(model, prefix):
     return model
 
 # Gera um modelo combinado usando MobileNetV2 como extrator de features e um modelo denso pré-treinado.
-def generateCombinedModel():
+def generateCombinedModel(split_index=0):
 
     try:
+        print('Generating Combined Model')
+
+        file_name_h5 = f"{split_index:02d}_classifier_model.h5"
+        DENSE_MODEL_PATH = os.path.join(MODEL_DIR, 'classifier_model', file_name_h5)
+
+        file_name_h5_combined = f"{split_index:02d}_classifier_model_combined.h5"
+        COMBINED_MODEL_PATH = os.path.join(COMBINED_MODEL_DIR, file_name_h5_combined)
+
+        file_name_model_summary = f"{split_index:02d}_model_summary_combined.csv"
+        COMBINED_MODEL_SUMMARY_PATH = os.path.join(COMBINED_MODEL_DIR, file_name_model_summary)
+
+        file_name_tflite_combined = f"{split_index:02d}_classifier_model_combined.tflite"
+        TFLITE_MODEL_COMBINED_PATH = os.path.join(COMBINED_MODEL_DIR, file_name_tflite_combined)
+
+
         # Carregar o modelo denso já treinado
         if not os.path.exists(DENSE_MODEL_PATH):
             raise FileNotFoundError(f"Modelo denso não encontrado: {DENSE_MODEL_PATH}")
 
         model_dense = load_model(DENSE_MODEL_PATH)
         model_dense = rename_layers(model_dense, 'dense_')
+        print('Classifier imported - h5 file')
 
         # Configurações para o modelo MobileNetV2
         IMAGE_CHANNELS = 3
@@ -46,6 +60,7 @@ def generateCombinedModel():
         mobilenetv2_base = MobileNetV2(weights='imagenet', include_top=False, pooling='avg',
                                        input_shape=image_size + (IMAGE_CHANNELS,))
         mobilenetv2_base = rename_layers(mobilenetv2_base, 'mobilenetv2_')
+        print('MobileNetV2 base layers imported - imagenet - extract features')
 
         # Congelar as camadas do MobileNetV2
         for layer in mobilenetv2_base.layers:
@@ -60,12 +75,26 @@ def generateCombinedModel():
         # Compilar o modelo
         model_combined.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
+        #gera sumario do modelo combinado
+        layer_info = [
+            {
+                "Name": layer.name,
+                "Type": type(layer).__name__,  # Tipo da camada
+                "Output Shape": layer.output_shape if hasattr(layer, 'output_shape') else None,  # Formato de saída
+                "Params": layer.count_params() if hasattr(layer, 'count_params') else 0  # Número de parâmetros
+            }
+            for layer in model_combined.layers
+        ]
+        pd.DataFrame(layer_info).to_csv(COMBINED_MODEL_SUMMARY_PATH, index=False)
+        print('Combined model built - MobileNetV2 base Layers+Classifier Layers')
+
         # Salvar o modelo combinado em formato Keras
         model_combined.save(COMBINED_MODEL_PATH)
         print(f"Modelo combinado salvo em: {COMBINED_MODEL_PATH}")
 
         # Visualizar a arquitetura do modelo (opcional)
-        plot_model(model_combined, to_file=os.path.join(COMBINED_MODEL_DIR, 'model_architecture.png'), show_shapes=True)
+        file_model_combined_architecture = f"{split_index:02d}_model_combined_architecture.png"
+        plot_model(model_combined, to_file=os.path.join(COMBINED_MODEL_DIR, file_model_combined_architecture), show_shapes=True)
 
         # Converter o modelo para TensorFlow Lite
         converter = tf.lite.TFLiteConverter.from_keras_model(model_combined)

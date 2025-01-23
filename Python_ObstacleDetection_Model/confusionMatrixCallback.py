@@ -6,12 +6,14 @@ import pandas as pd
 import os
 
 class ConfusionMatrixCallback(Callback):
-    def __init__(self, X_val, y_val, result_path):
+    def __init__(self, X_val, y_val, result_path, split_index=0):
         super().__init__()
         self.X_val = X_val
         self.y_val = y_val
         self.result_path = result_path
+        self.split_index = split_index
         self.epoch_data = []
+
 
         # Criar diretório de resultados, se não existir
         os.makedirs(self.result_path, exist_ok=True)
@@ -26,16 +28,29 @@ class ConfusionMatrixCallback(Callback):
 
         # Calcular métricas e salvar na lista
         metrics = self._calculate_metrics(tn, fp, fn, tp)
-        metrics["Epoch"] = epoch + 1
-        metrics["Val_Loss"] = logs.get("val_loss", None)  # Adicionar val_loss
-        metrics["Val_Accuracy"] = logs.get("val_accuracy", None)  # Adicionar val_accuracy (opcional)
+        metrics.update({
+            "Split_Index": self.split_index,  # Adicionar o índice do split
+            "Epoch": epoch + 1,
+            "Val_Loss": logs.get("val_loss", None),
+            "Val_Accuracy": logs.get("val_accuracy", None),
+            "Val_F1": logs.get("val_f1", None),
+            "Val_AUC": logs.get("val_auc", None),
+            "Val_Precision": logs.get("val_precision", None),
+            "Val_Recall": logs.get("val_recall", None),
+            "Val_Specificity": logs.get("val_specificity", None),
+            "TN": tn,
+            "FP": fp,
+            "FN": fn,
+            "TP": tp,
+        })
         self.epoch_data.append(metrics)
 
     def on_train_end(self, logs=None):
         # Salvar métricas detalhadas em arquivo Excel
         metrics_df = pd.DataFrame(self.epoch_data)
-        metrics_file = os.path.join(self.result_path, "metrics_detailed.xlsx")
-        metrics_df.to_excel(metrics_file, index=False)
+        metrics_file = os.path.join(self.result_path, f"{self.split_index:02d}_results.classifier_training.csv")
+        metrics_df.to_csv(metrics_file, index=False)
+        print(f"Métricas de treinamento do modelo salvas em {metrics_file}")
 
     def _save_confusion_matrix(self, epoch, cm):
         plt.figure(figsize=(8, 6))
@@ -44,7 +59,7 @@ class ConfusionMatrixCallback(Callback):
         plt.xlabel("Predito")
         plt.ylabel("Real")
         plt.title(f"Matriz de Confusão - Época {epoch + 1}")
-        plt.savefig(os.path.join(self.result_path, f"confusion_matrix_epoch_{epoch + 1}.png"))
+        plt.savefig(os.path.join(self.result_path, f"Split_{self.split_index:02d}_Epoch_{epoch+1}_confusion_matrix.png"))
         plt.close()
 
     def _calculate_metrics(self, tn, fp, fn, tp):
