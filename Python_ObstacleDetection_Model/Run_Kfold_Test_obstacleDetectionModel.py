@@ -6,12 +6,18 @@ import random
 import glob
 import matplotlib
 
-from tensorflow.keras import Input
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout
-from tensorflow.keras.callbacks import EarlyStopping, Callback
-from tensorflow.keras.regularizers import l2
 from tensorflow.keras.models import load_model
+from tensorflow.keras.layers import Dense, Dropout, BatchNormalization, Normalization
+from tensorflow.keras.optimizers import RMSprop
+from tensorflow.keras.regularizers import l2
+from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
+
+# Modelo de Extração - MobileNetV2
+from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+
+
 from sklearn.model_selection import train_test_split, RepeatedKFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score, f1_score
@@ -32,9 +38,6 @@ np.random.seed(SEED)
 
 EXTENSAO_PERMITIDA = set(['png', 'jpg', 'jpeg'])
 
-
-import os
-
 # Define o caminho base do projeto
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -45,6 +48,11 @@ COMBINED_MODEL_DIR = os.path.join(BASE_PATH, 'model', 'combined_model')
 #TFLITE_MODEL_PATH = os.path.join(BASE_PATH, 'model', 'tflite_model')
 RESULT_PATH_TRAINING = os.path.join(BASE_PATH, 'results_details', 'training_results')
 RESULT_TEST_PATH = os.path.join(BASE_PATH, 'results_details', 'test_results')
+
+DATASET_VIA_DATASET = os.path.join(BASE_PATH, 'C:\\Projetos\\2024_Phd_ObstacleDetectionModel\\via-dataset')
+DATASET_VIA_DATASET_EXTENDED = os.path.join(BASE_PATH, 'C:\\Projetos\\2024_Phd_ObstacleDetectionModel\\via-dataset-extended')
+DATASET_PATH = DATASET_VIA_DATASET
+
 
 # Lista de diretórios para garantir que existem
 paths_to_ensure = [
@@ -91,48 +99,90 @@ def save_classifier_model(X_train, y_train, X_validation, y_validation, split_in
         # remover todas as matrizes de confusao da pasta do resultado detalhado
         #remove_all_png_files(RESULT_PATH)
 
+        normalization_layer = Normalization()
+        normalization_layer.adapt(X_train)
+
         # Criar o modelo com base nas features carregadas
-        model = Sequential()
-        model.add(Input(shape=(X_train.shape[1],)))  # Define explicitamente a entrada
-        model.add(Dense(256, activation='relu', kernel_regularizer=l2(0.001)))
-        model.add(Dropout(0.5))
-        model.add(Dense(1, activation='sigmoid'))  # Saída binária
+        #classifier = Sequential()
+        #classifier.add(normalization_layer)
+        #classifier.add(Dense(128, activation='relu', kernel_regularizer=l2(0.001)))
+        #classifier.add(Dropout(0.3))
+        #classifier.add(Dense(256, activation='relu', kernel_regularizer=l2(0.0001)))
+        #classifier.add(Dropout(0.4))
+        #classifier.add(Dense(128, activation='relu', kernel_regularizer=l2(0.001)))
+        #classifier.add(Dropout(0.3))
+        #classifier.add(Dense(1, activation='sigmoid'))  # Saída binária
 
         # Compilar o modelo
-        #model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-        model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy'])
+        #classifier.compile(optimizer=RMSprop(learning_rate=0.0001), loss='binary_crossentropy', metrics=['accuracy', 'recall', 'precision'])
 
         # Treinar o modelo com as features extraídas
-        early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
+        #early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
 
         # Adicionar o callback para matriz de confusão
-        confusion_matrix_callback = ConfusionMatrixCallback(X_validation, y_validation, RESULT_PATH_TRAINING, split_index)
+        #confusion_matrix_callback = ConfusionMatrixCallback(X_validation, y_validation, RESULT_PATH_TRAINING, split_index)
 
-        model.fit(
-            X_train,
-            y_train,
-            epochs=35,
+        #classifier.fit(
+        #    X_train,
+        #    y_train,
+        #    epochs=50,
+        #    batch_size=64,
+        #    validation_data=(X_validation, y_validation),
+        #    callbacks=[early_stopping, confusion_matrix_callback]
+        #)
+
+        classifier = Sequential()
+        classifier.add(normalization_layer)
+        classifier.add(Dense(128, activation='relu', kernel_regularizer=l2(0.001)))
+        classifier.add(BatchNormalization())
+        classifier.add(Dropout(0.2))
+        classifier.add(Dense(256, activation='relu', kernel_regularizer=l2(0.0001)))
+        classifier.add(BatchNormalization())
+        classifier.add(Dropout(0.3))
+        classifier.add(Dense(128, activation='relu', kernel_regularizer=l2(0.001)))
+        classifier.add(BatchNormalization())
+        classifier.add(Dropout(0.2))
+        classifier.add(Dense(1, activation='sigmoid'))
+
+        # Compilação
+        classifier.compile(
+            optimizer=RMSprop(learning_rate=0.00001), #0.00005
+            loss='binary_crossentropy',
+            metrics=['accuracy', 'recall', 'precision']
+        )
+
+        # Callbacks
+        early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
+        lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.8, patience=5, min_lr=1e-7)
+        confusion_matrix_callback = ConfusionMatrixCallback(X_validation, y_validation, RESULT_PATH_TRAINING,
+                                                            split_index)
+
+        # Treinamento
+        classifier.fit(
+            X_train, y_train,
+            epochs=1000,
             batch_size=64,
             validation_data=(X_validation, y_validation),
-            callbacks=[early_stopping, confusion_matrix_callback]
+            callbacks=[early_stopping, lr_scheduler, confusion_matrix_callback]
         )
+
         print("Classifier created.")
 
         # Salvar o modelo Keras
         file_name_h5 = f"{split_index:02d}_classifier_model.h5"
         keras_model_path = os.path.join(MODEL_PATH, file_name_h5)
-        model.save(keras_model_path)
+        classifier.save(keras_model_path)
         print("Classifier model saved h5 file.")
 
         # Converter o modelo Keras para TensorFlow Lite
-        converter = tf.lite.TFLiteConverter.from_keras_model(model)
-        tflite_model = converter.convert()
+        #converter = tf.lite.TFLiteConverter.from_keras_model(classifier)
+        #tflite_model = converter.convert()
 
         # Salvar o modelo TensorFlow Lite
-        file_name_tflite = f"{split_index:02d}_classifier_model.tflite"
-        tflite_model_path_h5 = os.path.join(MODEL_PATH, file_name_tflite)
-        with open(tflite_model_path_h5, 'wb') as f:
-            f.write(tflite_model)
+        #file_name_tflite = f"{split_index:02d}_classifier_model.tflite"
+        #tflite_model_path_h5 = os.path.join(MODEL_PATH, file_name_tflite)
+        #with open(tflite_model_path_h5, 'wb') as f:
+        #    f.write(tflite_model)
         print("Classifier tflite model saved.")
 
     except Exception as e:
@@ -293,18 +343,17 @@ def run():
             print("X_test shape: ", X_test.shape)
             print("y_test shape: ", y_test.shape)
 
-            scaler = StandardScaler()
             #gera o modelo do classificador
-            save_classifier_model(scaler.fit_transform(X_train),
+            save_classifier_model(X_train,
                                   y_train,
-                                  scaler.fit_transform(X_validation),
+                                  X_validation,
                                   y_validation, split_index=index)
 
             #gera o modelo combinado do classificador e extrator de caracteristicas
-            save_combined_model(split_index=index)
+            #save_combined_model(split_index=index)
 
             #-------- Classification Dataset Tests ---------------#
-            metrics = evaluate_model_on_test(scaler.fit_transform(X_test),
+            metrics = evaluate_model_on_test(X_test,
                                              y_test, split_index=index)
 
             if metrics:

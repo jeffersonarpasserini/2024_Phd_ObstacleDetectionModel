@@ -1,5 +1,0 @@
-Name,Type,Output Shape,Params
-input_layer_30,InputLayer,,0
-mobilenetv2_1.00_224,Functional,"(None, 1280)",2257984
-flatten_7,Flatten,,0
-sequential_7,Sequential,"(None, 1)",328193

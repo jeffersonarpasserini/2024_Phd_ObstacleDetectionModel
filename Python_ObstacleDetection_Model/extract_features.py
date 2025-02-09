@@ -5,9 +5,13 @@ import random
 import time
 import os
 from PIL import Image
+
 from keras_preprocessing.image import ImageDataGenerator
-from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import GlobalAveragePooling2D
 from tensorflow.keras.models import Model
+
+from tensorflow.keras.layers import Flatten
+
 
 # Garantir reprodutibilidade dos resultados
 os.environ['TF_DETERMINISTIC_OPS'] = '1'
@@ -19,7 +23,10 @@ np.random.seed(SEED)
 
 # Definindo paths
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-DATASET_PATH = os.path.join(BASE_PATH, 'C:\\Projetos\\2024_Phd_ObstacleDetectionModel\\via-dataset-extended')
+
+DATASET_VIA_DATASET = os.path.join(BASE_PATH, 'C:\\Projetos\\2024_Phd_ObstacleDetectionModel\\via-dataset')
+DATASET_VIA_DATASET_EXTENDED = os.path.join(BASE_PATH, 'C:\\Projetos\\2024_Phd_ObstacleDetectionModel\\via-dataset-extended')
+DATASET_PATH = DATASET_VIA_DATASET_EXTENDED
 FEATURE_PATH = os.path.join(BASE_PATH, 'features')
 
 
@@ -78,31 +85,106 @@ def extract_features(df, model, preprocessing_function, image_size):
     return features
 
 def create_model(model_type):
+
     IMAGE_CHANNELS = 3
-    POOLING = 'avg'  #'avg' pooling para MobileNetV2 --> None, avg, max
+    POOLING = 'avg'  # 'avg' pooling para MobileNetV2 --> None, avg, max
+    image_size = (224, 224)
+    alpha = 1.0
 
     # Carrega o modelo e a função de pré-processamento
     if model_type == 'MobileNetV2':
-        image_size = (224, 224)
+        print('------------- Gera modelo MobileNetV2 ------------------')
+
         from keras.api.applications.mobilenet_v2 import MobileNetV2, preprocess_input
-        model = MobileNetV2(weights='imagenet', include_top=False, pooling=POOLING,
-                            input_shape=image_size + (IMAGE_CHANNELS,))
+
+        utiliza_GlobalAveragePooling2D = False
+
+
+        if utiliza_GlobalAveragePooling2D:
+            POOLING = "None"
+
+            base_model = MobileNetV2(weights='imagenet', include_top=False, pooling=POOLING,
+                                input_shape=image_size + (IMAGE_CHANNELS,), alpha=alpha)
+
+            # Congelar as primeiras camadas do MobileNetV2
+            #for layer in base_model.layers[:-10]:
+            #    layer.trainable = False
+
+            # Adiciona a camada GlobalAveragePooling2D à saída do base_model
+            x = GlobalAveragePooling2D()(base_model.output)
+
+            # Cria o modelo final, definindo as entradas e a saída após o pooling
+            model = Model(inputs=base_model.input, outputs=x)
+
+        else:
+            model = MobileNetV2(weights='imagenet', include_top=False, pooling=POOLING,
+                                     input_shape=image_size + (IMAGE_CHANNELS,), alpha=alpha)
+
+            # Congelar as primeiras camadas do MobileNetV2
+            #for layer in model.layers[:-10]:
+            #    layer.trainable = False
+
+        preprocessing_function = preprocess_input
+
+    elif model_type == 'MobileNetV1':
+        print('------------- Gera modelo MobileNetV1 ------------------')
+
+        from keras.api.applications.mobilenet import MobileNet, preprocess_input
+
+        model = MobileNet(
+            weights='imagenet',
+            include_top=False,  # Remove a camada de saída do ImageNet
+            pooling=POOLING,  # Define o tipo de pooling na saída
+            input_shape=image_size + (IMAGE_CHANNELS,),
+            alpha=alpha  # 🔹 Define a largura da rede (número de filtros convolucionais)
+        )
+
+        preprocessing_function = preprocess_input
+
+    elif model_type == 'MobileNetV3Small':
+        print('------------- Gera modelo MobileNetV3Small ------------------')
+        from tensorflow.keras.applications import MobileNetV3Small
+        from tensorflow.keras.applications.mobilenet_v3 import preprocess_input
+
+        model = MobileNetV3Small(
+            weights='imagenet',
+            include_top=False,  # Remove a camada de saída do ImageNet
+            pooling=POOLING,  # Define o tipo de pooling na saída
+            input_shape=image_size + (IMAGE_CHANNELS,),
+            alpha=alpha  # Controla o tamanho do modelo
+        )
+
+        preprocessing_function = preprocess_input
+
+    elif model_type == 'MobileNetV3Large':
+        print('------------- Gera modelo MobileNetV3Large ------------------')
+        from tensorflow.keras.applications import MobileNetV3Large
+        from tensorflow.keras.applications.mobilenet_v3 import preprocess_input
+
+        model = MobileNetV3Large(
+            weights='imagenet',
+            include_top=False,  # Remove a camada de saída do ImageNet
+            pooling=POOLING,  # Define o tipo de pooling na saída
+            input_shape=image_size + (IMAGE_CHANNELS,),
+            alpha=alpha  # Controla o tamanho do modelo
+        )
+
+        preprocessing_function = preprocess_input
+
     else:
         raise ValueError("Error: Model not implemented.")
 
-    preprocessing_function = preprocess_input
 
-    if POOLING == 'None':
-        output = Flatten()(model.layers[-1].output)
-        model = Model(inputs=model.inputs, outputs=output)
+
+    #output = Flatten()(model.layers[-1].output)
+    #model = Model(inputs=model.inputs, outputs=output)
 
     return model, preprocessing_function, image_size
 
-def feature_model_extract(df):
+def feature_model_extract(df, model_type='MobileNetV2'):
     start = time.time()
 
     # Extrai features usando MobileNetV2
-    model_type = 'MobileNetV2'
     modelMobileNetV2, preprocessing_functionMobileNetV2, image_sizeMobileNetV2 = create_model(model_type)
     features_MobileNetV2 = extract_features(df, modelMobileNetV2, preprocessing_functionMobileNetV2, image_sizeMobileNetV2)
 
@@ -113,9 +195,9 @@ def feature_model_extract(df):
     return features_MobileNetV2, time_feature_extraction
 
 #utilizado pelo modulo obstacleDetectionModel
-def modular_extract_features(df):
+def modular_extract_features(df, model_type='MobileNetV2'):
     # Extraindo as características das imagens
-    features, time_feature_extraction = feature_model_extract(df)
+    features, time_feature_extraction = feature_model_extract(df, model_type)
 
     return features
 
