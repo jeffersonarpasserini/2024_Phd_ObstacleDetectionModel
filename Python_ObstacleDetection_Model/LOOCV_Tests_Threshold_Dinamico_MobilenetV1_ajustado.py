@@ -252,15 +252,10 @@ def run_loocv(activation, dropout_rate, learning_rate, n_layers, n_neurons, n_ep
 def find_best_threshold(y_test, y_pred_prob):
     def neg_f1(thresh):
         y_pred = (y_pred_prob > thresh).astype("int32")
-        return -f1_score([y_test], [y_pred], zero_division=0)
+        return -f1_score(np.array(y_test).ravel(), np.array(y_pred).ravel(), zero_division=0)  # <- Modificação aqui
 
-
-    #result = minimize_scalar(neg_f1, bounds=(0.2, 0.6), method='bounded')
-    # 🔹 Alteramos o intervalo para evitar thresholds baixos demais e
-    # permitimos um threshold um pouco mais alto
     result = minimize_scalar(neg_f1, bounds=(0.3, 0.6), method='bounded')
-
-    return result.x if result.success else 0.6  # Threshold padrão: 0.5 --> ajustado para 0.6 testes anteriores com bons resultados
+    return result.x if result.success else 0.6 # Threshold padrão: 0.5 --> ajustado para 0.6 testes anteriores com bons resultados
 
 def calculate_median_threshold(df):
     thresholds = df["best_threshold"]
@@ -393,9 +388,9 @@ if __name__ == "__main__":
     n_splits = 10
 
     #Para rodar teste de leave-one-out cross validation descomente abaixo
-    run_loocv(activation, dropout_rate, learning_rate, n_layers, n_neurons, n_epochs, batch_size, early_stop_patience,
-              lr_scheduler_patience, model_type)
+    #run_loocv(activation, dropout_rate, learning_rate, n_layers, n_neurons, n_epochs, batch_size, early_stop_patience,
+    #          lr_scheduler_patience, model_type)
 
     #Para rodar teste de validação cruzada - descomente abaixo
-    # run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons, n_epochs, batch_size, early_stop_patience,
-    #             lr_scheduler_patience, model_type, n_splits)
+    run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons, n_epochs, batch_size, early_stop_patience,
+                lr_scheduler_patience, model_type, n_splits)

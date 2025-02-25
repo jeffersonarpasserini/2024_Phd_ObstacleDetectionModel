@@ -174,8 +174,6 @@ def create_model(model_type):
     else:
         raise ValueError("Error: Model not implemented.")
 
-
-
     #output = Flatten()(model.layers[-1].output)
     #model = Model(inputs=model.inputs, outputs=output)
 
