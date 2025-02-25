@@ -31,7 +31,7 @@ np.random.seed(SEED)
 
 # Definir caminhos
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-DATASET_PATH = os.path.join(BASE_PATH, 'C:\\Projetos\\2024_Phd_ObstacleDetectionModel\\via-dataset-extended')
+DATASET_PATH = os.path.join(BASE_PATH, '\\Projetos\\2024_Phd_ObstacleDetectionModel\\via-dataset-extended')
 FEATURE_PATH = os.path.join(BASE_PATH, 'features')
 RESULTS_PATH = os.path.join(BASE_PATH, 'results_details', 'loocv_results')
 os.makedirs(RESULTS_PATH, exist_ok=True)
@@ -165,15 +165,10 @@ def build_model(input_shape, activation, dropout_rate, learning_rate, n_layers, 
 def find_best_threshold(y_test, y_pred_prob):
     def neg_f1(thresh):
         y_pred = (y_pred_prob > thresh).astype("int32")
-        return -f1_score([y_test], [y_pred], zero_division=0)
+        return -f1_score(np.array(y_test).ravel(), np.array(y_pred).ravel(), zero_division=0)  # <- Modificação aqui
 
-
-    #result = minimize_scalar(neg_f1, bounds=(0.2, 0.6), method='bounded')
-    # 🔹 Alteramos o intervalo para evitar thresholds baixos demais e
-    # permitimos um threshold um pouco mais alto
     result = minimize_scalar(neg_f1, bounds=(0.3, 0.6), method='bounded')
-
-    return result.x if result.success else 0.6  # Threshold padrão: 0.5 --> ajustado para 0.6 testes anteriores com bons resultados
+    return result.x if result.success else 0.6 # Threshold padrão: 0.5 --> ajustado para 0.6 testes anteriores com bons resultados
 
 def calculate_median_threshold(df):
     thresholds = df["best_threshold"]
@@ -220,21 +215,18 @@ def f1_loss(y_true, y_pred):
     # 📌 Ajustamos a função de perda para balancear melhor precisão e recall
     return 1 - (f1 * 0.6 + precision * 0.4)
 
-
-
-
 # ------ Executa os testes ------
 
 # Executa teste de validação cruzada
 def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
                  n_epochs, batch_size, early_stop_patience, lr_scheduler_patience,
-                 model_type, n_splits=5, use_augmentation=False, use_shap=False, sample_size=None):
+                 model_type, n_splits=5):
     warnings = []
     history_log = {"epoch": [], "val_loss": [], "val_f1_score": []}
     df = load_data()
 
     labels = df["category"].replace({'clear': 1, 'non-clear': 0}).to_numpy().astype(int)
-    features = feature_model_extract(df, model_type, use_augmentation, use_shap, sample_size)
+    features = modular_extract_features(df, model_type)
 
     skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=SEED)
     results = []
@@ -286,13 +278,20 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
             warnings.append(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Fold {fold} "
                             f"| Prob Média: {y_pred_prob.mean():.4f} | Threshold: {best_threshold:.4f}")
 
+        accuracy = (tp + tn) / (tp + tn + fp + fn) if (tp + tn + fp + fn) > 0 else np.nan
+
         results.append({
             "Fold": fold,
+            "y_true": list(y_test),  # 🟢 Adicionando a coluna faltante
+            "y_pred": list(y_pred),  # 🟢 Adicionando também y_pred para compatibilidade
+            "y_pred_prob": list(y_pred_prob),  # 🟢 Adicionando as probabilidades para análise
             "Precision": precision_score(y_test, y_pred, zero_division=0),
             "Recall": recall_score(y_test, y_pred, zero_division=0),
             "F1-Score": f1_score(y_test, y_pred, zero_division=0),
+            "Accuracy": accuracy,
             "ROC-AUC": roc_auc_score(y_test, y_pred_prob) if len(set(y_test)) > 1 else np.nan,
-            "TN": tn, "FP": fp, "FN": fn, "TP": tp
+            "TN": tn, "FP": fp, "FN": fn, "TP": tp,
+            "best_threshold": best_threshold
         })
 
     # Média das métricas de validação ao longo das épocas
@@ -315,6 +314,9 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
     if warnings:
         with open(os.path.join(RESULTS_PATH, "kfold_warnings.log"), "a") as log_file:
             log_file.write("\n".join(warnings) + "\n")
+
+    # Gerar o resumo das métricas finais
+    analyze_results(results_df)
 
     return results_df
 
@@ -477,7 +479,10 @@ def analyze_results(df):
     }
 
     summary_df = pd.DataFrame([summary])
-    summary_df.to_csv(os.path.join(RESULTS_PATH, "loocv_summary.csv"), index=False)
+
+    summary_filename = "kfold_summary.csv" if "Fold" in df.columns else "loocv_summary.csv"
+    summary_df.to_csv(os.path.join(RESULTS_PATH, summary_filename), index=False)
+
     print("Resumo Final das Métricas:")
     for key, value in summary.items():
         print(f"{key}: {value:.4f}")

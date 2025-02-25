@@ -24,8 +24,8 @@ np.random.seed(SEED)
 # Definindo paths
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 
-DATASET_VIA_DATASET = os.path.join(BASE_PATH, 'C:\\Projetos\\2024_Phd_ObstacleDetectionModel\\via-dataset')
-DATASET_VIA_DATASET_EXTENDED = os.path.join(BASE_PATH, 'C:\\Projetos\\2024_Phd_ObstacleDetectionModel\\via-dataset-extended')
+DATASET_VIA_DATASET = os.path.join(BASE_PATH, '\\Projetos\\2024_Phd_ObstacleDetectionModel\\via-dataset')
+DATASET_VIA_DATASET_EXTENDED = os.path.join(BASE_PATH, '\\Projetos\\2024_Phd_ObstacleDetectionModel\\via-dataset-extended')
 DATASET_PATH = DATASET_VIA_DATASET_EXTENDED
 FEATURE_PATH = os.path.join(BASE_PATH, 'features')
 

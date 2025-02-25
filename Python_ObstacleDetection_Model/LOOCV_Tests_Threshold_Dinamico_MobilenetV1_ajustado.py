@@ -74,7 +74,7 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
         lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=lr_scheduler_patience, min_lr=1e-5)
 
         # Divide os dados de treino para criar um conjunto de validação (80% treino / 20% validação)
-        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=SEED)
+        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.1, random_state=SEED)
 
         y_train = y_train.astype("float32")
         y_val = y_val.astype("float32")
@@ -108,13 +108,20 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
             warnings.append(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Fold {fold} "
                             f"| Prob Média: {y_pred_prob.mean():.4f} | Threshold: {best_threshold:.4f}")
 
+        accuracy = (tp + tn) / (tp + tn + fp + fn) if (tp + tn + fp + fn) > 0 else np.nan
+
         results.append({
             "Fold": fold,
+            "y_true": list(y_test),  # 🟢 Adicionando a coluna faltante
+            "y_pred": list(y_pred),  # 🟢 Adicionando também y_pred para compatibilidade
+            "y_pred_prob": list(y_pred_prob),  # 🟢 Adicionando as probabilidades para análise
             "Precision": precision_score(y_test, y_pred, zero_division=0),
             "Recall": recall_score(y_test, y_pred, zero_division=0),
             "F1-Score": f1_score(y_test, y_pred, zero_division=0),
+            "Accuracy": accuracy,
             "ROC-AUC": roc_auc_score(y_test, y_pred_prob) if len(set(y_test)) > 1 else np.nan,
-            "TN": tn, "FP": fp, "FN": fn, "TP": tp
+            "TN": tn, "FP": fp, "FN": fn, "TP": tp,
+            "best_threshold": best_threshold
         })
 
     # Média das métricas de validação ao longo das épocas
@@ -137,6 +144,9 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
     if warnings:
         with open(os.path.join(RESULTS_PATH, "kfold_warnings.log"), "a") as log_file:
             log_file.write("\n".join(warnings) + "\n")
+
+    # Gerar o resumo das métricas finais
+    analyze_results(results_df)
 
     return results_df
 
@@ -315,12 +325,14 @@ def analyze_results(df):
     }
 
     summary_df = pd.DataFrame([summary])
-    summary_df.to_csv(os.path.join(RESULTS_PATH, "loocv_summary.csv"), index=False)
+
+    summary_filename = "kfold_summary.csv" if "Fold" in df.columns else "loocv_summary.csv"
+    summary_df.to_csv(os.path.join(RESULTS_PATH, summary_filename), index=False)
+
     print("Resumo Final das Métricas:")
     for key, value in summary.items():
         print(f"{key}: {value:.4f}")
     print(f"Resumo das métricas salvo em {RESULTS_PATH}")
-
 
 def f1_metric(y_true, y_pred):
     """ Calcula o F1-Score como métrica """
