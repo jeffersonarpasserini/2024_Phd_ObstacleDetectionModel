@@ -74,19 +74,29 @@ def get_model(model_type):
 
     return base_model, getattr(preprocess_module, 'preprocess_input')
 
-def extract_features(df, model, preprocessing_function, image_size):
+def extract_features(df, model, preprocessing_function, use_augmentation):
+    """Extrai features das imagens do dataset, com Data Augmentation opcional."""
 
-    # Atualiza os nomes de categoria
     df["category"] = df["category"].replace({1: 'clear', 0: 'non-clear'})
 
-    datagen = ImageDataGenerator(
-        preprocessing_function=preprocessing_function
-    )
+    if use_augmentation:
+        print("🟢 Aplicando Data Augmentation...")
+        datagen = ImageDataGenerator(
+            preprocessing_function=preprocessing_function,
+            rotation_range=20,
+            width_shift_range=0.2,
+            height_shift_range=0.2,
+            shear_range=0.2,
+            zoom_range=0.2,
+            horizontal_flip=True,
+            fill_mode="nearest"
+        )
+    else:
+        print("🔵 Sem Data Augmentation...")
+        datagen = ImageDataGenerator(preprocessing_function=preprocessing_function)
 
     total = df.shape[0]
     batch_size = 4
-
-    # Calcula o número correto de steps
     steps = int(np.ceil(total / batch_size))
 
     generator = datagen.flow_from_dataframe(
@@ -95,24 +105,22 @@ def extract_features(df, model, preprocessing_function, image_size):
         x_col='filename',
         y_col='category',
         class_mode='categorical',
-        target_size=image_size,
+        target_size=IMAGE_SIZE,
         batch_size=batch_size,
         shuffle=False
     )
 
-    # Realiza a predição com base no número de steps calculado
     features = model.predict(generator, steps=steps)
-
     return features
 
 def feature_model_extract(df, model_type, use_augmentation=False, use_shap=False, sample_size=None):
-    """Executa o processo de extração de características."""
+    """Executa o processo de extração de características, podendo incluir Data Augmentation e SHAP."""
     model, preprocessing_function = get_model(model_type)
-    features = extract_features(df, model, preprocessing_function)
-    labels = df['category'].to_numpy()
+
+    features = extract_features(df, model, preprocessing_function, use_augmentation)  # ✅ Passar o parâmetro
 
     if use_shap:
-        analyze_shap(model, features, labels, sample_size)
+        analyze_shap(model, features, sample_size)
 
     return features
 
