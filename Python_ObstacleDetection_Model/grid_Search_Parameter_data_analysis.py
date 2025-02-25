@@ -47,7 +47,7 @@ def process_csv(file_path, output_file):
 def main_calc_results():
     # Diretório base onde estão os arquivos CSV
     BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-    RESULT_PATH = os.path.join(BASE_PATH, 'C:\\Projetos\\2024_Phd_ObstacleDetectionModel\\Python_ObstacleDetection_Model\\Results_Test_GridSearch')
+    RESULT_PATH = os.path.join(BASE_PATH, 'C:\\Projetos\\2024_Phd_ObstacleDetectionModel\\Python_ObstacleDetection_Model\\AN02_Results_Test_GridSearch_MobilenetV1')
 
     # Percorrer todos os arquivos CSV no diretório e processá-los
     for file_name in os.listdir(RESULT_PATH):

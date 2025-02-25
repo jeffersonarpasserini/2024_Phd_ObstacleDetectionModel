@@ -181,7 +181,7 @@ def create_model(model_type):
 
     return model, preprocessing_function, image_size
 
-def feature_model_extract(df, model_type='MobileNetV2'):
+def feature_model_extract(df, model_type):
     start = time.time()
 
     # Extrai features usando MobileNetV2
@@ -195,7 +195,7 @@ def feature_model_extract(df, model_type='MobileNetV2'):
     return features_MobileNetV2, time_feature_extraction
 
 #utilizado pelo modulo obstacleDetectionModel
-def modular_extract_features(df, model_type='MobileNetV2'):
+def modular_extract_features(df, model_type):
     # Extraindo as características das imagens
     features, time_feature_extraction = feature_model_extract(df, model_type)
 
@@ -203,12 +203,12 @@ def modular_extract_features(df, model_type='MobileNetV2'):
 
 # ----------------------- MAIN ------------------------------------------------
 #utilizar para execução direta do programa extract_features.py
-def main_extract_features():
+def main_extract_features(model_type):
     # Carregando as imagens em um dataframe
     df = load_data()
 
     # Extraindo as características das imagens
-    features, time_feature_extraction = feature_model_extract(df)
+    features, time_feature_extraction = feature_model_extract(df, model_type)
 
     # Convertendo as características em um dataframe
     df_csv = pd.DataFrame(features)
@@ -220,4 +220,5 @@ def main_extract_features():
 
 # Este bloco garante que o código seja executado apenas quando o arquivo for executado diretamente
 if __name__ == "__main__":
-    main_extract_features()
+    model_type = 'MobileNetV1'
+    main_extract_features(model_type)

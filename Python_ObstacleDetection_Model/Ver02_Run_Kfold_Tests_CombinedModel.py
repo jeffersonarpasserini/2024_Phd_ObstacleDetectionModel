@@ -15,15 +15,10 @@ from tensorflow.keras.regularizers import l2
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from tensorflow.keras.losses import BinaryCrossentropy
 
-
-# Modelo de Extração - MobileNetV2
-from tensorflow.keras.applications import MobileNetV2
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
-
-
 from sklearn.model_selection import train_test_split, RepeatedKFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score, f1_score
+from tensorflow.python.keras.optimizer_v1 import Adam
 from tensorflow.python.ops.metrics_impl import precision
 
 from confusionMatrixCallback import ConfusionMatrixCallback
@@ -99,48 +94,36 @@ def load_features():
     return df
 
 # Callback personalizado para gerar matriz de confusão ao final de cada epoch
-def save_classifier_model(X_train, y_train, X_validation, y_validation, split_index=0):
+def create_classifier_model(params, X_train, y_train, X_validation, y_validation, split_index=0):
     try:
         # remover todas as matrizes de confusao da pasta do resultado detalhado
         #remove_all_png_files(RESULT_PATH)
 
-        normalization_layer = Normalization()
-        normalization_layer.adapt(X_train)
+        # normalization_layer = Normalization()
+        # normalization_layer.adapt(X_train)
 
         classifier = Sequential()
         classifier.add(Input(shape=(X_train.shape[1],)))
-        classifier.add(Dense(128, kernel_regularizer=l2(0.005)))
-        classifier.add(BatchNormalization())
-        classifier.add(LeakyReLU(alpha=0.1))
-        classifier.add(Dropout(0.2))
+        classifier.add(Dense(params["n_neurons"], activation=params['activation']))
+        classifier.add(Dense(params["n_neurons"], activation=params['activation']))
+        classifier.add(Dropout(params['dropout']))
 
-        classifier.add(Dense(64, kernel_regularizer=l2(0.001)))
-        classifier.add(BatchNormalization())
-        classifier.add(LeakyReLU(alpha=0.1))
-        classifier.add(Dropout(0.2))
-
-        classifier.add(Dense(32, kernel_regularizer=l2(0.0001)))
-        classifier.add(BatchNormalization())
-        classifier.add(ReLU())
-        classifier.add(Dropout(0.2))
-
-        classifier.add(Dense(16, kernel_regularizer=l2(0.005)))
-        classifier.add(BatchNormalization())
-        classifier.add(Activation('tanh'))
-        classifier.add(Dropout(0.2))
+        # classifier.add(Dense(128, kernel_regularizer=l2(0.005)))
+        # classifier.add(BatchNormalization())
+        # classifier.add(LeakyReLU(alpha=0.1))
+        # classifier.add(Dropout(0.2))
 
         classifier.add(Dense(1, activation='sigmoid'))
 
-        # Compilar o modelo
-        # Configurando a função de perda com pos_weight
-        #loss_fn = custom_binary_crossentropy(pos_weight=2.0)
-        #classifier.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', 'recall', 'precision'])
-        #classifier.compile(optimizer='adam', loss=loss_fn, metrics=['accuracy', 'recall', 'precision'])
-        classifier.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy', 'recall', 'precision'])
+        if params['optimizer'] == 'adam':
+            optimizer = Adam(lr=params['learning_rate'])
+        else:
+            optimizer = RMSprop(learning_rate=params['learning_rate'])
 
-        # Treinar o modelo com as features extraídas
-        early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
-        lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=3, min_lr=1e-5)
+        classifier.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy'])
+
+        early_stopping = EarlyStopping(monitor='val_loss', patience=params["early_stop_patience"], min_delta=0.001, restore_best_weights=True)
+        lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=params["lr_scheduler_patience"], min_lr=1e-5)
 
         # Adicionar o callback para matriz de confusão
         confusion_matrix_callback = ConfusionMatrixCallback(X_validation, y_validation, RESULT_PATH_TRAINING,
@@ -149,8 +132,8 @@ def save_classifier_model(X_train, y_train, X_validation, y_validation, split_in
         # Treinamento
         classifier.fit(
             X_train, y_train,
-            epochs=1000,
-            batch_size=64,
+            epochs=params["n_epochs"],
+            batch_size=params["batch_size"],
             validation_data=(X_validation, y_validation),
             callbacks=[early_stopping, lr_scheduler, confusion_matrix_callback]
         )
@@ -293,7 +276,7 @@ def save_features_to_csv(features_dict, base_path, split_index):
         print(f"Salvo: {file_path}")
 
 
-def run():
+def run(params):
     try:
         # Carregar os dados
         df = extract_features.load_data()
@@ -319,27 +302,14 @@ def run():
         for index, [train, test] in enumerate(kf.split(df)):
             # 10% de dados para testes
             # 90% para treinamento e validação
-
-            print(f"Fold: {index}")
-
-            features = extract_features.modular_extract_features(df)
-            print('ModelMobileNetV2 loaded...')
-            print('Features extracted...')
-
+            print(f"🔍 Testando modelo {index + 1} com parâmetros: {params}")
+            features = extract_features.modular_extract_features(df, model_type=params["model_type"])
             #10% para teste, 10% para validação e 80% para treinamento
             X_train, X_validation, X_test, y_train, y_validation, y_test = split_dataset(features,labels,train,test,0.1, index)
-            print('Dataset splitted...')
 
-            print("X_train shape: ", X_train.shape)
-            print("y_train shape: ", y_train.shape)
-            print("X_val shape: ", X_validation.shape)
-            print("y_val shape: ", y_validation.shape)
-            print("X_test shape: ", X_test.shape)
-            print("y_test shape: ", y_test.shape)
 
             #gera o modelo do classificador
-            save_classifier_model(X_train,
-                                  y_train,
+            create_classifier_model(params, X_train, y_train,
                                   X_validation,
                                   y_validation, split_index=index)
 
@@ -365,4 +335,18 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    # Parametros para modelo classificação
+    params = {}
+    params["model_type"] = "MobileNetV1"
+    params["learning_rate"] = 0.001
+    params["activation"] = "relu"
+    params["dropout"] = 0.1
+    params["n_layers"] = 2
+    params["n_neurons"] = 512
+    params["batch_size"] = 64
+    params["n_epochs"] = 1000
+    params["early_stop_patience"] = 50
+    params["lr_scheduler_patience"] = 10
+    params["optimizer"] = "rmsprop"
+
+    run(params)

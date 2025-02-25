@@ -1,0 +1,2 @@
+Median Threshold (Filtered),Accuracy,Precision,Recall,F1-Score,ROC-AUC,True Negatives,False Positives,False Negatives,True Positives
+0.5999937577053339,0.9429778247096093,0.9426070038910506,0.9518664047151277,0.9472140762463344,0.9782690116711968,817,59,49,969
