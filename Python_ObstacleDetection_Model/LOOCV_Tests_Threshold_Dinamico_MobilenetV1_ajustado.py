@@ -61,6 +61,9 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
     skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=SEED)
     results = []
 
+    total_samples = len(df)
+    print(f"Total de Amostras do Dataset {total_samples}...")
+
     for fold, (train_idx, test_idx) in enumerate(skf.split(features, labels), 1):
         print(f"📌 Rodando Fold {fold}/{n_splits}...")
 
@@ -75,6 +78,10 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
 
         # Divide os dados de treino para criar um conjunto de validação (80% treino / 20% validação)
         X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.1, random_state=SEED)
+
+        print(f"Amostras para Treinamento {len(X_train)}...")
+        print(f"Amostras para Validação {len(X_val)}...")
+        print(f"Amostras para Teste {len(X_test)}...")
 
         y_train = y_train.astype("float32")
         y_val = y_val.astype("float32")
@@ -110,11 +117,10 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
 
         accuracy = (tp + tn) / (tp + tn + fp + fn) if (tp + tn + fp + fn) > 0 else np.nan
 
+        print(f"Fold {fold}/{n_splits} - Accuracy --> {accuracy}...")
+
         results.append({
             "Fold": fold,
-            "y_true": list(y_test),  # 🟢 Adicionando a coluna faltante
-            "y_pred": list(y_pred),  # 🟢 Adicionando também y_pred para compatibilidade
-            "y_pred_prob": list(y_pred_prob),  # 🟢 Adicionando as probabilidades para análise
             "Precision": precision_score(y_test, y_pred, zero_division=0),
             "Recall": recall_score(y_test, y_pred, zero_division=0),
             "F1-Score": f1_score(y_test, y_pred, zero_division=0),
@@ -146,7 +152,7 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
             log_file.write("\n".join(warnings) + "\n")
 
     # Gerar o resumo das métricas finais
-    analyze_results(results_df)
+    analyze_results(results_df, "kfold")
 
     return results_df
 
@@ -300,29 +306,44 @@ def plot_threshold_distribution(df):
     # Fecha a figura para liberar memória
     plt.close()
 
-def analyze_results(df):
+def analyze_results(df, test_type="loocv"):
     median_threshold = calculate_median_threshold(df)
-    y_true = df["y_true"]
-    y_pred = df["y_pred"]
-    cm = confusion_matrix(y_true, y_pred)
-    tn, fp, fn, tp = cm.ravel() if cm.size == 4 else (0, 0, 0, 0)
-    precision = precision_score(y_true, y_pred, zero_division=0)
-    recall = recall_score(y_true, y_pred, zero_division=0)
-    f1 = f1_score(y_true, y_pred, zero_division=0)
 
-    if len(set(y_true)) > 1:
-        roc_auc = roc_auc_score(y_true, df["y_pred_prob"])
+    if test_type == "loocv":
+        y_true = df["y_true"]
+        y_pred = df["y_pred"]
+        cm = confusion_matrix(y_true, y_pred)
+        tn, fp, fn, tp = cm.ravel() if cm.size == 4 else (0, 0, 0, 0)
+        precision = precision_score(y_true, y_pred, zero_division=0)
+        recall = recall_score(y_true, y_pred, zero_division=0)
+        f1 = f1_score(y_true, y_pred, zero_division=0)
+
+        if len(set(y_true)) > 1:
+            roc_auc = roc_auc_score(y_true, df["y_pred_prob"])
+        else:
+            roc_auc = np.nan
+            print("[AVISO] ROC-AUC não pode ser calculado pois y_true contém apenas uma classe (tudo 0 ou tudo 1).")
+
+        summary = {
+            "Median Threshold (Filtered)": median_threshold,
+            "Accuracy": (tp + tn) / (tp + tn + fp + fn) if (tp + tn + fp + fn) > 0 else np.nan,
+            "Precision": precision, "Recall": recall, "F1-Score": f1,
+            "ROC-AUC": None if np.isnan(roc_auc) else roc_auc,
+            "True Negatives": tn, "False Positives": fp, "False Negatives": fn, "True Positives": tp
+        }
     else:
-        roc_auc = np.nan
-        print("[AVISO] ROC-AUC não pode ser calculado pois y_true contém apenas uma classe (tudo 0 ou tudo 1).")
-
-    summary = {
-        "Median Threshold (Filtered)": median_threshold,
-        "Accuracy": (tp + tn) / (tp + tn + fp + fn) if (tp + tn + fp + fn) > 0 else np.nan,
-        "Precision": precision, "Recall": recall, "F1-Score": f1,
-        "ROC-AUC": None if np.isnan(roc_auc) else roc_auc,
-        "True Negatives": tn, "False Positives": fp, "False Negatives": fn, "True Positives": tp
-    }
+        summary = {
+            "Median Threshold (Filtered)": median_threshold,
+            "Accuracy": df["Accuracy"].mean(),
+            "Precision": df["Precision"].mean(),
+            "Recall": df["Recall"].mean(),
+            "F1-Score": df["F1-Score"].mean(),
+            "ROC-AUC": df["ROC-AUC"].mean(skipna=True),
+            "True Negatives": df["TN"].mean(),
+            "False Positives": df["FP"].mean(),
+            "False Negatives": df["FN"].mean(),
+            "True Positives": df["TP"].mean()
+        }
 
     summary_df = pd.DataFrame([summary])
 

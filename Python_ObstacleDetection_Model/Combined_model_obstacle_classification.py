@@ -14,6 +14,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix
 from keras_preprocessing.image import ImageDataGenerator
+from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Input
 from tensorflow.keras.optimizers import RMSprop
@@ -31,48 +32,123 @@ np.random.seed(SEED)
 
 # Definir caminhos
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-DATASET_PATH = os.path.join(BASE_PATH, '\\Projetos\\2024_Phd_ObstacleDetectionModel\\via-dataset-extended')
+
+# Dataset's
+DATASET_VIA_DATASET = os.path.join(BASE_PATH, '..', 'via-dataset')
+DATASET_VIA_DATASET_EXTENDED = os.path.join(BASE_PATH, '..', 'via-dataset-extended')
+
+# Chaveamento entre os datasets
+USE_EXTENDED_DATASET = True  # 🔹 Altere para False para usar o 'via-dataset'
+
+DATASET_PATH = DATASET_VIA_DATASET_EXTENDED if USE_EXTENDED_DATASET else DATASET_VIA_DATASET
+
 FEATURE_PATH = os.path.join(BASE_PATH, 'features')
 RESULTS_PATH = os.path.join(BASE_PATH, 'results_details', 'loocv_results')
 os.makedirs(RESULTS_PATH, exist_ok=True)
+
+if not os.path.exists(DATASET_PATH):
+    print(f"❌ ERRO: O caminho do dataset não existe: {DATASET_PATH}")
+else:
+    print(f"✅ Caminho do dataset encontrado: {DATASET_PATH}")
+
 
 # Parâmetros globais - extrator de caracteristicas
 IMAGE_SIZE = (224, 224)
 IMAGE_CHANNELS = 3
 POOLING = 'avg'
-ALPHA = 1.0  # Parâmetro para MobileNet
+ALPHA = 1.0
 
 # -------------- Extração de Caracteristicas -------------------------------
 def load_data():
-    """Carrega o dataset e define categorias com base no nome do arquivo."""
+    # Definir extensões de arquivos válidos (imagens)
     valid_extensions = ('.jpg', '.jpeg', '.png')
+
+    # Listar apenas arquivos que possuem extensões de imagem válidas
     filenames = [f for f in os.listdir(DATASET_PATH) if f.lower().endswith(valid_extensions)]
-    categories = [1 if filename.startswith('clear') else 0 for filename in filenames]
-    return pd.DataFrame({'filename': filenames, 'category': categories})
 
+    categories = []
 
-def get_model(model_type):
-    """Carrega o modelo de extração de features de acordo com o tipo selecionado."""
-    model_map = {
-        'MobileNetV1': ('mobilenet', 'MobileNet'),
-        'MobileNetV2': ('mobilenet_v2', 'MobileNetV2'),
-        'MobileNetV3Small': ('mobilenet_v3', 'MobileNetV3Small'),
-        'MobileNetV3Large': ('mobilenet_v3', 'MobileNetV3Large')
-    }
+    for filename in filenames:
+        category = filename.split('.')[0]
+        if category == 'clear':
+            categories.append(1)
+        else:
+            categories.append(0)
 
-    if model_type not in model_map:
-        raise ValueError("Modelo não implementado.")
+    df = pd.DataFrame({
+        'filename': filenames,
+        'category': categories
+    })
 
-    module_name, class_name = model_map[model_type]
-    model_module = __import__(f'tensorflow.keras.applications.{module_name}', fromlist=[class_name])
-    preprocess_module = __import__(f'tensorflow.keras.applications.{module_name}', fromlist=['preprocess_input'])
+    return df
 
-    base_model = getattr(model_module, class_name)(
-        weights='imagenet', include_top=False, pooling=POOLING,
-        input_shape=IMAGE_SIZE + (IMAGE_CHANNELS,), alpha=ALPHA
-    )
+def get_extract_model(model_type):
 
-    return base_model, getattr(preprocess_module, 'preprocess_input')
+    # Carrega o modelo e a função de pré-processamento
+    if model_type == 'MobileNetV2':
+        print('------------- Gera modelo MobileNetV2 ------------------')
+
+        # Importando MobileNetV2
+        from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2, preprocess_input
+
+        model = MobileNetV2(weights='imagenet', include_top=False, pooling=POOLING,
+                            input_shape=IMAGE_SIZE + (IMAGE_CHANNELS,), alpha=ALPHA)
+
+        preprocessing_function = preprocess_input
+
+    elif model_type == 'MobileNetV1':
+        print('------------- Gera modelo MobileNetV1 ------------------')
+
+        # Importando MobileNetV1
+        from tensorflow.keras.applications.mobilenet import MobileNet, preprocess_input
+
+        model = MobileNet(
+            weights='imagenet',
+            include_top=False,  # Remove a camada de saída do ImageNet
+            pooling=POOLING,  # Define o tipo de pooling na saída
+            input_shape=IMAGE_SIZE + (IMAGE_CHANNELS,),
+            alpha=ALPHA  # 🔹 Define a largura da rede (número de filtros convolucionais)
+        )
+
+        preprocessing_function = preprocess_input
+
+    elif model_type == 'MobileNetV3Small':
+        print('------------- Gera modelo MobileNetV3Small ------------------')
+        # Importando MobileNetV3Small
+        from tensorflow.keras.applications.mobilenet_v3 import MobileNetV3Small, preprocess_input
+
+        model = MobileNetV3Small(
+            weights='imagenet',
+            include_top=False,  # Remove a camada de saída do ImageNet
+            pooling=POOLING,  # Define o tipo de pooling na saída
+            input_shape=IMAGE_SIZE + (IMAGE_CHANNELS,),
+            alpha=ALPHA  # Controla o tamanho do modelo
+        )
+
+        preprocessing_function = preprocess_input
+
+    elif model_type == 'MobileNetV3Large':
+        print('------------- Gera modelo MobileNetV3Large ------------------')
+        # Importando MobileNetV3Large
+        from tensorflow.keras.applications.mobilenet_v3 import MobileNetV3Large, preprocess_input
+
+        model = MobileNetV3Large(
+            weights='imagenet',
+            include_top=False,  # Remove a camada de saída do ImageNet
+            pooling=POOLING,  # Define o tipo de pooling na saída
+            input_shape=IMAGE_SIZE + (IMAGE_CHANNELS,),
+            alpha=ALPHA  # Controla o tamanho do modelo
+        )
+
+        preprocessing_function = preprocess_input
+
+    else:
+        raise ValueError("Error: Model not implemented.")
+
+    #output = Flatten()(model.layers[-1].output)
+    #model = Model(inputs=model.inputs, outputs=output)
+
+    return model, preprocessing_function
 
 def extract_features(df, model, preprocessing_function, use_augmentation):
     """Extrai features das imagens do dataset, com Data Augmentation opcional."""
@@ -104,10 +180,11 @@ def extract_features(df, model, preprocessing_function, use_augmentation):
         DATASET_PATH,
         x_col='filename',
         y_col='category',
-        class_mode='categorical',
+        #class_mode='categorical',
+        class_mode='binary' if len(df['category'].unique()) == 2 else 'categorical',
         target_size=IMAGE_SIZE,
         batch_size=batch_size,
-        shuffle=False
+        shuffle=False  # originalmente estava False --> agora com True aplica a aleatorização das imagens
     )
 
     features = model.predict(generator, steps=steps)
@@ -115,38 +192,70 @@ def extract_features(df, model, preprocessing_function, use_augmentation):
 
 def feature_model_extract(df, model_type, use_augmentation=False, use_shap=False, sample_size=None):
     """Executa o processo de extração de características, podendo incluir Data Augmentation e SHAP."""
-    model, preprocessing_function = get_model(model_type)
+    model, preprocessing_function = get_extract_model(model_type)
 
     features = extract_features(df, model, preprocessing_function, use_augmentation)  # ✅ Passar o parâmetro
 
+    labels = df["category"].replace({'clear': 1, 'non-clear': 0}).to_numpy().astype(int)  # 🔹 Adicionar labels corretamente
+
     if use_shap:
-        analyze_shap(model, features, sample_size)
+        analyze_shap(model, df, preprocessing_function, sample_size)
 
     return features
 
-def analyze_shap(model, features, labels, sample_size=None):
+
+def analyze_shap(model, df, preprocessing_function, sample_size=None):
     """Executa análise SHAP para visualizar importância das características nas predições do classificador."""
     if sample_size is None:
-        sample_size = int(0.05 * features.shape[0])  # 5% do total
+        sample_size = int(0.05 * len(df))  # 5% do total
     sample_size = max(50, min(sample_size, 500))  # Garante que está dentro dos limites
 
     print(f"🔍 Executando SHAP com {sample_size} imagens.")
-    sample_idx = np.random.choice(features.shape[0], sample_size, replace=False)
-    sample_features = features[sample_idx]
-    sample_labels = labels[sample_idx]
 
-    explainer = shap.Explainer(model, sample_features)
-    shap_values = explainer(sample_features)
+    # Amostragem de imagens
+    sample_df = df.sample(n=sample_size, random_state=SEED)
 
-    shap.summary_plot(shap_values, sample_features)
+    # Carregar imagens originais para SHAP
+    image_paths = [os.path.join(DATASET_PATH, fname) for fname in sample_df["filename"]]
+    sample_images = np.array([preprocess_image(img_path, preprocessing_function) for img_path in image_paths])
+
+    # Certifique-se de que sample_images tem a forma correta
+    print(f"📌 Sample Images Shape: {sample_images.shape}")  # Deve ser (sample_size, 224, 224, 3)
+
+    # Criar um conjunto de imagens de referência para o SHAP
+    background = sample_images[:10]  # Usa as primeiras 10 imagens como referência
+
+    print("Iniciando cálculo SHAP...")
+    # Criar o explicador baseado no Gradiente SHAP
+    explainer = shap.GradientExplainer(model, background)
+    print("Explainer criado com sucesso...")
+
+    print(f"⚙️ Calculando SHAP para {sample_images.shape[0]} imagens...")
+    # Calcular valores SHAP
+    shap_values = explainer.shap_values(sample_images)
+    print("✅ Cálculo SHAP concluído!")
+
+    print("📊 Gerando gráfico SHAP...")
+    # Plotar gráfico SHAP
+    shap.image_plot(shap_values, sample_images)
     save_path = os.path.join(BASE_PATH, "shap_summary_plot.png")
     plt.savefig(save_path, dpi=300, bbox_inches="tight")
     print(f"📊 Gráfico SHAP salvo em: {save_path}")
+
+    print("✅ Processo SHAP finalizado!")
     plt.close()
+
+def preprocess_image(img_path, preprocessing_function):
+    """Carrega e pré-processa uma imagem para o modelo MobileNet."""
+    img = image.load_img(img_path, target_size=IMAGE_SIZE)
+    img_array = image.img_to_array(img)
+    img_array = np.expand_dims(img_array, axis=0)  # Adiciona dimensão batch
+    img_array = preprocessing_function(img_array)  # Aplica a função de pré-processamento do modelo
+    return img_array[0]  # Remove a dimensão extra
 
 # -------------------------------- CLASSIFICADOR  ---------------------------------------------------------
 
-def build_model(input_shape, activation, dropout_rate, learning_rate, n_layers, n_neurons):
+def get_classifier_model(input_shape, activation, dropout_rate, learning_rate, n_layers, n_neurons):
     model = Sequential()
     model.add(Input(shape=(input_shape,)))
     for _ in range(n_layers):
@@ -163,6 +272,10 @@ def build_model(input_shape, activation, dropout_rate, learning_rate, n_layers, 
 
 # -------- Calculos para o threshold dinamico
 def find_best_threshold(y_test, y_pred_prob):
+
+    y_pred_prob = np.array(y_pred_prob)
+    y_test = np.array(y_test)
+
     def neg_f1(thresh):
         y_pred = (y_pred_prob > thresh).astype("int32")
         return -f1_score(np.array(y_test).ravel(), np.array(y_pred).ravel(), zero_division=0)  # <- Modificação aqui
@@ -220,16 +333,20 @@ def f1_loss(y_true, y_pred):
 # Executa teste de validação cruzada
 def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
                  n_epochs, batch_size, early_stop_patience, lr_scheduler_patience,
-                 model_type, n_splits=5):
+                 model_type, n_splits=5, use_augmentation = False, use_shap = False, sample_size = None):
+
     warnings = []
     history_log = {"epoch": [], "val_loss": [], "val_f1_score": []}
     df = load_data()
 
     labels = df["category"].replace({'clear': 1, 'non-clear': 0}).to_numpy().astype(int)
-    features = modular_extract_features(df, model_type)
+    features = feature_model_extract(df, model_type, use_augmentation, use_shap, sample_size)
 
     skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=SEED)
     results = []
+
+    total_samples = len(df)
+    print(f"Total de Amostras do Dataset {total_samples}...")
 
     for fold, (train_idx, test_idx) in enumerate(skf.split(features, labels), 1):
         print(f"📌 Rodando Fold {fold}/{n_splits}...")
@@ -237,14 +354,18 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
         X_train, X_test = features[train_idx], features[test_idx]
         y_train, y_test = labels[train_idx], labels[test_idx]
 
-        model = build_model(X_train.shape[1], activation, dropout_rate, learning_rate, n_layers, n_neurons)
+        model = get_classifier_model(X_train.shape[1], activation, dropout_rate, learning_rate, n_layers, n_neurons)
 
         early_stopping = EarlyStopping(monitor='val_loss', patience=early_stop_patience, min_delta=0.001,
                                        restore_best_weights=True)
         lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=lr_scheduler_patience, min_lr=1e-5)
 
         # Divide os dados de treino para criar um conjunto de validação (80% treino / 20% validação)
-        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=SEED)
+        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.1, random_state=SEED)
+
+        print(f"Amostras para Treinamento {len(X_train)}...")
+        print(f"Amostras para Validação {len(X_val)}...")
+        print(f"Amostras para Teste {len(X_test)}...")
 
         y_train = y_train.astype("float32")
         y_val = y_val.astype("float32")
@@ -280,6 +401,8 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
 
         accuracy = (tp + tn) / (tp + tn + fp + fn) if (tp + tn + fp + fn) > 0 else np.nan
 
+        print(f"Fold {fold}/{n_splits} - Accuracy --> {accuracy}...")
+
         results.append({
             "Fold": fold,
             "y_true": list(y_test),  # 🟢 Adicionando a coluna faltante
@@ -302,13 +425,17 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
     }
     plot_mean_validation_metrics(mean_history_log)
 
-    results_df = pd.DataFrame(results)
-    results_df.to_csv(os.path.join(RESULTS_PATH, "kfold_results.csv"), index=False)
-    print(f"📊 Resultados K-Fold salvos em {RESULTS_PATH}")
+    if results:
+        results_df = pd.DataFrame(results)
+        results_df.to_csv(os.path.join(RESULTS_PATH, "kfold_results.csv"), index=False)
+        print(f"📊 Resultados K-Fold salvos em {RESULTS_PATH}")
 
-    # Exibe métricas médias finais
-    print("\n📌 Resumo das métricas (Média entre os Folds):")
-    print(results_df.mean(numeric_only=True))
+        # Exibe métricas médias finais
+        print("\n📌 Resumo das métricas (Média entre os Folds):")
+        print(results_df.mean(numeric_only=True))
+
+    else:
+        print("[ERRO] Nenhum resultado foi gerado para salvar em kfold_results.csv")
 
     # Se houver warnings, salva-os
     if warnings:
@@ -316,7 +443,7 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
             log_file.write("\n".join(warnings) + "\n")
 
     # Gerar o resumo das métricas finais
-    analyze_results(results_df)
+    analyze_results(results_df, "kfold")
 
     return results_df
 
@@ -345,7 +472,7 @@ def run_loocv(activation, dropout_rate, learning_rate, n_layers, n_neurons, n_ep
         print(f"Processando imagem {i}/{total_samples}...")
         X_train, X_test = features[train_idx], features[test_idx]
         y_train, y_test = labels[train_idx], labels[test_idx]
-        model = build_model(X_train.shape[1], activation, dropout_rate, learning_rate, n_layers, n_neurons)
+        model = get_classifier_model(X_train.shape[1], activation, dropout_rate, learning_rate, n_layers, n_neurons)
 
         early_stopping = EarlyStopping(monitor='val_loss', patience=early_stop_patience, min_delta=0.001,
                                        restore_best_weights=True)
@@ -454,29 +581,44 @@ def plot_threshold_distribution(df):
     # Fecha a figura para liberar memória
     plt.close()
 
-def analyze_results(df):
+def analyze_results(df, test_type="loocv"):
     median_threshold = calculate_median_threshold(df)
-    y_true = df["y_true"]
-    y_pred = df["y_pred"]
-    cm = confusion_matrix(y_true, y_pred)
-    tn, fp, fn, tp = cm.ravel() if cm.size == 4 else (0, 0, 0, 0)
-    precision = precision_score(y_true, y_pred, zero_division=0)
-    recall = recall_score(y_true, y_pred, zero_division=0)
-    f1 = f1_score(y_true, y_pred, zero_division=0)
 
-    if len(set(y_true)) > 1:
-        roc_auc = roc_auc_score(y_true, df["y_pred_prob"])
+    if test_type == "loocv":
+        y_true = df["y_true"]
+        y_pred = df["y_pred"]
+        cm = confusion_matrix(y_true, y_pred, labels=[0, 1])
+        tn, fp, fn, tp = cm.ravel() if cm.shape == (2, 2) else (0, 0, 0, 0)
+        precision = precision_score(y_true, y_pred, zero_division=0)
+        recall = recall_score(y_true, y_pred, zero_division=0)
+        f1 = f1_score(y_true, y_pred, zero_division=0)
+
+        if len(set(y_true)) > 1:
+            roc_auc = roc_auc_score(y_true, df["y_pred_prob"])
+        else:
+            roc_auc = np.nan
+            print("[AVISO] ROC-AUC não pode ser calculado pois y_true contém apenas uma classe (tudo 0 ou tudo 1).")
+
+        summary = {
+            "Median Threshold (Filtered)": median_threshold,
+            "Accuracy": (tp + tn) / (tp + tn + fp + fn) if (tp + tn + fp + fn) > 0 else np.nan,
+            "Precision": precision, "Recall": recall, "F1-Score": f1,
+            "ROC-AUC": None if np.isnan(roc_auc) else roc_auc,
+            "True Negatives": tn, "False Positives": fp, "False Negatives": fn, "True Positives": tp
+        }
     else:
-        roc_auc = np.nan
-        print("[AVISO] ROC-AUC não pode ser calculado pois y_true contém apenas uma classe (tudo 0 ou tudo 1).")
-
-    summary = {
-        "Median Threshold (Filtered)": median_threshold,
-        "Accuracy": (tp + tn) / (tp + tn + fp + fn) if (tp + tn + fp + fn) > 0 else np.nan,
-        "Precision": precision, "Recall": recall, "F1-Score": f1,
-        "ROC-AUC": None if np.isnan(roc_auc) else roc_auc,
-        "True Negatives": tn, "False Positives": fp, "False Negatives": fn, "True Positives": tp
-    }
+        summary = {
+            "Median Threshold (Filtered)": median_threshold,
+            "Accuracy": df["Accuracy"].mean(),
+            "Precision": df["Precision"].mean(),
+            "Recall": df["Recall"].mean(),
+            "F1-Score": df["F1-Score"].mean(),
+            "ROC-AUC": df["ROC-AUC"].mean(skipna=True),
+            "True Negatives": df["TN"].mean(),
+            "False Positives": df["FP"].mean(),
+            "False Negatives": df["FN"].mean(),
+            "True Positives": df["TP"].mean()
+        }
 
     summary_df = pd.DataFrame([summary])
 
@@ -519,14 +661,15 @@ if __name__ == "__main__":
     model_type = 'MobileNetV1'
     n_splits = 10
     use_augmentation = False
-    use_shap = False
+    use_shap = True
     sample_size = 100
 
     #Para rodar teste de leave-one-out cross validation descomente abaixo
-    run_loocv(activation, dropout_rate, learning_rate, n_layers, n_neurons, n_epochs, batch_size, early_stop_patience,
-              lr_scheduler_patience, model_type, use_augmentation, use_shap, sample_size)
+    #run_loocv(activation, dropout_rate, learning_rate, n_layers, n_neurons, n_epochs, batch_size, early_stop_patience,
+    #          lr_scheduler_patience, model_type, use_augmentation, use_shap, sample_size)
 
-    #Para rodar teste de validação cruzada - descomente abaixo
-    #run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
-    #             n_epochs, batch_size, early_stop_patience, lr_scheduler_patience,
-    #             model_type, n_splits, use_augmentation, use_shap, sample_size)
+    #Para rodar teste de kfold cross validation - descomente abaixo
+    run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
+                 n_epochs, batch_size, early_stop_patience, lr_scheduler_patience,
+                 model_type, n_splits, use_augmentation, use_shap, sample_size)
+
