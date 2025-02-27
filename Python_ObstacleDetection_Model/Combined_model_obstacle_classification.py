@@ -662,7 +662,7 @@ if __name__ == "__main__":
     n_splits = 10
     use_augmentation = False
     use_shap = True
-    sample_size = 100
+    sample_size = 50
 
     #Para rodar teste de leave-one-out cross validation descomente abaixo
     #run_loocv(activation, dropout_rate, learning_rate, n_layers, n_neurons, n_epochs, batch_size, early_stop_patience,
