@@ -6,6 +6,7 @@ import scipy
 import tensorflow as tf
 import random
 import shap
+import gc
 
 from matplotlib import pyplot as plt
 from scipy.optimize import minimize_scalar
@@ -13,7 +14,7 @@ from sklearn.model_selection import LeaveOneOut
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix
-from keras_preprocessing.image import ImageDataGenerator
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Input
@@ -21,6 +22,28 @@ from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.losses import BinaryCrossentropy
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from tensorflow.keras import backend as K
+
+
+# Verifica se há GPUs disponíveis
+gpus = tf.config.list_physical_devices('GPU')
+if gpus:
+    try:
+        # Habilita o crescimento da memória para evitar alocação total no início
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+        print("✅ Memória da GPU configurada para alocação dinâmica.")
+
+        # Limita o uso de memória a 8GB (ajuste se necessário)
+        #tf.config.experimental.set_virtual_device_configuration(
+        #    gpus[0],
+        #    [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=8192)]
+        #)
+        #print("✅ Memória da GPU configurada para alocação dinâmica (limite de 8GB).")
+
+    except RuntimeError as e:
+        print(f"🚨 Erro ao configurar a memória da GPU: {e}")
+else:
+    print("❌ Nenhuma GPU disponível. Rodando na CPU!")
 
 # Garantir reprodutibilidade
 os.environ['TF_DETERMINISTIC_OPS'] = '1'
@@ -43,7 +66,7 @@ USE_EXTENDED_DATASET = True  # 🔹 Altere para False para usar o 'via-dataset'
 DATASET_PATH = DATASET_VIA_DATASET_EXTENDED if USE_EXTENDED_DATASET else DATASET_VIA_DATASET
 
 FEATURE_PATH = os.path.join(BASE_PATH, 'features')
-RESULTS_PATH = os.path.join(BASE_PATH, 'results_details', 'loocv_results')
+RESULTS_PATH = os.path.join(BASE_PATH, 'results_details', 'shap_results')
 os.makedirs(RESULTS_PATH, exist_ok=True)
 
 if not os.path.exists(DATASET_PATH):
@@ -83,114 +106,113 @@ def load_data():
     return df
 
 def get_extract_model(model_type):
+    # carrega o modelo base e o move para a GPU
+    with tf.device('/GPU:0'):  # ✅ Força execução na GPU
+        # Carrega o modelo e a função de pré-processamento
+        if model_type == 'MobileNetV2':
+            print('------------- Gera modelo MobileNetV2 ------------------')
+            # Importando MobileNetV2
+            from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2, preprocess_input
 
-    # Carrega o modelo e a função de pré-processamento
-    if model_type == 'MobileNetV2':
-        print('------------- Gera modelo MobileNetV2 ------------------')
-
-        # Importando MobileNetV2
-        from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2, preprocess_input
-
-        model = MobileNetV2(weights='imagenet', include_top=False, pooling=POOLING,
+            model = MobileNetV2(weights='imagenet', include_top=False, pooling=POOLING,
                             input_shape=IMAGE_SIZE + (IMAGE_CHANNELS,), alpha=ALPHA)
+            preprocessing_function = preprocess_input
+        elif model_type == 'MobileNetV1':
+            print('------------- Gera modelo MobileNetV1 ------------------')
+            # Importando MobileNetV1
+            from tensorflow.keras.applications.mobilenet import MobileNet, preprocess_input
+            model = MobileNet(
+                weights='imagenet',
+                include_top=False,  # Remove a camada de saída do ImageNet
+                pooling=POOLING,  # Define o tipo de pooling na saída
+                input_shape=IMAGE_SIZE + (IMAGE_CHANNELS,),
+                alpha=ALPHA  # 🔹 Define a largura da rede (número de filtros convolucionais)
+            )
 
-        preprocessing_function = preprocess_input
+            #for layer in model.layers[-20:]:  # Descongele as últimas 20 camadas
+            #    layer.trainable = True
 
-    elif model_type == 'MobileNetV1':
-        print('------------- Gera modelo MobileNetV1 ------------------')
+            preprocessing_function = preprocess_input
+        elif model_type == 'MobileNetV3Small':
+            print('------------- Gera modelo MobileNetV3Small ------------------')
+            # Importando MobileNetV3Small
+            from tensorflow.keras.applications.mobilenet_v3 import MobileNetV3Small, preprocess_input
+            model = MobileNetV3Small(
+                weights='imagenet',
+                include_top=False,  # Remove a camada de saída do ImageNet
+                pooling=POOLING,  # Define o tipo de pooling na saída
+                input_shape=IMAGE_SIZE + (IMAGE_CHANNELS,),
+                alpha=ALPHA  # Controla o tamanho do modelo
+            )
+            preprocessing_function = preprocess_input
+        elif model_type == 'MobileNetV3Large':
+            print('------------- Gera modelo MobileNetV3Large ------------------')
+            # Importando MobileNetV3Large
+            from tensorflow.keras.applications.mobilenet_v3 import MobileNetV3Large, preprocess_input
 
-        # Importando MobileNetV1
-        from tensorflow.keras.applications.mobilenet import MobileNet, preprocess_input
+            model = MobileNetV3Large(
+                weights='imagenet',
+                include_top=False,  # Remove a camada de saída do ImageNet
+                pooling=POOLING,  # Define o tipo de pooling na saída
+                input_shape=IMAGE_SIZE + (IMAGE_CHANNELS,),
+                alpha=ALPHA  # Controla o tamanho do modelo
+            )
 
-        model = MobileNet(
-            weights='imagenet',
-            include_top=False,  # Remove a camada de saída do ImageNet
-            pooling=POOLING,  # Define o tipo de pooling na saída
-            input_shape=IMAGE_SIZE + (IMAGE_CHANNELS,),
-            alpha=ALPHA  # 🔹 Define a largura da rede (número de filtros convolucionais)
-        )
-
-        preprocessing_function = preprocess_input
-
-    elif model_type == 'MobileNetV3Small':
-        print('------------- Gera modelo MobileNetV3Small ------------------')
-        # Importando MobileNetV3Small
-        from tensorflow.keras.applications.mobilenet_v3 import MobileNetV3Small, preprocess_input
-
-        model = MobileNetV3Small(
-            weights='imagenet',
-            include_top=False,  # Remove a camada de saída do ImageNet
-            pooling=POOLING,  # Define o tipo de pooling na saída
-            input_shape=IMAGE_SIZE + (IMAGE_CHANNELS,),
-            alpha=ALPHA  # Controla o tamanho do modelo
-        )
-
-        preprocessing_function = preprocess_input
-
-    elif model_type == 'MobileNetV3Large':
-        print('------------- Gera modelo MobileNetV3Large ------------------')
-        # Importando MobileNetV3Large
-        from tensorflow.keras.applications.mobilenet_v3 import MobileNetV3Large, preprocess_input
-
-        model = MobileNetV3Large(
-            weights='imagenet',
-            include_top=False,  # Remove a camada de saída do ImageNet
-            pooling=POOLING,  # Define o tipo de pooling na saída
-            input_shape=IMAGE_SIZE + (IMAGE_CHANNELS,),
-            alpha=ALPHA  # Controla o tamanho do modelo
-        )
-
-        preprocessing_function = preprocess_input
-
-    else:
-        raise ValueError("Error: Model not implemented.")
+            preprocessing_function = preprocess_input
+        else:
+            raise ValueError("Error: Model not implemented.")
 
     #output = Flatten()(model.layers[-1].output)
     #model = Model(inputs=model.inputs, outputs=output)
 
     return model, preprocessing_function
 
+# @tf.function  # ✅ Acelera a inferência na GPU
+def predict_on_gpu(model, generator, steps):
+    return model.predict(generator, steps=steps, verbose=1)
+
 def extract_features(df, model, preprocessing_function, use_augmentation):
     """Extrai features das imagens do dataset, com Data Augmentation opcional."""
 
     df["category"] = df["category"].replace({1: 'clear', 0: 'non-clear'})
 
-    if use_augmentation:
-        print("🟢 Aplicando Data Augmentation...")
-        datagen = ImageDataGenerator(
-            preprocessing_function=preprocessing_function,
-            rotation_range=20,
-            width_shift_range=0.2,
-            height_shift_range=0.2,
-            shear_range=0.2,
-            zoom_range=0.2,
-            horizontal_flip=True,
-            fill_mode="nearest"
+    with tf.device('/GPU:0'):  # ✅ Força execução na GPU
+        if use_augmentation:
+            print("🟢 Aplicando Data Augmentation...")
+            datagen = ImageDataGenerator(
+                preprocessing_function=preprocessing_function,
+                rotation_range=20,
+                width_shift_range=0.2,
+                height_shift_range=0.2,
+                shear_range=0.2,
+                zoom_range=0.2,
+                horizontal_flip=True,
+                fill_mode="nearest"
+            )
+        else:
+            print("🔵 Sem Data Augmentation...")
+            datagen = ImageDataGenerator(preprocessing_function=preprocessing_function)
+
+        total = df.shape[0]
+        batch_size = 4
+        steps = int(np.ceil(total / batch_size))
+
+        generator = datagen.flow_from_dataframe(
+            df,
+            DATASET_PATH,
+            x_col='filename',
+            y_col='category',
+            #class_mode='categorical',
+            class_mode='binary' if len(df['category'].unique()) == 2 else 'categorical',
+            target_size=IMAGE_SIZE,
+            batch_size=batch_size,
+            shuffle=False  # originalmente estava False --> agora com True aplica a aleatorização das imagens
         )
-    else:
-        print("🔵 Sem Data Augmentation...")
-        datagen = ImageDataGenerator(preprocessing_function=preprocessing_function)
+        features = predict_on_gpu(model, generator, steps)
 
-    total = df.shape[0]
-    batch_size = 4
-    steps = int(np.ceil(total / batch_size))
-
-    generator = datagen.flow_from_dataframe(
-        df,
-        DATASET_PATH,
-        x_col='filename',
-        y_col='category',
-        #class_mode='categorical',
-        class_mode='binary' if len(df['category'].unique()) == 2 else 'categorical',
-        target_size=IMAGE_SIZE,
-        batch_size=batch_size,
-        shuffle=False  # originalmente estava False --> agora com True aplica a aleatorização das imagens
-    )
-
-    features = model.predict(generator, steps=steps)
     return features
 
-def feature_model_extract(df, model_type, use_augmentation=False, use_shap=False, sample_size=None):
+def feature_model_extract(df, model_type, use_augmentation=False, analyze_model=False, sample_size=None):
     """Executa o processo de extração de características, podendo incluir Data Augmentation e SHAP."""
     model, preprocessing_function = get_extract_model(model_type)
 
@@ -198,14 +220,14 @@ def feature_model_extract(df, model_type, use_augmentation=False, use_shap=False
 
     labels = df["category"].replace({'clear': 1, 'non-clear': 0}).to_numpy().astype(int)  # 🔹 Adicionar labels corretamente
 
-    if use_shap:
+    if analyze_model:
         analyze_shap(model, df, preprocessing_function, sample_size)
 
     return features
 
-
 def analyze_shap(model, df, preprocessing_function, sample_size=None):
-    """Executa análise SHAP para visualizar importância das características nas predições do classificador."""
+    """Executa análise SHAP otimizando para GPU."""
+
     if sample_size is None:
         sample_size = int(0.05 * len(df))  # 5% do total
     sample_size = max(50, min(sample_size, 500))  # Garante que está dentro dos limites
@@ -223,21 +245,45 @@ def analyze_shap(model, df, preprocessing_function, sample_size=None):
     print(f"📌 Sample Images Shape: {sample_images.shape}")  # Deve ser (sample_size, 224, 224, 3)
 
     # Criar um conjunto de imagens de referência para o SHAP
-    background = sample_images[:10]  # Usa as primeiras 10 imagens como referência
+    background = sample_images[:50]  # 🔹 Aumentamos para 50 imagens para melhor estabilidade
+    background = tf.convert_to_tensor(background, dtype=tf.float32)  # ✅ Convertendo para TensorFlow Tensor
 
     print("Iniciando cálculo SHAP...")
-    # Criar o explicador baseado no Gradiente SHAP
-    explainer = shap.GradientExplainer(model, background)
-    print("Explainer criado com sucesso...")
+    tf.keras.backend.clear_session()
+    gc.collect()
 
-    print(f"⚙️ Calculando SHAP para {sample_images.shape[0]} imagens...")
-    # Calcular valores SHAP
-    shap_values = explainer.shap_values(sample_images)
+    print("Limpando a memória  (evita memory leaks)")
+    with tf.device('/GPU:0'):  # ✅ Força execução na GPU
+        # Criar o DeepExplainer (otimizado para TensorFlow)
+        # explainer = shap.Explainer(model, background, algorithm="deep")  # 🔹 Nova forma recomendada
+        explainer =shap.DeepExplainer(model, background)
+
+        print("Explainer criado com sucesso...")
+
+        print(f"⚙️ Calculando SHAP para {sample_images.shape[0]} imagens...")
+
+        # Convertendo amostras para Tensor antes de passar para SHAP
+        sample_images_tensor = tf.convert_to_tensor(sample_images, dtype=tf.float32)
+
+        # Calculando valores SHAP
+        #shap_values = explainer(sample_images_tensor)
+
+        #🔹 Executa SHAP em lotes para evitar alto consumo de memória
+        batch_size = 10  # Ajuste conforme necessário
+        shap_values_list = []
+
+        for i in range(0, sample_images_tensor.shape[0], batch_size):
+            batch = sample_images_tensor[i: i + batch_size]
+            batch_shap_values = explainer(batch)
+            shap_values_list.append(batch_shap_values.values)  # 🔹 Pegar apenas os valores SHAP
+
+        shap_values = np.concatenate(shap_values_list, axis=0)  # 🔹 Junta os resultados de todos os lotes
+
     print("✅ Cálculo SHAP concluído!")
 
     print("📊 Gerando gráfico SHAP...")
     # Plotar gráfico SHAP
-    shap.image_plot(shap_values, sample_images)
+    shap.image_plot(shap_values.values, sample_images)  # 🔹 `.values` pode ser necessário
     save_path = os.path.join(BASE_PATH, "shap_summary_plot.png")
     plt.savefig(save_path, dpi=300, bbox_inches="tight")
     print(f"📊 Gráfico SHAP salvo em: {save_path}")
@@ -256,17 +302,18 @@ def preprocess_image(img_path, preprocessing_function):
 # -------------------------------- CLASSIFICADOR  ---------------------------------------------------------
 
 def get_classifier_model(input_shape, activation, dropout_rate, learning_rate, n_layers, n_neurons):
-    model = Sequential()
-    model.add(Input(shape=(input_shape,)))
-    for _ in range(n_layers):
-        model.add(Dense(n_neurons, activation=activation))
-        if dropout_rate > 0:
-            model.add(Dropout(dropout_rate))
-    model.add(Dense(1, activation='sigmoid'))
-    optimizer = RMSprop(learning_rate=learning_rate)
-    # model.compile(optimizer=optimizer, loss=BinaryCrossentropy(), metrics=['accuracy'])
-    # Compilação do modelo com a nova métrica F1
-    model.compile(optimizer=optimizer, loss=f1_loss, metrics=['accuracy', f1_metric])
+    with tf.device('/GPU:0'):  # ✅ Força execução na GPU
+        model = Sequential()
+        model.add(Input(shape=(input_shape,)))
+        for _ in range(n_layers):
+            model.add(Dense(n_neurons, activation=activation))
+            if dropout_rate > 0:
+                model.add(Dropout(dropout_rate))
+        model.add(Dense(1, activation='sigmoid'))
+        optimizer = RMSprop(learning_rate=learning_rate)
+        # model.compile(optimizer=optimizer, loss=BinaryCrossentropy(), metrics=['accuracy'])
+        # Compilação do modelo com a nova métrica F1
+        model.compile(optimizer=optimizer, loss=f1_loss, metrics=['accuracy', f1_metric])
 
     return model
 
@@ -333,14 +380,14 @@ def f1_loss(y_true, y_pred):
 # Executa teste de validação cruzada
 def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
                  n_epochs, batch_size, early_stop_patience, lr_scheduler_patience,
-                 model_type, n_splits=5, use_augmentation = False, use_shap = False, sample_size = None):
+                 model_type, n_splits=5, use_augmentation = False, analyze_model = False, sample_size = None):
 
     warnings = []
     history_log = {"epoch": [], "val_loss": [], "val_f1_score": []}
     df = load_data()
 
     labels = df["category"].replace({'clear': 1, 'non-clear': 0}).to_numpy().astype(int)
-    features = feature_model_extract(df, model_type, use_augmentation, use_shap, sample_size)
+    features = feature_model_extract(df, model_type, use_augmentation, analyze_model, sample_size)
 
     skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=SEED)
     results = []
@@ -370,12 +417,18 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
         y_train = y_train.astype("float32")
         y_val = y_val.astype("float32")
 
-        history = model.fit(X_train, y_train,
-                            epochs=n_epochs,
-                            batch_size=min(batch_size, len(X_train)),
-                            validation_data=(X_val, y_val),
-                            callbacks=[early_stopping, lr_scheduler],
-                            verbose=0)
+        X_train = tf.convert_to_tensor(X_train, dtype=tf.float32)
+        X_test = tf.convert_to_tensor(X_test, dtype=tf.float32)
+        y_train = tf.convert_to_tensor(y_train, dtype=tf.float32)
+        y_test = tf.convert_to_tensor(y_test, dtype=tf.float32)
+
+        with tf.device('/GPU:0'):  # ✅ Treinamento na GPU
+            history = model.fit(X_train, y_train,
+                                epochs=n_epochs,
+                                batch_size=min(batch_size, len(X_train)),
+                                validation_data=(X_val, y_val),
+                                callbacks=[early_stopping, lr_scheduler],
+                                verbose=0)
 
         # Salvando métricas por época
         for epoch, (vloss, vf1) in enumerate(zip(history.history["val_loss"], history.history["val_f1_metric"])):
@@ -403,6 +456,9 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
 
         print(f"Fold {fold}/{n_splits} - Accuracy --> {accuracy}...")
 
+        y_test_np = y_test.numpy() if isinstance(y_test, tf.Tensor) else np.array(y_test)
+        y_pred_prob_np = y_pred_prob.numpy() if isinstance(y_pred_prob, tf.Tensor) else np.array(y_pred_prob)
+
         results.append({
             "Fold": fold,
             "y_true": list(y_test),  # 🟢 Adicionando a coluna faltante
@@ -412,7 +468,7 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
             "Recall": recall_score(y_test, y_pred, zero_division=0),
             "F1-Score": f1_score(y_test, y_pred, zero_division=0),
             "Accuracy": accuracy,
-            "ROC-AUC": roc_auc_score(y_test, y_pred_prob) if len(set(y_test)) > 1 else np.nan,
+            "ROC-AUC": roc_auc_score(y_test_np, y_pred_prob_np) if len(set(y_test_np)) > 1 else np.nan,
             "TN": tn, "FP": fp, "FN": fn, "TP": tp,
             "best_threshold": best_threshold
         })
@@ -450,7 +506,7 @@ def run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
 
 # Executa teste leave-one-out cross validation
 def run_loocv(activation, dropout_rate, learning_rate, n_layers, n_neurons, n_epochs, batch_size, early_stop_patience,
-              lr_scheduler_patience, model_type, use_augmentation=False, use_shap=False, sample_size=None):
+              lr_scheduler_patience, model_type, use_augmentation=False, analyze_model=False, sample_size=None):
 
     warnings = []
     # Criar listas para armazenar os valores de loss e f1_score ao longo das épocas
@@ -458,7 +514,7 @@ def run_loocv(activation, dropout_rate, learning_rate, n_layers, n_neurons, n_ep
 
     df = load_data()
     labels = df["category"].replace({'clear': 1, 'non-clear': 0}).to_numpy().astype(int)
-    features = feature_model_extract(df, model_type, use_augmentation, use_shap, sample_size)
+    features = feature_model_extract(df, model_type, use_augmentation, analyze_model, sample_size)
 
     loo = LeaveOneOut()
     results = []
@@ -485,13 +541,19 @@ def run_loocv(activation, dropout_rate, learning_rate, n_layers, n_neurons, n_ep
         y_train = y_train.astype("float32")
         y_val = y_val.astype("float32")
 
+        X_train = tf.convert_to_tensor(X_train, dtype=tf.float32)
+        X_test = tf.convert_to_tensor(X_test, dtype=tf.float32)
+        y_train = tf.convert_to_tensor(y_train, dtype=tf.float32)
+        y_test = tf.convert_to_tensor(y_test, dtype=tf.float32)
+
         # treina o modelo
-        history = model.fit(X_train, y_train,
-                      epochs=n_epochs,
-                      batch_size=min(batch_size, len(X_train)),
-                      validation_data=(X_val, y_val),
-                      callbacks=[early_stopping, lr_scheduler],
-                      verbose=0)
+        with tf.device('/GPU:0'):  # ✅ Treinamento na GPU
+            history = model.fit(X_train, y_train,
+                          epochs=n_epochs,
+                          batch_size=min(batch_size, len(X_train)),
+                          validation_data=(X_val, y_val),
+                          callbacks=[early_stopping, lr_scheduler],
+                          verbose=0)
 
         #print("Métricas disponíveis no history:", history.history.keys())
 
@@ -661,15 +723,15 @@ if __name__ == "__main__":
     model_type = 'MobileNetV1'
     n_splits = 10
     use_augmentation = False
-    use_shap = True
+    analyze_model = False
     sample_size = 50
 
     #Para rodar teste de leave-one-out cross validation descomente abaixo
     #run_loocv(activation, dropout_rate, learning_rate, n_layers, n_neurons, n_epochs, batch_size, early_stop_patience,
-    #          lr_scheduler_patience, model_type, use_augmentation, use_shap, sample_size)
+    #          lr_scheduler_patience, model_type, use_augmentation, analyze_model, sample_size)
 
     #Para rodar teste de kfold cross validation - descomente abaixo
     run_kfold_cv(activation, dropout_rate, learning_rate, n_layers, n_neurons,
                  n_epochs, batch_size, early_stop_patience, lr_scheduler_patience,
-                 model_type, n_splits, use_augmentation, use_shap, sample_size)
+                 model_type, n_splits, use_augmentation, analyze_model, sample_size)
 
