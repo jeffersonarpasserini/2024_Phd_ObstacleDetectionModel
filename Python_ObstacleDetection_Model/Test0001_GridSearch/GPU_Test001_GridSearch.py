@@ -5,6 +5,8 @@ import pandas as pd
 import scipy
 import tensorflow as tf
 import random
+import time
+from datetime import datetime
 
 from matplotlib import pyplot as plt
 from scipy.optimize import minimize_scalar
@@ -20,8 +22,25 @@ from tensorflow.keras.optimizers import RMSprop, Adam
 from tensorflow.keras.losses import BinaryCrossentropy
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from tensorflow.keras import backend as K
-from scikeras.wrappers import KerasClassifier
 from tensorflow.python.keras.callbacks import ReduceLROnPlateau
+from scikeras.wrappers import KerasClassifier
+
+# faz o tf rodar na CPU
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
+# Configurar alocação dinâmica da memória na GPU
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+    try:
+        for gpu in gpus:
+            #tf.config.experimental.set_memory_growth(gpu, True)
+            tf.config.experimental.set_virtual_device_configuration(
+                gpu,
+                [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=8192)])  # Ajuste para o seu hardware
+        print("✅ Alocação dinâmica de memória ativada para a GPU.")
+    except RuntimeError as e:
+        print(f"❌ Erro ao configurar memória dinâmica da GPU: {e}")
+
 
 # Garantir reprodutibilidade
 os.environ['TF_DETERMINISTIC_OPS'] = '1'
@@ -44,7 +63,7 @@ USE_EXTENDED_DATASET = True  # 🔹 Altere para False para usar o 'via-dataset'
 DATASET_PATH = DATASET_VIA_DATASET_EXTENDED if USE_EXTENDED_DATASET else DATASET_VIA_DATASET
 
 FEATURE_PATH = os.path.join(BASE_PATH, 'features')
-RESULTS_PATH = os.path.join(BASE_PATH, 'results_details', 'loocv_results')
+RESULTS_PATH = os.path.join(BASE_PATH, 'results_details', 'gridsearch_results')
 os.makedirs(RESULTS_PATH, exist_ok=True)
 
 if not os.path.exists(DATASET_PATH):
@@ -203,12 +222,15 @@ def feature_model_extract(df, model_type, use_augmentation=False, use_shap=False
     return features
 
 # -------------------------------- CLASSIFICADOR  ---------------------------------------------------------
-def get_classifier_model(input_shape, activation, dropout_rate, learning_rate, n_layers, n_neurons, optimizer):
+def get_classifier_model(input_shape, activation='relu', dropout_rate=0.1, learning_rate=0.001,
+                         n_layers=1, n_neurons=128, optimizer='adam'):
     model = Sequential([Input(shape=(input_shape,))])
+
     for _ in range(n_layers):
         model.add(Dense(n_neurons, activation=activation))
         if dropout_rate > 0:
             model.add(Dropout(dropout_rate))
+
     model.add(Dense(1, activation='sigmoid'))
 
     # Definir o otimizador com base no parâmetro
@@ -220,7 +242,25 @@ def get_classifier_model(input_shape, activation, dropout_rate, learning_rate, n
         raise ValueError("Optimizer não reconhecido. Use 'adam' ou 'rmsprop'.")
 
     model.compile(optimizer=optimizer_instance, loss=BinaryCrossentropy(), metrics=['accuracy'])
+
     return model
+
+
+class CustomReduceLROnPlateau(ReduceLROnPlateau):
+    def on_epoch_end(self, epoch, logs=None):
+        logs = logs or {}  # Garante que logs não seja None
+
+        # Acessa corretamente a learning_rate
+        if hasattr(self.model.optimizer, 'learning_rate'):
+            lr = K.get_value(self.model.optimizer.learning_rate)
+        elif hasattr(self.model.optimizer, '_decayed_lr'):
+            lr = K.get_value(self.model.optimizer._decayed_lr(tf.float32))  # ✅ TensorFlow 2.x
+        else:
+            raise AttributeError("O otimizador não possui learning_rate nem _decayed_lr")
+
+        logs['learning_rate'] = lr  # Salva no log
+        super().on_epoch_end(epoch, logs)
+
 
 # Executa o teste Gridsearch
 def run_GridSearch(extract_features_model, params_grid, lr_scheduler, features_test_size, features_validation_size, epochs):
@@ -228,7 +268,7 @@ def run_GridSearch(extract_features_model, params_grid, lr_scheduler, features_t
     # Carregamento das imagens do dataset
     df = load_data()
 
-    for model_type in (extract_features_model):
+    for model_type in extract_features_model:
         print(f"Testing extract model ${model_type}...")
 
         labels = df["category"].replace({'clear': 1, 'non-clear': 0}).to_numpy().astype(int)
@@ -237,42 +277,38 @@ def run_GridSearch(extract_features_model, params_grid, lr_scheduler, features_t
         # Dividir os dados em treino e teste
         X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=features_test_size, random_state=SEED)
 
+        print("Prepara o keras classifier")
         # Criar modelo para GridSearchCV incluindo callbacks corretamente
         model = KerasClassifier(
-            model=lambda: get_classifier_model(
-                input_shape=X_train.shape[1],
-                activation='relu',
-                dropout_rate=0.2,
-                learning_rate=0.001,
-                n_layers=2,
-                n_neurons=128,
-                optimizer='adam'
-            ),
-            verbose=0,
-            callbacks=[lr_scheduler]
+            model=get_classifier_model,
+            input_shape=X_train.shape[1],
+            verbose=0
         )
 
-        # Configurar GridSearchCV com os hiperparâmetros corrigidos
+        print("Prepara o Gridsearch")
         grid_search = GridSearchCV(
             estimator=model,
             param_grid=params_grid,
             scoring='accuracy',
-            cv=StratifiedKFold(n_splits=10, shuffle=True, random_state=SEED),
+            cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=SEED),
             refit=True,  # Mantém o melhor modelo treinado
             n_jobs=1,
-            verbose=0)
+            verbose=1)
 
+        print("Executando o GridSearch...")
         # Executar a busca com validação cruzada
         grid_result = grid_search.fit(
             X_train, y_train,
             validation_split=features_validation_size,
-            callbacks=[lr_scheduler]
+            #callbacks=[lr_scheduler]
         )
 
         # Criar DataFrame com os resultados do GridSearchCV
         results_df = pd.DataFrame(grid_result.cv_results_)
-        results_df.to_csv(f"{model_type}_grid_search_results.csv", index=False)
-        print(f"Resultados do GridSearchCV salvos em '{model_type}_grid_search_results.csv'")
+
+        grid_search_results_path = os.path.join(RESULTS_PATH, f"{model_type}_grid_search_results.csv")
+        results_df.to_csv(grid_search_results_path, index=False)
+        print(f"📁 Resultados do GridSearchCV salvos em '{grid_search_results_path}'")
 
         # Exibir os melhores hiperparâmetros encontrados
         print(f"{model_type} - Melhores hiperparâmetros: ", grid_search.best_params_)
@@ -282,14 +318,19 @@ def run_GridSearch(extract_features_model, params_grid, lr_scheduler, features_t
         test_results = []
         individual_classifications = []
 
+        print("Inicio dos Testes")
         for idx, params in enumerate(grid_result.cv_results_['params']):
             print(f"🔍 Testando modelo {idx + 1} com parâmetros: {params}")
 
             # Remover o prefixo 'model__' dos parâmetros antes de passar para a função
             clean_params = {key.replace("model__", ""): value for key, value in params.items()}
 
-            model = get_classifier_model(**clean_params)
-            model.fit(X_train, y_train, epochs=epochs, callbacks=[lr_scheduler], verbose=0)
+            model = get_classifier_model(input_shape=X_train.shape[1], **clean_params)
+            model.fit(
+                X_train, y_train,
+                epochs=epochs,
+                #callbacks=[lr_scheduler],
+                verbose=0)
 
             y_pred = (model.predict(X_test) > 0.5).astype("int32")
 
@@ -325,24 +366,37 @@ def run_GridSearch(extract_features_model, params_grid, lr_scheduler, features_t
 
         # Salvar os resultados em arquivos CSV
         test_results_df = pd.DataFrame(test_results)
-        test_results_df.to_csv(f"{model_type}_test_results_summary.csv", index=False)
+        test_results_summary_path = os.path.join(RESULTS_PATH, f"{model_type}_test_results_summary.csv")
+        test_results_df.to_csv(test_results_summary_path, index=False)
+        print(f"📁 Resultados resumidos salvos em '{test_results_summary_path}'")
 
         individual_classifications_df = pd.DataFrame(individual_classifications)
-        individual_classifications_df.to_csv(f"{model_type}_test_results_individual.csv", index=False)
-
-        print(f"📁 Resultados resumidos salvos em '{model_type}_test_results_summary.csv'")
-        print(f"📁 Resultados individuais salvos em '{model_type}_test_results_individual.csv'")
-
-
+        individual_classifications_path = os.path.join(RESULTS_PATH, f"{model_type}_test_results_individual.csv")
+        individual_classifications_df.to_csv(individual_classifications_path, index=False)
+        print(f"📁 Resultados individuais salvos em '{individual_classifications_path}'")
 
 if __name__ == "__main__":
+    # Registrar hora de início
+    start_time = time.time()
+    start_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(f"⏳ Início da execução: {start_datetime}")
+
     # ✅ Definir a lista de cnn extratoras de caracteristicas
     #extract_features_model = {"MobileNetV1", "MobileNetV2","MobileNetV3Small", "MobileNetV3Large"}
     extract_features_model = {"MobileNetV1"}
 
     # ✅ Definir a grade de hiperparâmetros
+    params_grid = {
+       'model__learning_rate': [0.0005, 0.0001, 0.005, 0.001, 0.05, 0.01, 0.1],
+        'model__activation': ['relu', 'tanh'],
+        'model__n_layers': [1, 2, 3],
+        'model__n_neurons': [16, 32, 64, 128, 256, 512],
+        'model__dropout_rate': [0.0, 0.1, 0.2, 0.3, 0.4, 0.5],
+        'model__optimizer': ['rmsprop', 'adam']
+    }
+
     #params_grid = {
-    #   'model__learning_rate': [0.0005, 0.0001, 0.005, 0.001, 0.05, 0.01, 0.1],
+    #    'model__learning_rate': [0.0005, 0.0001, 0.005, 0.001, 0.05, 0.01, 0.1],
     #    'model__activation': ['relu', 'tanh'],
     #    'model__n_layers': [1, 2, 3],
     #    'model__n_neurons': [16, 32, 64, 128, 256, 512],
@@ -350,14 +404,14 @@ if __name__ == "__main__":
     #    'model__optimizer': ['adam', 'rmsprop']
     #}
 
-    params_grid = {
-        'model__learning_rate': [0.0001],
-        'model__activation': ['relu'],
-        'model__n_layers': [1],
-        'model__n_neurons': [128],
-        'model__dropout_rate': [0.1],
-        'model__optimizer': ['rmsprop']
-    }
+    #params_grid = {
+    #    'model__learning_rate': [0.0001],
+    #    'model__activation': ['relu'],
+    #    'model__n_layers': [1],
+    #    'model__n_neurons': [128],
+    #    'model__dropout_rate': [0.1],
+    #    'model__optimizer': ['rmsprop']
+    #}
 
     # % test dataset
     features_test_size=0.2
@@ -367,8 +421,26 @@ if __name__ == "__main__":
     epochs=1000
 
     # configura o redutor na velocidade de convergencia do modelo.
-    lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=10, min_lr=1e-5)
+    lr_scheduler = CustomReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=10, min_lr=1e-5)
 
     # Para rodar teste de kfold cross validation - descomente abaixo
     run_GridSearch(extract_features_model, params_grid, lr_scheduler, features_test_size,
                    features_validation_size, epochs)
+
+    # Registrar hora de término
+    end_time = time.time()
+    end_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    elapsed_time = end_time - start_time  # Tempo total em segundos
+
+    # Converter para horas, minutos e segundos
+    hours, rem = divmod(elapsed_time, 3600)
+    minutes, seconds = divmod(rem, 60)
+
+    # Imprimir resultados
+    print(f"⏳ Início da execução: {start_datetime}")
+    print(f"✅ Fim da execução: {end_datetime}")
+    print(f"⏱ Tempo total de execução: {int(hours)}h {int(minutes)}m {seconds:.2f}s")
+
+
+
+

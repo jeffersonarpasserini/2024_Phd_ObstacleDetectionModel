@@ -38,7 +38,7 @@ early_stopping = EarlyStopping(monitor='val_loss', patience=15, restore_best_wei
 lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=5, min_lr=1e-5)
 
 # ✅ Função para criar o modelo
-def create_model(learning_rate=0.01, activation='relu', n_layers=1, n_neurons=64, dropout_rate=0.0):
+def get_classifier_model(learning_rate=0.01, activation='relu', n_layers=1, n_neurons=64, dropout_rate=0.0):
     model = Sequential()
     model.add(tf.keras.layers.Input(shape=(X_train.shape[1],)))
     model.add(Dense(n_neurons, activation=activation))
@@ -64,6 +64,13 @@ param_grid = {
 
 # ✅ Criar modelo para GridSearchCV com `model=`
 model = KerasClassifier(
+    build_fn=get_classifier_model,
+    input_shape=X_train.shape[1],
+    verbose=0,
+    callbacks=[lr_scheduler]
+)
+
+model = KerasClassifier(
     model=create_model,
     learning_rate=0.01,
     activation='relu',
@@ -75,6 +82,17 @@ model = KerasClassifier(
 
 # ✅ Configurar GridSearchCV com validação cruzada estratificada
 cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=SEED)
+grid_search = GridSearchCV(
+    estimator=model,
+    param_grid=params_grid,
+    scoring='accuracy',
+    cv=StratifiedKFold(n_splits=10, shuffle=True, random_state=SEED),
+    refit=True,
+    n_jobs=1,
+    verbose=0,
+    error_score='raise'
+)
+
 grid_search = GridSearchCV(
     estimator=model,
     param_grid=param_grid,
