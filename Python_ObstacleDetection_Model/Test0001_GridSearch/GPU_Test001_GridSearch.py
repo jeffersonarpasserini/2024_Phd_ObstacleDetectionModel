@@ -265,14 +265,20 @@ class CustomReduceLROnPlateau(ReduceLROnPlateau):
 # Executa o teste Gridsearch
 def run_GridSearch(extract_features_model, params_grid, lr_scheduler, features_test_size, features_validation_size, epochs):
 
+    print("Leitura do Dataset e extração de caracteristicas...")
     # Carregamento das imagens do dataset
     df = load_data()
 
     for model_type in extract_features_model:
-        print(f"Testing extract model ${model_type}...")
+        print(f"Testing extract model {model_type}...")
 
         labels = df["category"].replace({'clear': 1, 'non-clear': 0}).to_numpy().astype(int)
         features = feature_model_extract(df, model_type)
+
+        # Registrar hora de início
+        start_time = time.time()
+        start_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"⏳ Início da execução - {model_type}: {start_datetime}")
 
         # Dividir os dados em treino e teste
         X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=features_test_size, random_state=SEED)
@@ -375,25 +381,25 @@ def run_GridSearch(extract_features_model, params_grid, lr_scheduler, features_t
         individual_classifications_df.to_csv(individual_classifications_path, index=False)
         print(f"📁 Resultados individuais salvos em '{individual_classifications_path}'")
 
+        # Registrar hora de término
+        end_time = time.time()
+        end_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        elapsed_time = end_time - start_time  # Tempo total em segundos
+
+        # Converter para horas, minutos e segundos
+        hours, rem = divmod(elapsed_time, 3600)
+        minutes, seconds = divmod(rem, 60)
+
+        # Imprimir resultados
+        print(f"⏳ Início da execução: {start_datetime}")
+        print(f"✅ Fim da execução: {end_datetime}")
+        print(f"⏱ Tempo total de execução - {model_type}: {int(hours)}h {int(minutes)}m {seconds:.2f}s")
+
 if __name__ == "__main__":
-    # Registrar hora de início
-    start_time = time.time()
-    start_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print(f"⏳ Início da execução: {start_datetime}")
 
     # ✅ Definir a lista de cnn extratoras de caracteristicas
     #extract_features_model = {"MobileNetV1", "MobileNetV2","MobileNetV3Small", "MobileNetV3Large"}
     extract_features_model = {"MobileNetV1"}
-
-    # ✅ Definir a grade de hiperparâmetros
-    params_grid = {
-       'model__learning_rate': [0.0005, 0.0001, 0.005, 0.001, 0.05, 0.01, 0.1],
-        'model__activation': ['relu', 'tanh'],
-        'model__n_layers': [1, 2, 3],
-        'model__n_neurons': [16, 32, 64, 128, 256, 512],
-        'model__dropout_rate': [0.0, 0.1, 0.2, 0.3, 0.4, 0.5],
-        'model__optimizer': ['rmsprop', 'adam']
-    }
 
     #params_grid = {
     #    'model__learning_rate': [0.0005, 0.0001, 0.005, 0.001, 0.05, 0.01, 0.1],
@@ -404,14 +410,15 @@ if __name__ == "__main__":
     #    'model__optimizer': ['adam', 'rmsprop']
     #}
 
-    #params_grid = {
-    #    'model__learning_rate': [0.0001],
-    #    'model__activation': ['relu'],
-    #    'model__n_layers': [1],
-    #    'model__n_neurons': [128],
-    #    'model__dropout_rate': [0.1],
-    #    'model__optimizer': ['rmsprop']
-    #}
+    # ✅ Definir a grade de hiperparâmetros
+    params_grid = {
+        'model__activation': ['relu'],
+        'model__optimizer': ['rmsprop'],
+        'model__n_layers': [1, 2, 3],
+        'model__n_neurons': [16],
+        'model__dropout_rate': [0.0, 0.1, 0.2, 0.3, 0.4, 0.5],
+        'model__learning_rate': [0.0005, 0.0001, 0.005, 0.001, 0.05, 0.01, 0.1]
+    }
 
     # % test dataset
     features_test_size=0.2
@@ -427,19 +434,7 @@ if __name__ == "__main__":
     run_GridSearch(extract_features_model, params_grid, lr_scheduler, features_test_size,
                    features_validation_size, epochs)
 
-    # Registrar hora de término
-    end_time = time.time()
-    end_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    elapsed_time = end_time - start_time  # Tempo total em segundos
 
-    # Converter para horas, minutos e segundos
-    hours, rem = divmod(elapsed_time, 3600)
-    minutes, seconds = divmod(rem, 60)
-
-    # Imprimir resultados
-    print(f"⏳ Início da execução: {start_datetime}")
-    print(f"✅ Fim da execução: {end_datetime}")
-    print(f"⏱ Tempo total de execução: {int(hours)}h {int(minutes)}m {seconds:.2f}s")
 
 
 
