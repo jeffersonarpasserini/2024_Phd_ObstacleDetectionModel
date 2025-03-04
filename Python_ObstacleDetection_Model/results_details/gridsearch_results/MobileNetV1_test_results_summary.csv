@@ -1,2 +1,0 @@
-Modelo,ExtractModel,Parâmetros,Acurácia,Precisão,Recall,F1-Score,ROC-AUC
-1,MobileNetV1,"{'activation': 'relu', 'dropout_rate': 0.0, 'learning_rate': 0.0005, 'n_layers': 1, 'n_neurons': 16, 'optimizer': 'rmsprop'}",0.9378238341968912,0.9641025641025641,0.9170731707317074,0.9400000000000001,0.939199568791268
