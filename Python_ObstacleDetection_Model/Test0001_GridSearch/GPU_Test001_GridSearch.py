@@ -22,8 +22,11 @@ from tensorflow.keras.optimizers import RMSprop, Adam
 from tensorflow.keras.losses import BinaryCrossentropy
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from tensorflow.keras import backend as K
+from tensorflow.keras.layers import Flatten
+from tensorflow.keras.models import Model
 from tensorflow.python.keras.callbacks import ReduceLROnPlateau
 from scikeras.wrappers import KerasClassifier
+
 
 # faz o tf rodar na CPU
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
@@ -75,7 +78,7 @@ else:
 # Parâmetros globais - extrator de caracteristicas
 IMAGE_SIZE = (224, 224)
 IMAGE_CHANNELS = 3
-POOLING = 'avg'
+POOLING = 'None'
 ALPHA = 1.0
 
 # -------------- Extração de Caracteristicas -------------------------------
@@ -167,8 +170,9 @@ def get_extract_model(model_type):
     else:
         raise ValueError("Error: Model not implemented.")
 
-    #output = Flatten()(model.layers[-1].output)
-    #model = Model(inputs=model.inputs, outputs=output)
+    if POOLING == 'None':
+        x = Flatten()(model.output)
+        model = Model(inputs=model.input, outputs=x)
 
     return model, preprocessing_function
 
@@ -414,10 +418,10 @@ if __name__ == "__main__":
 
     # ✅ Definir a grade de hiperparâmetros
     params_grid = {
-        'model__activation': ['tanh'],
-        'model__optimizer': ['adam'],
-        'model__n_layers': [1, 2, 3],
-        'model__n_neurons': [128, 256, 512],
+        'model__activation': ['relu'],
+        'model__optimizer': ['rmsprop'],
+        'model__n_layers': [1],
+        'model__n_neurons': [256],
         'model__dropout_rate': [0.0, 0.1, 0.2, 0.3, 0.4, 0.5],
         'model__learning_rate': [0.0005, 0.0001, 0.005, 0.001, 0.05, 0.01, 0.1]
     }
