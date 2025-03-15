@@ -349,7 +349,8 @@ def run_GridSearch(extract_features_model, params_grid, lr_scheduler, features_t
             f1 = f1_score(y_test, y_pred)
             roc_auc = roc_auc_score(y_test, y_pred)
 
-            print(f"Extract Model: {model_type} - Classif: #{idx + 1} - Parâmetros: {clean_params} - Accuracy: {acc}")
+            start_model = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"Start: {start_model} - Extract Model: {model_type} - Classif: #{idx + 1} - Parâmetros: {clean_params} - Accuracy: {acc}")
 
             test_results.append({
                 "Modelo": idx + 1,
@@ -420,7 +421,7 @@ if __name__ == "__main__":
         'model__activation': ['relu'],
         'model__optimizer': ['adam'],
         'model__n_layers': [1, 2, 3],
-        'model__n_neurons': [32],
+        'model__n_neurons': [256],
         'model__dropout_rate': [0.0, 0.1, 0.2, 0.3, 0.4, 0.5],
         'model__learning_rate': [0.0005, 0.0001, 0.005, 0.001, 0.05, 0.01, 0.1]
     }
