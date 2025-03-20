@@ -77,7 +77,7 @@ else:
 # Parâmetros globais - extrator de caracteristicas
 IMAGE_SIZE = (224, 224)
 IMAGE_CHANNELS = 3
-POOLING = 'None'
+POOLING = 'max'
 ALPHA = 1.0
 
 # -------------- Extração de Caracteristicas -------------------------------
@@ -107,7 +107,7 @@ def load_data():
     return df
 
 def get_extract_model(model_type):
-
+    print("extracting model..."+model_type+" Polling: "+POOLING)
     # Carrega o modelo e a função de pré-processamento
     if model_type == 'MobileNetV2':
         print('------------- Gera modelo MobileNetV2 ------------------')
@@ -418,10 +418,10 @@ if __name__ == "__main__":
 
     # ✅ Definir a grade de hiperparâmetros
     params_grid = {
-        'model__activation': ['relu'],
+        'model__activation': ['tanh'],
         'model__optimizer': ['adam'],
         'model__n_layers': [1, 2, 3],
-        'model__n_neurons': [256],
+        'model__n_neurons': [256, 512],
         'model__dropout_rate': [0.0, 0.1, 0.2, 0.3, 0.4, 0.5],
         'model__learning_rate': [0.0005, 0.0001, 0.005, 0.001, 0.05, 0.01, 0.1]
     }
