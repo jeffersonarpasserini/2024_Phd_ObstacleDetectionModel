@@ -1,0 +1,1 @@
+Global Accuracy: stat = 2087.53716540, p-value = 0.00000000
