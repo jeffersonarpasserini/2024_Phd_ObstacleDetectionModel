@@ -24,7 +24,6 @@ from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from tensorflow.keras import backend as K
 from tensorflow.keras.layers import Flatten
 from tensorflow.keras.models import Model
-from tensorflow.python.keras.callbacks import ReduceLROnPlateau
 from scikeras.wrappers import KerasClassifier
 from tqdm import tqdm
 from scipy.stats import iqr
@@ -461,13 +460,18 @@ def run_CrossValidation(extract_features_model, param_list, splits, features_val
             fold += 1
 
         results_df = pd.DataFrame(all_results)
+
+        results_df["Parâmetros_str"] = results_df["Parâmetros"].apply(lambda x: str(sorted(x.items())))
+
+        grouped = results_df.groupby("Parâmetros_str")
+
         detail_path = os.path.join(RESULTS_PATH, f"{model_type}_crossval_results_detail.csv")
         results_df.to_csv(detail_path, index=False)
         print(f"\n📁 Resultados detalhados salvos em: {detail_path}")
 
         print("[INFO] Calculando resumo estatístico (mediana sem outliers)...")
         summary_rows = []
-        grouped = results_df.groupby("Parâmetros")
+        grouped = results_df.groupby("Parâmetros_str")
         for param_set, group in grouped:
             def adjusted_median(values):
                 q1, q3 = np.percentile(values, [25, 75])
@@ -489,9 +493,11 @@ def run_CrossValidation(extract_features_model, param_list, splits, features_val
             )
 
             summary_rows.append({
-                "Parâmetros": param_set,
-                "Acurácia": acc,
-                "Precisão": prec,
+                "Model_Extr": model_type,
+                "Pooling": POOLING,
+                "Parameters": dict(eval(param_set)),
+                "Accuracy": acc,
+                "Precision": prec,
                 "Recall": rec,
                 "F1-Score": f1,
                 "ROC-AUC": roc,
@@ -916,10 +922,10 @@ if __name__ == "__main__":
          'model__n_neurons': 512, 'model__optimizer': 'adam'}
     ]
 
-    custom_model_params = [
-        {'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0001, 'model__n_layers': 2,
-         'model__n_neurons': 128, 'model__optimizer': 'adam'}
-    ]
+#    custom_model_params = [
+#        {'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0001, 'model__n_layers': 2,
+#         'model__n_neurons': 128, 'model__optimizer': 'adam'}
+#    ]
 
     # Parâmetros gerais
     features_test_size = 0.2
@@ -957,7 +963,7 @@ if __name__ == "__main__":
             epochs
         )
     else:
-        print("⚙️ Executando CrossValidation com 10 splits...")
+        print(f"⚙️ Executando CrossValidation com {splits} splits...")
         run_CrossValidation(
             extract_features_model,
             custom_model_params,
