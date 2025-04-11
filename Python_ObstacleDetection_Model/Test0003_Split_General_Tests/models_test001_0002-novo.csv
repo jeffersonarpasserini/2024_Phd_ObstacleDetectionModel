@@ -1,196 +1,196 @@
 ﻿Algoritmo
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.01, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.01, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.01, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.01, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.05, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.05, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 16, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'max'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 32, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'max'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.005, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.01, 'model__n_layers': 1, 'model__n_neurons': 16, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.01, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.01, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'max'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.01, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 16, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'rmsprop', 'pooling': 'max'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.01, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'rmsprop', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 16, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'rmsprop', 'pooling': 'max'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'max'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'relu', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.01, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.01, 'model__n_layers': 3, 'model__n_neurons': 16, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 16, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.005, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.01, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.01, 'model__n_layers': 2, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
-{'model__activation': 'tanh', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam', 'pooling': 'avg'}
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.01, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.01, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.01, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.01, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.05, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.05, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 16, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 32, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.005, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.01, 'model__n_layers': 1, 'model__n_neurons': 16, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.01, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.01, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.01, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 16, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.01, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 16, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'rmsprop'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'relu', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.005, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.01, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.01, 'model__n_layers': 3, 'model__n_neurons': 16, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 16, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.005, 'model__n_layers': 3, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 2, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.005, 'model__n_layers': 3, 'model__n_neurons': 64, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.01, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.01, 'model__n_layers': 2, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 32, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}, 
+{'model__activation': 'tanh', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'}
