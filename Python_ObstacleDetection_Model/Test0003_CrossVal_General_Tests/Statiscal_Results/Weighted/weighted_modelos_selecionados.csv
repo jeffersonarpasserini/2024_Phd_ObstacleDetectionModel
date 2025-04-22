@@ -1,0 +1,21 @@
+Algoritmo,Friedman Rank
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.0005, 'n_layers': 2, 'n_neurons': 128, 'optimizer': 'adam'}",38.35
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.001, 'n_layers': 2, 'n_neurons': 128, 'optimizer': 'adam'}",39.05
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.3, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam'}",40.0
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.3, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",40.05
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.5, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam'}",43.0
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.3, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam'}",50.65
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam'}",51.1
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",56.8
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam'}",57.55
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0005, 'n_layers': 2, 'n_neurons': 512, 'optimizer': 'adam'}",60.65
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",62.9
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.0005, 'n_layers': 2, 'n_neurons': 256, 'optimizer': 'adam'}",63.5
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.3, 'learning_rate': 0.0005, 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam'}",63.55
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 3, 'n_neurons': 128, 'optimizer': 'adam'}",64.7
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.0, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam'}",64.75
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.0005, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",65.05
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam'}",65.4
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.3, 'learning_rate': 0.001, 'n_layers': 3, 'n_neurons': 128, 'optimizer': 'adam'}",67.1
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.3, 'learning_rate': 0.005, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam'}",68.05
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'rmsprop'}",68.15
