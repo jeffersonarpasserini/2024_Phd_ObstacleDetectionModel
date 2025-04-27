@@ -6,8 +6,10 @@ import scipy
 import tensorflow as tf
 import random
 import time
+import gc
 from itertools import product
 from datetime import datetime
+
 
 from matplotlib import pyplot as plt
 from scipy.optimize import minimize_scalar
@@ -268,6 +270,7 @@ def run_CrossValidation(extract_features_model, param_list, splits, features_val
         print(f"📊 Total de execuções previstas: {total_models}")
 
         model_count = 1
+        elapsed_time_total = 0
 
         all_results = []
         for train_index, test_index in skf.split(features, labels):
@@ -276,12 +279,15 @@ def run_CrossValidation(extract_features_model, param_list, splits, features_val
 
             for idx, params in tqdm(enumerate(param_list), total=len(list(param_list))):
                 clean_params = {key.replace("model__", ""): value for key, value in params.items()}
-                print(f"[INFO] Testando modelo {model_count}/{total_models}")
-                print(f"[INFO] Model - {model_type} - Pooling: {POOLING}- Parâmetros: {clean_params}")
+
 
                 for early_pat, reduce_factor, reduce_pat, batch_size, epochs in optimization_grid:
+                    print("***************************************************************************************************************************")
+                    print(f"[INFO] Testando modelo {model_count}/{total_models} - Fold:{fold}")
+                    print(f"[INFO] Model - {model_type} - Pooling: {POOLING}- Parâmetros: {clean_params}")
+                    print("---------------------------------------------------------------------------------------------------------------------------")
                     print(f"[INFO] Learning - Parâmetros: Early Stopping - Patiente:{early_pat}")
-                    print(f"[INFO] Learning - Parâmetros: Reduce on Plateau - Factor:{reduce_factor} - Patiente:{early_pat}")
+                    print(f"[INFO] Learning - Parâmetros: Reduce on Plateau - Factor:{reduce_factor} - Patiente:{reduce_pat}")
                     print(f"[INFO] Model Fit - Parâmetros: Batch Size:{batch_size} - Epochs:{epochs}")
                     try:
                         model = get_classifier_model(input_shape=X_train.shape[1], **clean_params)
@@ -303,9 +309,14 @@ def run_CrossValidation(extract_features_model, param_list, splits, features_val
                         y_pred = (model.predict(X_test) > 0.5).astype("int32")
 
                         elapsed = time.time() - start_time
-                        remaining = (total_models - model_count) * elapsed
-                        print(f"[INFO] Tempo estimado restante: {remaining / 60:.2f} minutos")
+                        elapsed_time_total += elapsed
 
+                        remaining_time = (elapsed_time_total/model_count)*(total_models - model_count)
+                        remaining = (total_models - model_count) * elapsed
+                        print(f"[INFO] Tempo de processamento: {elapsed / 60:.2f} minutos")
+                        print(f"[INFO] Tempo estimado restante pelo ultimo: {remaining / 60:.2f} minutos")
+                        print(f"[INFO] Tempo estimado restante pelo média: {remaining_time / 60:.2f} minutos")
+                        print("---------------------------------------------------------------------------------------------------------------------------")
                         all_results.append({
                             "Fold": fold,
                             "ExtractModel": model_type,
@@ -322,9 +333,18 @@ def run_CrossValidation(extract_features_model, param_list, splits, features_val
                             "F1-Score": f1_score(y_test, y_pred),
                             "ROC-AUC": roc_auc_score(y_test, y_pred)
                         })
+
+                        #limpeza de memória
+                        K.clear_session()
+                        gc.collect()
+
                     except Exception as e:
                         print(f"[ERROR] Falha ao treinar/testar modelo {model_count}: {e}")
-                model_count += 1
+                        # limpeza de memória
+                        K.clear_session()
+                        gc.collect()
+
+                    model_count += 1
             fold += 1
 
         pd.DataFrame(all_results).to_csv(f"{model_type}_CrossVal_FullResults.csv", index=False)
@@ -339,13 +359,15 @@ if __name__ == "__main__":
     extract_features_model = {"MobileNetV1"}
 
     #modelos selecionados no Test0003
-    # custom_model_params = [
+    custom_model_params = [
     # {'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
     # {'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.05, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'rmsprop'},
     # {'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'},
     # {'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
     # {'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
-    # {'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
+
+     {'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}
+
     # {'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
     # {'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'rmsprop'},
     # {'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'},
@@ -361,11 +383,12 @@ if __name__ == "__main__":
     # {'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
     # {'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
     # {'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
-    # {'model__activation': 'relu', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}]
+    # {'model__activation': 'relu', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}
+    ]
 
-    custom_model_params = [
-        {'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 1,
-         'model__n_neurons': 128, 'model__optimizer': 'adam'}]
+    # custom_model_params = [
+    #     {'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 1,
+    #      'model__n_neurons': 128, 'model__optimizer': 'adam'}]
 
     # Parâmetros gerais
     features_test_size = 0.2
@@ -373,21 +396,21 @@ if __name__ == "__main__":
     splits = 10
 
     # Parametros de Otimização do treinamento
-    # optimization_grid = list(product(
-    #     [50, 100, 150, 200],  # earlyStop_patience
-    #     [0.5, 0.3],  # reduceLR_factor
-    #     [5, 10, 15],  # reduceLR_patience
-    #     [16, 32, 64],  # batch_size
-    #     [100, 250, 500, 1000, 1500]  # epochs
-    # ))
-
     optimization_grid = list(product(
-        [150],  # earlyStop_patience
-        [0.5],  # reduceLR_factor
-        [10],  # reduceLR_patience
-        [64],  # batch_size
-        [1500]  # epochs
+        [50, 100, 150, 200],  # earlyStop_patience
+        [0.5, 0.3],  # reduceLR_factor
+        [5, 10, 15],  # reduceLR_patience
+        [16, 32, 64],  # batch_size
+        [100, 250, 500, 1000, 1500]  # epochs
     ))
+
+    # optimization_grid = list(product(
+    #     [150],  # earlyStop_patience
+    #     [0.5],  # reduceLR_factor
+    #     [10],  # reduceLR_patience
+    #     [64],  # batch_size
+    #     [1500]  # epochs
+    # ))
 
     print(f"⚙️ Executando CrossValidation com {splits} splits...")
     run_CrossValidation(
