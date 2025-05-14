@@ -1,0 +1,21 @@
+ExtractModel,Pooling,Model_Parameters,Epochs,Batch_Size,EarlyStop_Patience,ReduceLR_Factor,ReduceLR_Patience,Friedman Rank,Median_Accuracy_wo_Outliers
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",500,64,150,0.3,10,1318.65,0.948051597582038
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",500,64,150,0.3,10,1415.35,0.9479166666666666
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.3, 'learning_rate': 0.0005, 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam'}",500,64,200,0.5,10,1492.9,0.9454609240069085
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam'}",1000,16,100,0.3,5,1515.05,0.948051597582038
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam'}",100,32,50,0.5,15,1552.0,0.9428567573402419
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.3, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam'}",500,16,50,0.3,15,1597.2,0.948051597582038
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",250,64,200,0.3,15,1597.85,0.948051597582038
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",500,64,150,0.3,15,1603.05,0.9455958549222798
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",100,32,200,0.5,5,1620.0,0.9481865284974094
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",250,32,200,0.3,5,1648.25,0.9430051813471504
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.3, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam'}",500,16,50,0.3,10,1670.8,0.9454609240069085
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",100,16,50,0.3,5,1675.0,0.9455958549222798
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",100,16,50,0.3,5,1692.7,0.9430051813471504
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam'}",500,32,100,0.3,5,1709.55,0.9402795768566493
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam'}",1500,16,150,0.5,10,1732.8,0.9430051813471503
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.3, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam'}",100,64,200,0.3,15,1746.4,0.948051597582038
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",250,16,100,0.3,5,1769.55,0.9481865284974094
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam'}",500,16,200,0.5,15,1775.15,0.948051597582038
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",1500,16,100,0.5,15,1780.1,0.9428567573402419
+MobileNetV1,avg,"{'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}",1000,64,200,0.3,10,1780.75,0.942870250431779

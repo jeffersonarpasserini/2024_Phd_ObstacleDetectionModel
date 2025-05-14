@@ -80,6 +80,6 @@ if __name__ == "__main__":
     caminho_entrada = "MobileNetV1_crossval_results_detail.csv"
 
     # Escolha: "Accuracy", "Precision", "Recall", "F1-Score", "ROC-AUC", ou "Weighted"
-    metrica = "Weighted"
+    metrica = "Accuracy"
 
     preparar_dados_friedman(caminho_entrada, metrica)

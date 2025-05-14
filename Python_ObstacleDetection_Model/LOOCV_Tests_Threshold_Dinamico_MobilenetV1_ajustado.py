@@ -369,7 +369,19 @@ def f1_metric(y_true, y_pred):
 
     return 2 * (precision * recall) / (precision + recall + K.epsilon())
 
-def f1_loss(y_true, y_pred):
+# ----- Calulo da função de perda no processo de aprendizado -------------------
+def f1_loss(y_true, y_pred, alpha=0.6, beta=1):
+
+    #alpha
+    # Usa o parâmetro alpha para controlar dinamicamente o peso entre F1 e precisão.
+    # alpha = 0.6 --> resulta em 1 - (f1 * 0.6 + precision * 0.4)
+    # 60% do peso f1 e 40% precisao
+
+    #beta
+    # Beta > 1 - favorece o recall (util se falsos negativos sao piores para o problema)
+    # Beta < 1 - favorece a precisao (util se falsos positivos sao piores)
+    # Beta = 1 - formula tradicional do F1-Score
+
     """ Função de perda baseada no F1-Score """
     y_true = K.cast(y_true, 'float32')
     # y_pred = K.round(y_pred)  # Converte probabilidades para 0 ou 1
@@ -381,12 +393,9 @@ def f1_loss(y_true, y_pred):
     precision = tp / (tp + fp + K.epsilon())
     recall = tp / (tp + fn + K.epsilon())
 
-    f1 = 2 * (precision * recall) / (precision + recall + K.epsilon())
+    f1 = (1 + beta**2) * (precision * recall) / (beta**2 * precision + recall + K.epsilon())
 
-    # 🔹 Ajustamos para dar mais peso à precisão e evitar que tudo seja classificado como positivo
-    #return 1 - (f1 * 0.75 + precision * 0.25)
-    # 📌 Ajustamos a função de perda para balancear melhor precisão e recall
-    return 1 - (f1 * 0.6 + precision * 0.4)
+    return 1 - (alpha * f1 + (1 - alpha) * precision)
 
 
 def plot_mean_validation_metrics(mean_history_log):
