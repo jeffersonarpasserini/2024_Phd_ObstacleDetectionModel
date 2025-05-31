@@ -12,7 +12,7 @@ extensao = '.csv'
 lista_dfs = []
 
 # Loop pelos arquivos de 1 a 22
-for i in range(1, 23):
+for i in range(1, 21):
     nome_arquivo = f'{base_nome}{i:02d}{extensao}'
     caminho_completo = os.path.join(caminho_arquivos, nome_arquivo)
 

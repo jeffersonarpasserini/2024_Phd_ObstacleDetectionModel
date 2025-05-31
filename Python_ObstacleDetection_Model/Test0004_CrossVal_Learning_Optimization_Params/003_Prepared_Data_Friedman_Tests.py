@@ -6,11 +6,11 @@ def preparar_dados_friedman(caminho_entrada, metrica):
 
     # Define pesos para cálculo ponderado
     pesos = {
-        'Accuracy': 0.15,
-        'Precision': 0.15,
-        'Recall': 0.30,
-        'F1-Score': 0.25,
-        'ROC-AUC': 0.15
+        'Accuracy': 0.1,
+        'Precision': 0.2,
+        'Recall': 0.4,
+        'F1-Score': 0.2,
+        'ROC-AUC': 0.1
     }
 
     # Seleciona a métrica
@@ -58,5 +58,5 @@ def preparar_dados_friedman(caminho_entrada, metrica):
 # =========================
 if __name__ == "__main__":
     caminho_entrada = "MobileNetV1_CrossVal_Results_Merged.csv"
-    metrica = "Accuracy"  # Ou "Accuracy", "Precision", "Recall", "F1-Score", "ROC-AUC", "Weighted"
+    metrica = "ROC-AUC"  # Ou "Accuracy", "Precision", "Recall", "F1-Score", "ROC-AUC", "Weighted"
     preparar_dados_friedman(caminho_entrada, metrica)

@@ -1,0 +1,11 @@
+Algoritmo,Friedman Rank
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}_500_64_150_0.3_10",1493.2
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam'}_1500_16_150_0.5_10",1509.1
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.0005, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}_100_64_200_0.5_10",1566.9
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.3, 'learning_rate': 0.0005, 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam'}_500_64_200_0.5_10",1587.7
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}_100_32_200_0.5_5",1635.75
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}_500_64_150_0.3_10",1683.95
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.0005, 'n_layers': 2, 'n_neurons': 128, 'optimizer': 'adam'}_100_32_100_0.3_10",1726.6
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam'}_250_32_50_0.5_10",1737.3
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.0005, 'n_layers': 2, 'n_neurons': 256, 'optimizer': 'adam'}_100_64_150_0.5_15",1745.75
+"MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}_100_16_50_0.3_5",1749.5

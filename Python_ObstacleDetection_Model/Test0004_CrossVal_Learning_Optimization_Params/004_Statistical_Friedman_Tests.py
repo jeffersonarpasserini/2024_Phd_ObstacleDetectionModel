@@ -47,9 +47,9 @@ def executar_testes_estatisticos(caminho_entrada, metrica):
 
     # Nomes de saída personalizados
     metric_id = metrica.lower().replace("-", "_").replace(" ", "_")
-    rank_file = f"{metric_id}_friedman_ranks.csv"
-    stats_file = f"{metric_id}_friedman_stats.txt"
-    nemenyi_file = f"{metric_id}_nemenyi_results.csv"
+    rank_file = f"friedman_ranks_{metric_id}.csv"
+    stats_file = f"friedman_stats_{metric_id}.txt"
+    nemenyi_file = f"nemenyi_results_{metric_id}.csv"
 
     # Salva os rankings
     avg_ranks_sorted.to_csv(rank_file, header=True)
@@ -82,12 +82,12 @@ def executar_testes_estatisticos(caminho_entrada, metrica):
 # ========================
 if __name__ == "__main__":
     # Escolha da métrica analisada
-    metrica = "Accuracy"
+    # metrica = "Accuracy"
     # metrica = "Precision"
     # metrica = "Recall"
     # metrica = "F1-Score"
     # metrica = "ROC-AUC"
-    # metrica = "Weighted"  # Descomente a métrica desejada
+    metrica = "Weighted"  # Descomente a métrica desejada
 
     # Gera nome do arquivo de entrada
     metric_id = metrica.lower().replace("-", "_").replace(" ", "_")

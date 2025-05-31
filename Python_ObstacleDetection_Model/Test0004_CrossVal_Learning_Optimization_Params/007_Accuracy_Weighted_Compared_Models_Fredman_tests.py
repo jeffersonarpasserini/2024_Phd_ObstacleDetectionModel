@@ -18,8 +18,9 @@ def comparar_rankings(arquivo_accuracy, arquivo_weighted, arquivo_saida):
 # Execução principal
 # =========================
 if __name__ == "__main__":
-    arquivo_accuracy = "accuracy_modelos_selecionados.csv"
-    arquivo_weighted = "weighted_modelos_selecionados.csv"
+    arquivo_accuracy = "modelos_selecionados_accuracy.csv"
+    arquivo_weighted = "modelos_selecionados_weighted.csv"
     arquivo_saida = "accuracy_vs_weighted_compared_friedman_tests.csv"
 
     comparar_rankings(arquivo_accuracy, arquivo_weighted, arquivo_saida)
+

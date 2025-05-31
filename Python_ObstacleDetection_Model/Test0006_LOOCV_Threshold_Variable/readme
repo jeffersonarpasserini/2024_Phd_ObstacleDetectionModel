@@ -1,0 +1,87 @@
+
+## ✅ 1. **Distribuição dos Thresholds por Fold**
+
+* Histogramas dos `Best_Thresholds`
+* Mediana (sem outliers)
+
+> "A mediana dos thresholds por fold, com remoção de outliers (via IQR), apresentou menor variabilidade e foi adotada como limiar global para inferência."
+
+## ✅ 2. **Avaliação Comparativa com Vários Thresholds Fixos**
+
+Simule o desempenho do modelo com thresholds fixos padrão (ex: 0.3, 0.4, 0.5, 0.6, 0.7) **aplicados globalmente** sobre os `y_pred_prob`.
+
+📌 Resultado:
+
+* Uma tabela comparativa com métricas (F1, ACC, Recall, MCC, etc.)
+* Um gráfico linha: `Threshold vs. F1-Score`
+
+> "Comparações com limiares fixos evidenciaram que o threshold de X maximiza o F1-Score global, confirmando a validade da mediana como escolha ideal."
+
+## ✅ 3. **Curva F1-score vs. Threshold**
+
+```python
+thresholds = np.linspace(0.0, 1.0, 100)
+f1_scores = [f1_score(y_true, (y_prob > t).astype(int)) for t in thresholds]
+
+plt.plot(thresholds, f1_scores)
+plt.axvline(x=best_fixed_thresh, color='red', linestyle='--', label='Escolhido')
+plt.title('F1-score em função do threshold')
+plt.xlabel('Threshold')
+plt.ylabel('F1-score')
+plt.legend()
+plt.grid()
+plt.show()
+```
+
+📌 **No artigo**:
+
+> "A curva F1-threshold reforça a escolha do limiar ótimo ao demonstrar seu ponto de inflexão máxima na métrica."
+
+---
+
+## ✅ 4. **Curvas ROC e PR (Precision-Recall)**
+
+Calcule e plote:
+
+```python
+from sklearn.metrics import roc_curve, precision_recall_curve, auc
+
+fpr, tpr, _ = roc_curve(y_true, y_prob)
+precision, recall, _ = precision_recall_curve(y_true, y_prob)
+
+plt.plot(fpr, tpr, label='ROC (AUC=%.2f)' % auc(fpr, tpr))
+plt.plot(recall, precision, label='PR Curve')
+```
+
+📌 **No artigo**:
+
+> "A análise de curvas ROC e Precision-Recall demonstrou comportamento consistente, com o limiar escolhido localizado próximo ao ponto de maior curvatura (Youden's J)."
+
+---
+
+## ✅ 5. **Validação Estatística (Opcional)**
+
+Se tiver múltiplos modelos, você pode aplicar:
+
+* Teste de Friedman (comparar rankings de F1 com thresholds diferentes)
+* Teste de Nemenyi ou Wilcoxon entre limiares
+
+📌 **No artigo**:
+
+> "Foi aplicado o teste de Friedman entre cinco configurações de limiares fixos, demonstrando diferença estatística significativa (p < 0.05), com superioridade do limiar mediano calculado via LOOCV."
+
+---
+
+## 📦 Conclusão: Fluxo sugerido para validação científica
+
+| Etapa                            | Evidência                         | Forma de demonstração           |
+| -------------------------------- | --------------------------------- | ------------------------------- |
+| Distribuição dos thresholds      | Estabilidade central              | Histograma + mediana/IQR        |
+| Comparação com thresholds fixos  | Desempenho relativo               | Tabela de métricas + gráfico F1 |
+| Curva F1-threshold               | Visualização direta da otimização | Gráfico linha                   |
+| Curvas ROC e PR                  | Robustez do modelo                | AUC + visual                    |
+| Validação estatística (opcional) | Teste de hipótese                 | Friedman, Nemenyi, Wilcoxon     |
+
+---
+
+Posso te ajudar a gerar o código para essas análises automaticamente com base nos `y_pred_prob` de cada fold. Deseja isso agora?

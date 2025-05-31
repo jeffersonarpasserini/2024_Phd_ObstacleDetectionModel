@@ -31,6 +31,7 @@ from scipy.stats import iqr
 
 # faz o tf rodar na CPU
 # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+NUM_PROCESSES = 4  # Limitar explicitamente o número de folds simultâneos por GPU
 
 # Garantir reprodutibilidade
 os.environ['TF_DETERMINISTIC_OPS'] = '1'
@@ -68,8 +69,9 @@ IMAGE_CHANNELS = 3
 POOLING = 'avg'
 ALPHA = 1.0
 
-# Configurar alocação dinâmica da memória na GPU
-def configurar_gpu_para_processos(paralelos=2, reserva_mb=2048):
+
+# ----------------- Configurar alocação dinâmica da memória na GPU -------------------------------
+def configurar_gpu_para_processos(paralelos=2, reserva_mb=4096):
     """Configura a GPU com limite de memória proporcional para execução paralela."""
     gpus = tf.config.experimental.list_physical_devices('GPU')
     if not gpus:
@@ -99,6 +101,7 @@ def configurar_gpu_para_processos(paralelos=2, reserva_mb=2048):
     except Exception as e:
         print(f"❌ Erro ao configurar GPU: {e}")
 
+
 # -------------- Extração de Caracteristicas -------------------------------
 def load_data():
     # Definir extensões de arquivos válidos (imagens)
@@ -114,9 +117,9 @@ def load_data():
     for filename in filenames:
         category = filename.split('.')[0]
         if category == 'clear':
-            categories.append(1)
-        else:
             categories.append(0)
+        else:
+            categories.append(1)
 
     df = pd.DataFrame({
         'filename': filenames,
@@ -197,7 +200,7 @@ def get_extract_model(model_type):
 def extract_features(df, model, preprocessing_function, use_augmentation):
     """Extrai features das imagens do dataset, com Data Augmentation opcional."""
 
-    df["category"] = df["category"].replace({1: 'clear', 0: 'non-clear'})
+    df["category"] = df["category"].replace({0: 'clear', 1: 'non-clear'})
 
     if use_augmentation:
         print("🟢 Aplicando Data Augmentation...")
@@ -239,7 +242,7 @@ def feature_model_extract(df, model_type, use_augmentation=False, use_shap=False
 
     features = extract_features(df, model, preprocessing_function, use_augmentation)  # ✅ Passar o parâmetro
 
-    labels = df["category"].replace({'clear': 1, 'non-clear': 0}).to_numpy().astype(int)  # 🔹 Adicionar labels corretamente
+    labels = df["category"].replace({'clear': 0, 'non-clear': 1}).to_numpy().astype(int)  # 🔹 Adicionar labels corretamente
 
     return features
 
@@ -298,7 +301,7 @@ def run_CrossValidation(extract_features_model, param_list, splits, features_val
         print(f"\n🔍 Testando modelo extrator: {model_type}...")
         start_model_type = time.time()
 
-        labels = df["category"].replace({'clear': 1, 'non-clear': 0}).to_numpy().astype(int)
+        labels = df["category"].replace({'clear': 0, 'non-clear': 1}).to_numpy().astype(int)
         features = feature_model_extract(df, model_type)
 
         skf = StratifiedKFold(n_splits=splits, shuffle=True, random_state=SEED)
@@ -430,29 +433,26 @@ def run_chunk(start, end):
 
     #modelos selecionados no Test0003
     custom_model_params = [
-    #1 {'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
-    #2 {'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.05, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'rmsprop'},
-    #3 {'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'},
-    #4 {'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
-    #5 {'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
-    #6 {'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
-    #7 {'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
-    #8 {'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'rmsprop'},
-    #9 {'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'},
-    #10 {'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'},
-    #11 {'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam'},
-    #12 {'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
-    #13 {'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
-    #14 {'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
-    #15 {'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'},
-    #16 {'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
-    #17 {'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
-    #18 {'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'},
-    #19 {'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
-    #20 {'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
-    #21 {'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
-
-     {'model__activation': 'relu', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}
+    #01 {'model__activation': 'relu', 'model__dropout_rate': 0.0, 'model__learning_rate': 0.05, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'rmsprop'},
+    #02 {'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'},
+    #03 {'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
+    #04 {'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
+    #05 {'model__activation': 'relu', 'model__dropout_rate': 0.1, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
+    #06 {'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
+    #07  {'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 128, 'model__optimizer': 'rmsprop'},
+    #08 {'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'},
+    #09 {'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.0005, 'model__n_layers': 2, 'model__n_neurons': 512, 'model__optimizer': 'adam'},
+    #10 {'model__activation': 'relu', 'model__dropout_rate': 0.2, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 512, 'model__optimizer': 'adam'},
+    #11 {'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
+    #12 {'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
+    #13 {'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'},
+    #14 {'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
+    #15 {'model__activation': 'relu', 'model__dropout_rate': 0.3, 'model__learning_rate': 0.005, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
+    #16 {'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 1, 'model__n_neurons': 512, 'model__optimizer': 'adam'},
+    #17 {'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.0001, 'model__n_layers': 3, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
+    #18 {'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'},
+    #19 {'model__activation': 'relu', 'model__dropout_rate': 0.4, 'model__learning_rate': 0.001, 'model__n_layers': 2, 'model__n_neurons': 128, 'model__optimizer': 'adam'},
+    #20 {'model__activation': 'relu', 'model__dropout_rate': 0.5, 'model__learning_rate': 0.001, 'model__n_layers': 1, 'model__n_neurons': 256, 'model__optimizer': 'adam'}
     ]
 
     # Parametros de Otimização do treinamento

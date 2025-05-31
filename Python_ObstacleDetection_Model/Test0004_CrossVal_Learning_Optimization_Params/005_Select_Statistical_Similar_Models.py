@@ -3,9 +3,9 @@ import pandas as pd
 def selecionar_modelos_equivalentes(metrica, top_n=20):
     # Prepara nomes de arquivos
     metrica_id = metrica.lower().replace("-", "_")
-    ranks_csv = f"{metrica_id}_friedman_ranks.csv"
-    nemenyi_csv = f"{metrica_id}_nemenyi_results.csv"
-    output_csv = f"{metrica_id}_modelos_selecionados.csv"
+    ranks_csv = f"friedman_ranks_{metrica_id}.csv"
+    nemenyi_csv = f"nemenyi_results_{metrica_id}.csv"
+    output_csv = f"modelos_selecionados_{metrica_id}.csv"
 
     print(f"[INFO] Métrica selecionada: {metrica}")
     print(f"[INFO] Lendo arquivos: {ranks_csv} e {nemenyi_csv}")
@@ -41,7 +41,7 @@ def selecionar_modelos_equivalentes(metrica, top_n=20):
 if __name__ == "__main__":
     # Informe aqui a métrica desejada:
     # Exemplo: "Accuracy", "Recall", "F1-Score", "Weighted", etc.
-    metrica = "Weighted"
-    top_n = 20  # Número de modelos a selecionar
+    metrica = "Accuracy"
+    top_n = 10  # Número de modelos a selecionar
 
     selecionar_modelos_equivalentes(metrica, top_n)
