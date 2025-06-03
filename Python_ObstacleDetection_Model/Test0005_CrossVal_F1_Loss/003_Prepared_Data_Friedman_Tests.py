@@ -5,12 +5,20 @@ def preparar_dados_friedman(caminho_entrada, metrica):
     df = pd.read_csv(caminho_entrada)
 
     # Define pesos para cálculo ponderado
+    # pesos = {
+    #     'Accuracy': 0.15,
+    #     'Precision': 0.15,
+    #     'Recall': 0.30,
+    #     'F1-Score': 0.25,
+    #     'ROC-AUC': 0.15
+    # }
+
     pesos = {
-        'Accuracy': 0.15,
-        'Precision': 0.15,
-        'Recall': 0.30,
-        'F1-Score': 0.25,
-        'ROC-AUC': 0.15
+        'Accuracy': 0.1,
+        'Precision': 0.2,
+        'Recall': 0.4,
+        'F1-Score': 0.2,
+        'ROC-AUC': 0.1
     }
 
     # Verifica e calcula a métrica desejada
@@ -63,5 +71,5 @@ def preparar_dados_friedman(caminho_entrada, metrica):
 # ================================
 if __name__ == "__main__":
     caminho_entrada = "F1_Loss_Test_Results.csv"
-    metrica = "Accuracy"  # Ou: "Accuracy", "F1-Score", Weighted etc.
+    metrica = "Precision"  # Ou: "Accuracy", "F1-Score", Weighted etc.
     preparar_dados_friedman(caminho_entrada, metrica)

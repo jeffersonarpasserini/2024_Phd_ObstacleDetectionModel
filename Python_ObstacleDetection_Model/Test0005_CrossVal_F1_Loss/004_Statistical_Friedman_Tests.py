@@ -84,12 +84,12 @@ def executar_testes_estatisticos(caminho_entrada, metrica):
 # ========================
 if __name__ == "__main__":
     # Escolha da métrica analisada
-    metrica = "Accuracy"
+    # metrica = "Accuracy"
     # metrica = "Precision"
     # metrica = "Recall"
     # metrica = "F1-Score"
     # metrica = "ROC-AUC"
-    # metrica = "Weighted"  # Descomente a métrica desejada
+    metrica = "Weighted"  # Descomente a métrica desejada
 
     # Gera nome do arquivo de entrada
     metric_id = metrica.lower().replace("-", "_").replace(" ", "_")

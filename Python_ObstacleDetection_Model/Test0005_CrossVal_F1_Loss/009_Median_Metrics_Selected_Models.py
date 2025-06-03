@@ -9,6 +9,15 @@ def calcular_mediana_sem_outliers(series):
     return series[(series >= lim_inf) & (series <= lim_sup)].median()
 
 def calcular_metricas_por_modelo(df_dados, df_modelos, sufixo):
+
+    pesos = {
+        'Accuracy': 0.1,
+        'Precision': 0.2,
+        'Recall': 0.4,
+        'F1-Score': 0.2,
+        'ROC-AUC': 0.1
+    }
+
     id_cols = ['ExtractModel', 'Pooling', 'Model_Parameters', 'Epochs', 'batch_size',
                'earlystop_patience', 'reduceLR_factor', 'reduceLR_patience',
                'loss_function', 'f1_alpha', 'f1_beta']
@@ -32,11 +41,11 @@ def calcular_metricas_por_modelo(df_dados, df_modelos, sufixo):
             entrada[f"{metrica}_Median_wo_Outliers_{sufixo}"] = calcular_mediana_sem_outliers(subset[metrica])
 
         entrada[f"Weighted_Median_wo_Outliers_{sufixo}"] = (
-            entrada.get(f"Accuracy_Median_wo_Outliers_{sufixo}", 0) * 0.15 +
-            entrada.get(f"Precision_Median_wo_Outliers_{sufixo}", 0) * 0.15 +
-            entrada.get(f"Recall_Median_wo_Outliers_{sufixo}", 0) * 0.30 +
-            entrada.get(f"F1-Score_Median_wo_Outliers_{sufixo}", 0) * 0.25 +
-            entrada.get(f"ROC-AUC_Median_wo_Outliers_{sufixo}", 0) * 0.15
+            entrada.get(f"Accuracy_Median_wo_Outliers_{sufixo}", 0) * 0.10 +
+            entrada.get(f"Precision_Median_wo_Outliers_{sufixo}", 0) * 0.20 +
+            entrada.get(f"Recall_Median_wo_Outliers_{sufixo}", 0) * 0.40 +
+            entrada.get(f"F1-Score_Median_wo_Outliers_{sufixo}", 0) * 0.20 +
+            entrada.get(f"ROC-AUC_Median_wo_Outliers_{sufixo}", 0) * 0.10
         )
 
         resultado.append(entrada)
