@@ -801,112 +801,34 @@ if __name__ == "__main__":
 
         # Modelos selecionados test0005
         custom_model_params_completo = [
-            #modelo 01
+
+            # modelo 01 - 1o - acc e  2o - weighted
+             {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4,
+              'learning_rate': 0.001,
+              'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 32,
+              'earlystop_patience': 50, 'reduceLR_factor': 0.5, 'reduceLR_patience': 10, 'f1_loss_used': True,
+              'f1_alpha': 0.8, 'f1_beta': 1},
+
+            # # modelo 01 - 2o - acc e 1o - weighted
             # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4,
             #  'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 32,
-            #  'earlystop_patience': 200, 'reduceLR_factor': 0.3, 'reduceLR_patience': 5, 'f1_loss_used': True,
-            #  'f1_alpha': 0.8, 'f1_beta': 1},
-
-            #modelo 02
-             # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001,
-             # 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam', 'epochs': 1000, 'batch_size': 16,
-             # 'earlystop_patience': 100, 'reduceLR_factor': 0.3, 'reduceLR_patience': 5, 'f1_loss_used': True,
-             # 'f1_alpha': 0.7, 'f1_beta': 1.5},
-
-            #modelo 03
-             # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001,
-             # 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 16,
-             # 'earlystop_patience': 200, 'reduceLR_factor': 0.5, 'reduceLR_patience': 15, 'f1_loss_used': True,
-             # 'f1_alpha': 0.7, 'f1_beta': 1.5},
-
-            # modelo 04
-             {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.3, 'learning_rate': 0.0001,
-             'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 16,
-             'earlystop_patience': 50, 'reduceLR_factor': 0.3, 'reduceLR_patience': 10, 'f1_loss_used': True, 'f1_alpha': 1,
-             'f1_beta': 1},
-
-            # modelo 05
-             #{'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001,
-             # 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 64,
-             # 'earlystop_patience': 150, 'reduceLR_factor': 0.3, 'reduceLR_patience': 10, 'f1_loss_used': True,
-             # 'f1_alpha': 0.8, 'f1_beta': 1},
-
-            # modelo 3 por acuracia
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam', 'epochs': 1000, 'batch_size': 16,
-            #  'earlystop_patience': 100, 'reduceLR_factor': 0.3, 'reduceLR_patience': 5, 'f1_loss_used': True,
-
-            # modelo 4 por acuracia
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 64,
-            #  'earlystop_patience': 200, 'reduceLR_factor': 0.3, 'reduceLR_patience': 15, 'f1_loss_used': True,
-            #  'f1_alpha': 0.8, 'f1_beta': 1},
-
-            # modelo 5 por acuraracia
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 64,
-            #  'earlystop_patience': 150, 'reduceLR_factor': 0.3, 'reduceLR_patience': 15, 'f1_loss_used': True,
-            #  'f1_alpha': 0.8, 'f1_beta': 1},
-
-            # outros
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 16,
-            #  'earlystop_patience': 200, 'reduceLR_factor': 0.5, 'reduceLR_patience': 15, 'f1_loss_used': True,
-            #  'f1_alpha': 0.5, 'f1_beta': 2.5},
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam', 'epochs': 1000, 'batch_size': 16,
-            #  'earlystop_patience': 100, 'reduceLR_factor': 0.3, 'reduceLR_patience': 5, 'f1_loss_used': True,
-            #  'f1_alpha': 0.6, 'f1_beta': 1.5},
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 32,
-            #  'earlystop_patience': 100, 'reduceLR_factor': 0.3, 'reduceLR_patience': 5, 'f1_loss_used': True,
-            #  'f1_alpha': 0.6, 'f1_beta': 1.5},
-            #  'f1_alpha': 0.7, 'f1_beta': 1},
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 16,
-            #  'earlystop_patience': 200, 'reduceLR_factor': 0.5, 'reduceLR_patience': 15, 'f1_loss_used': True,
-            #  'f1_alpha': 0.7, 'f1_beta': 1},
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 64,
-            #  'earlystop_patience': 200, 'reduceLR_factor': 0.3, 'reduceLR_patience': 15, 'f1_loss_used': True,
-            #  'f1_alpha': 0.4, 'f1_beta': 2},
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 16,
-            #  'earlystop_patience': 100, 'reduceLR_factor': 0.3, 'reduceLR_patience': 5, 'f1_loss_used': True,
-            #  'f1_alpha': 0.5, 'f1_beta': 2},
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 100, 'batch_size': 16,
-            #  'earlystop_patience': 50, 'reduceLR_factor': 0.3, 'reduceLR_patience': 5, 'f1_loss_used': True,
-            #  'f1_alpha': 0.8, 'f1_beta': 1},
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 16,
-            #  'earlystop_patience': 100, 'reduceLR_factor': 0.3, 'reduceLR_patience': 5, 'f1_loss_used': True,
-            #  'f1_alpha': 0.8, 'f1_beta': 1},
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 1000, 'batch_size': 64,
-            #  'earlystop_patience': 200, 'reduceLR_factor': 0.3, 'reduceLR_patience': 10, 'f1_loss_used': True,
-            #  'f1_alpha': 0.5, 'f1_beta': 1.5},
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 32,
-            #  'earlystop_patience': 200, 'reduceLR_factor': 0.3, 'reduceLR_patience': 5, 'f1_loss_used': True,
-            #  'f1_alpha': 0.5, 'f1_beta': 1.5},
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 64,
-            #  'earlystop_patience': 150, 'reduceLR_factor': 0.3, 'reduceLR_patience': 10, 'f1_loss_used': True,
-            #  'f1_alpha': 0.5, 'f1_beta': 1.5},
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 1000, 'batch_size': 64,
-            #  'earlystop_patience': 200, 'reduceLR_factor': 0.3, 'reduceLR_patience': 10, 'f1_loss_used': True,
-            #  'f1_alpha': 0.8, 'f1_beta': 1},
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001,
-            #  'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 100, 'batch_size': 16,
-            #  'earlystop_patience': 50, 'reduceLR_factor': 0.3, 'reduceLR_patience': 5, 'f1_loss_used': True,
-            #  'f1_alpha': 0.8, 'f1_beta': 1},
-            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001,
             #  'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 100, 'batch_size': 32,
             #  'earlystop_patience': 200, 'reduceLR_factor': 0.5, 'reduceLR_patience': 5, 'f1_loss_used': True,
-            #  'f1_alpha': 0.8, 'f1_beta': 1},
+            #  'f1_alpha': 0.7, 'f1_beta': 1.5},
+            #
+            # # modelo 01 - 3o - acc e no selected in weighted
+            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4,
+            #  'learning_rate': 0.001,
+            #  'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 32,
+            #  'earlystop_patience': 50, 'reduceLR_factor': 0.5, 'reduceLR_patience': 10, 'f1_loss_used': True,
+            #  'f1_alpha': 0.6, 'f1_beta': 1.5},
+            #
+            # # modelo 01 -  - 4o acc e 3o weighted
+            # {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2,
+            #  'learning_rate': 0.0001,
+            #  'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam', 'epochs': 100, 'batch_size': 32,
+            #  'earlystop_patience': 50, 'reduceLR_factor': 0.5, 'reduceLR_patience': 15, 'f1_loss_used': True,
+            #  'f1_alpha': 0.7, 'f1_beta': 1.5},
 
         ]
 
