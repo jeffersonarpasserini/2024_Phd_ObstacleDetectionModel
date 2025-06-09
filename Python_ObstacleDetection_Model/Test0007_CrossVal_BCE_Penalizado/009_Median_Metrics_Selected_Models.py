@@ -57,7 +57,7 @@ def calcular_metricas_por_modelo(df_dados, df_modelos, sufixo):
 # ==============================
 if __name__ == "__main__":
     # Arquivos de entrada
-    arquivo_dados = "F1_Loss_Test_Results.csv"
+    arquivo_dados = "BCE_Test_Results.csv"
     arquivo_accuracy = "accuracy_modelos_selecionados.csv"
     arquivo_weighted = "weighted_modelos_selecionados.csv"
     arquivo_saida = "comparativo_medianas_accuracy_weighted.csv"

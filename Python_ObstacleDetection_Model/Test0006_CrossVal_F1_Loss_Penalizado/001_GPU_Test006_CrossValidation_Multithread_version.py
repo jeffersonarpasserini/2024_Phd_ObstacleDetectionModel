@@ -541,7 +541,26 @@ if __name__ == "__main__":
     #13     {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 100, 'batch_size': 32, 'earlystop_patience': 200, 'reduceLR_factor': 0.5, 'reduceLR_patience': 5},
     #14     {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 32, 'earlystop_patience': 200, 'reduceLR_factor': 0.3, 'reduceLR_patience': 5},
     #15    {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 64, 'earlystop_patience': 150, 'reduceLR_factor': 0.3, 'reduceLR_patience': 10},
-        {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 32, 'earlystop_patience': 50, 'reduceLR_factor': 0.5, 'reduceLR_patience': 10}
+     #16   {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 32, 'earlystop_patience': 50, 'reduceLR_factor': 0.5, 'reduceLR_patience': 10}
+     ]
+
+    custom_model_params = [
+    #01    {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.0005, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 100, 'batch_size': 64, 'earlystop_patience': 200, 'reduceLR_factor': 0.5, 'reduceLR_patience': 10},
+    #02    {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.0005, 'n_layers': 2, 'n_neurons': 128, 'optimizer': 'adam', 'epochs': 100, 'batch_size': 32, 'earlystop_patience': 100, 'reduceLR_factor': 0.3, 'reduceLR_patience': 10},
+    #03     {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.0005, 'n_layers': 2, 'n_neurons': 256, 'optimizer': 'adam', 'epochs': 100, 'batch_size': 64, 'earlystop_patience': 150, 'reduceLR_factor': 0.5, 'reduceLR_patience': 15},
+    #04     {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam', 'epochs': 1500, 'batch_size': 16, 'earlystop_patience': 150, 'reduceLR_factor': 0.5, 'reduceLR_patience': 10},
+    #05     {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam', 'epochs': 1000, 'batch_size': 16, 'earlystop_patience': 100, 'reduceLR_factor': 0.3, 'reduceLR_patience': 5},
+    #06     {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam', 'epochs': 100, 'batch_size': 32, 'earlystop_patience': 50, 'reduceLR_factor': 0.5, 'reduceLR_patience': 15},
+    #07     {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 100, 'batch_size': 16, 'earlystop_patience': 50, 'reduceLR_factor': 0.3, 'reduceLR_patience': 5},
+    #08     {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 64, 'earlystop_patience': 200, 'reduceLR_factor': 0.3, 'reduceLR_patience': 15},
+    #09    {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 64, 'earlystop_patience': 150, 'reduceLR_factor': 0.3, 'reduceLR_patience': 10},
+    #10     {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 64, 'earlystop_patience': 150, 'reduceLR_factor': 0.3, 'reduceLR_patience': 15},
+    #11     {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.3, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 16, 'earlystop_patience': 50, 'reduceLR_factor': 0.3, 'reduceLR_patience': 15},
+    #12     {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.3, 'learning_rate': 0.0005, 'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 64, 'earlystop_patience': 200, 'reduceLR_factor': 0.5, 'reduceLR_patience': 10},
+    #13     {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 100, 'batch_size': 32, 'earlystop_patience': 200, 'reduceLR_factor': 0.5, 'reduceLR_patience': 5},
+    #14     {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 32, 'earlystop_patience': 200, 'reduceLR_factor': 0.3, 'reduceLR_patience': 5},
+    #15    {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 64, 'earlystop_patience': 150, 'reduceLR_factor': 0.3, 'reduceLR_patience': 10},
+     #16   {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 32, 'earlystop_patience': 50, 'reduceLR_factor': 0.5, 'reduceLR_patience': 10}
      ]
 
 
@@ -554,7 +573,6 @@ if __name__ == "__main__":
     # 3.0 --> Recall extremo - Quando não detectar e critico
 
     optimizion_params = [
-        {'f1_loss_used': False, 'f1_alpha': 0, 'f1_beta': 0, 'peso_penalty_fn': 2},
         {'f1_loss_used': True, 'f1_alpha': 1.0, 'f1_beta': 3.0, 'peso_penalty_fn': 2},
         {'f1_loss_used': True, 'f1_alpha': 1.0, 'f1_beta': 2.5, 'peso_penalty_fn': 2},
         {'f1_loss_used': True, 'f1_alpha': 1.0, 'f1_beta': 2.0, 'peso_penalty_fn': 2},
@@ -568,7 +586,6 @@ if __name__ == "__main__":
         {'f1_loss_used': True, 'f1_alpha': 0.8, 'f1_beta': 2.0, 'peso_penalty_fn': 2},
         {'f1_loss_used': True, 'f1_alpha': 1.0, 'f1_beta': 2.0, 'peso_penalty_fn': 2},
         {'f1_loss_used': True, 'f1_alpha': 0.7, 'f1_beta': 2.0, 'peso_penalty_fn': 2},
-        {'f1_loss_used': False, 'f1_alpha': 0, 'f1_beta': 0, 'peso_penalty_fn': 1.5},
         {'f1_loss_used': True, 'f1_alpha': 1.0, 'f1_beta': 3.0, 'peso_penalty_fn': 1.5},
         {'f1_loss_used': True, 'f1_alpha': 1.0, 'f1_beta': 2.5, 'peso_penalty_fn': 1.5},
         {'f1_loss_used': True, 'f1_alpha': 1.0, 'f1_beta': 2.0, 'peso_penalty_fn': 1.5},

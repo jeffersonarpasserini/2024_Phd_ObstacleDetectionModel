@@ -60,7 +60,8 @@ def executar_testes_estatisticos(caminho_entrada, metrica):
         f.write(f"Friedman Test: X² = {friedman_stat:.8f}, p-value = {p_value:.8f}\n")
 
     # Pós-teste de Nemenyi
-    if p_value < 0.05 and pivot.shape[1] >= 3:
+    #if p_value < 0.05 and pivot.shape[1] >= 3:
+    if True:
         print("[INFO] Executando pós-teste de Nemenyi...")
         nemenyi = posthoc_nemenyi_friedman(pivot.values)
         nemenyi.columns = pivot.columns
@@ -84,12 +85,12 @@ def executar_testes_estatisticos(caminho_entrada, metrica):
 # ========================
 if __name__ == "__main__":
     #Escolha da métrica analisada
-    #metrica = "Accuracy"
+    metrica = "Accuracy"
     #metrica = "Precision"
     #metrica = "Recall"
-    metrica = "F1-Score"
-    # metrica = "ROC-AUC"
-    # metrica = "Weighted"  # Descomente a métrica desejada
+    #metrica = "F1-Score"
+    #metrica = "ROC-AUC"
+    #metrica = "Weighted"  # Descomente a métrica desejada
 
     # Gera nome do arquivo de entrada
     metric_id = metrica.lower().replace("-", "_").replace(" ", "_")

@@ -64,6 +64,6 @@ def preparar_dados_friedman(caminho_entrada, metrica):
 # Execução padrão
 # ================================
 if __name__ == "__main__":
-    caminho_entrada = "F1_Loss_Test_Results.csv"
-    metrica = "Recall"  # Modifique conforme necessário: "Accuracy", "F1-Score", "Weighted", "Recall", "Precision" etc.
+    caminho_entrada = "BCE_Test_Results.csv"
+    metrica = "F1-Score"  # Modifique conforme necessário: "Accuracy", "F1-Score", "Weighted", "Recall", "Precision" etc.
     preparar_dados_friedman(caminho_entrada, metrica)

@@ -55,7 +55,7 @@ def gerar_matriz_nemenyi(metrica="Accuracy", top_n=20):
 if __name__ == "__main__":
     # Altere aqui conforme a métrica desejada
     # Escolha: "Accuracy", "Precision", "Recall", "F1-Score", "ROC-AUC", ou "Weighted"
-    metrica = "Recall"
+    metrica = "Accuracy"
     top_n = 10 # deve corresponder ao arquivo de entrada
 
     gerar_matriz_nemenyi(metrica=metrica, top_n=top_n)

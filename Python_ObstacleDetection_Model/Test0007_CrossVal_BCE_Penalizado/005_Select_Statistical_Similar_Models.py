@@ -41,7 +41,7 @@ def selecionar_modelos_equivalentes(metrica, top_n=20):
 if __name__ == "__main__":
     # Informe aqui a métrica desejada:
     # Exemplo: "Accuracy", "Recall", "F1-Score", "Weighted", etc.
-    metrica = "Recall"
-    top_n = 10  # Número de modelos a selecionar
+    metrica = "Accuracy"
+    top_n = 30  # Número de modelos a selecionar
 
     selecionar_modelos_equivalentes(metrica, top_n)

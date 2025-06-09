@@ -1,0 +1,1 @@
+Friedman Test: X² = 35.64152247, p-value = 0.25908333

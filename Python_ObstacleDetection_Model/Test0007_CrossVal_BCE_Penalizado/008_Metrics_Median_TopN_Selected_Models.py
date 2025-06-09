@@ -61,11 +61,11 @@ def processar_modelos(metrica="accuracy"):
 # Executa o processamento
 if __name__ == "__main__":
     # Escolha da métrica analisada
-    #metrica = "accuracy"
+    metrica = "accuracy"
     # metrica = "precision"
     #metrica = "recall"
     #metrica = "f1-Score"
     # metrica = "ROC-AUC"
-    metrica = "weighted"  # Descomente a métrica desejada
+    #metrica = "weighted"  # Descomente a métrica desejada
 
     processar_modelos(metrica)
