@@ -772,41 +772,30 @@ if __name__ == "__main__":
         # Modelos selecionados test0005
         custom_model_params_completo = [
 
-            # modelo 01 - 1o - acc e  1o - weighted
-            #   {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4,
-            #    'learning_rate': 0.0001,
-            #    'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 500, 'batch_size': 64,
-            #    'earlystop_patience': 150, 'reduceLR_factor': 0.3, 'reduceLR_patience': 10, 'f1_loss_used': False,
-            #    'f1_alpha': 0, 'f1_beta': 0},
+            # modelo 01
+                #("Test0004 | MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.0005, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}"
+                #"_100_64_200_0.5_10"), 2544.1, Test0004, 1566.05, 1750.5, 1953.55
+               {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.1,
+                'learning_rate': 0.0005,
+                'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 100, 'batch_size': 64,
+                'earlystop_patience': 200, 'reduceLR_factor': 0.5, 'reduceLR_patience': 10, 'f1_loss_used': False,
+                'f1_alpha': 0, 'f1_beta': 0},
 
-#-----------------------------------------------------------
-            # modelo 01 - 1o - acc e  2o - weighted
-            #   {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4,
-            #    'learning_rate': 0.001,
-            #    'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 32,
-            #    'earlystop_patience': 50, 'reduceLR_factor': 0.5, 'reduceLR_patience': 10, 'f1_loss_used': True,
-            #    'f1_alpha': 0.8, 'f1_beta': 1},
+            #model 02
+            # "Test0004 | MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.0005, 'n_layers': 2, 'n_neurons': 128, 'optimizer': 'adam'}_100_32_100_0.3_10",
+            # 2493.05, Test0004, 1532.7, 1875.7, 1967.1499999999999
 
-            # # modelo 02 - 2o - acc e 1o - weighted
-            #{'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4,
-            # 'learning_rate': 0.0001,
-            # 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam', 'epochs': 100, 'batch_size': 32,
-            # 'earlystop_patience': 200, 'reduceLR_factor': 0.5, 'reduceLR_patience': 5, 'f1_loss_used': True,
-            # 'f1_alpha': 0.7, 'f1_beta': 1.5},
+            #model 03
+            # "Test0004 | MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam'}_250_32_50_0.5_10",
+            # 2574.35, Test0004, 1618.45, 1836.4, 2009.7333333333336
 
-            # # modelo 03 - 3o - acc e no selected in weighted
-            #{'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.4,
-            # 'learning_rate': 0.001,
-            # 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam', 'epochs': 250, 'batch_size': 32,
-            # 'earlystop_patience': 50, 'reduceLR_factor': 0.5, 'reduceLR_patience': 10, 'f1_loss_used': True,
-            # 'f1_alpha': 0.6, 'f1_beta': 1.5},
+            #model 04
+            # "Test0004 | MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.4, 'learning_rate': 0.0001, 'n_layers': 1, 'n_neurons': 512, 'optimizer': 'adam'}_500_64_150_0.3_10",
+            # 1558.7, Test0004, 2923.1, 1592.2, 2024.6666666666667
 
-            # # modelo 04 -  - 4o acc e 3o weighted
-             {'model': 'MobileNetV1', 'pooling': 'avg', 'activation': 'relu', 'dropout_rate': 0.2,
-              'learning_rate': 0.0001,
-              'n_layers': 1, 'n_neurons': 128, 'optimizer': 'adam', 'epochs': 100, 'batch_size': 32,
-              'earlystop_patience': 50, 'reduceLR_factor': 0.5, 'reduceLR_patience': 15, 'f1_loss_used': True,
-              'f1_alpha': 0.7, 'f1_beta': 1.5},
+            #model 05
+            # "Test0004 | MobileNetV1_avg_{'activation': 'relu', 'dropout_rate': 0.1, 'learning_rate': 0.001, 'n_layers': 1, 'n_neurons': 256, 'optimizer': 'adam'}_1500_16_150_0.5_10",
+            # 2033.65, Test0004, 2489.25, 1573.4, 2032.0999999999997
 
         ]
 
