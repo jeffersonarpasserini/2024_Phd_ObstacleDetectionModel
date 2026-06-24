@@ -1,0 +1,20 @@
+\documentclass[border=8pt]{standalone}
+\input{style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=7mm]
+\node[card=cExtract, text width=50mm, fill=cExtractL] (cnn)
+  {\textbf{VGG16} — convolutional base\\[2pt]\footnotesize In: (224, 224, 3)\quad Out: (7, 7, 512)};
+\node[card=cReduce, below=of cnn, text width=50mm, fill=cReduceL] (flat)
+  {\textbf{Flatten}\\[2pt]\footnotesize In: (7, 7, 512)\quad Out: (25\,088)};
+\node[card=cClass, below=of flat, text width=50mm, fill=cClassL] (d1)
+  {\textbf{Dense} (ReLU)\\[2pt]\footnotesize In: (25\,088)\quad Out: (128)};
+\node[card=cClass, below=of d1, text width=50mm, fill=cClassL] (d2)
+  {\textbf{Dense} (softmax)\\[2pt]\footnotesize In: (128)\quad Out: (2)};
+\draw[flow] (cnn)--(flat); \draw[flow] (flat)--(d1); \draw[flow] (d1)--(d2);
+% brackets
+\node[right=14mm of cnn, font=\small\itshape, text=cExtract, align=left] {Original layers\\(frozen)};
+\draw[decorate, decoration={brace, amplitude=5pt}, draw=cExtract, line width=0.8pt] ([xshift=6mm]cnn.north east) -- ([xshift=6mm]cnn.south east);
+\node[right=14mm of d1, yshift=-9mm, font=\small\itshape, text=cClass, align=left] {Added layers\\(fine-tuned)};
+\draw[decorate, decoration={brace, amplitude=5pt}, draw=cClass, line width=0.8pt] ([xshift=6mm]flat.north east) -- ([xshift=6mm]d2.south east);
+\end{tikzpicture}
+\end{document}

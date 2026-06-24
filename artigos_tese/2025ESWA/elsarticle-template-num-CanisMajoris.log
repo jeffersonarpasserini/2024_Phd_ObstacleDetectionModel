@@ -1,0 +1,469 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.23)  23 APR 2025 16:37
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**./elsarticle-template-num.tex
+(elsarticle-template-num.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
+
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/elsarticle\elsarticle.c
+ls
+Document Class: elsarticle 2025/01/11, 3.4c: Elsevier Ltd
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+)
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+Package: expl3 2024-01-04 L3 programming layer (loader) 
+
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def
+File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count187
+\l__pdf_internal_box=\box51
+))
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xpars
+e.sty
+Package: xparse 2023-10-10 L3 Experimental document command parser
+)
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count188
+)
+\@bls=\dimen140
+
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/base\size12.clo
+File: size12.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count189
+\c@section=\count190
+\c@subsection=\count191
+\c@subsubsection=\count192
+\c@paragraph=\count193
+\c@subparagraph=\count194
+\c@figure=\count195
+\c@table=\count196
+\abovecaptionskip=\skip48
+\belowcaptionskip=\skip49
+\bibindent=\dimen141
+)
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+)
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+)
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen142
+\Gin@req@width=\dimen143
+)
+\c@tnote=\count197
+\c@fnote=\count198
+\c@cnote=\count199
+\c@ead=\count266
+\c@elsarticle@author=\count267
+\@eadauthor=\toks18
+\c@affn=\count268
+\absbox=\box52
+\elsarticlehighlightsbox=\box53
+\elsarticlegrabsbox=\box54
+\keybox=\box55
+\Columnwidth=\dimen144
+\space@left=\dimen145
+\els@boxa=\box56
+\els@boxb=\box57
+\leftMargin=\dimen146
+\@enLab=\toks19
+\@sep=\skip50
+\@@sep=\skip51
+ (elsarticle-template-num.spl)
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/natbib\natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip52
+\bibsep=\skip53
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count269
+)
+\splwrite=\write3
+\openout3 = `elsarticle-template-num.spl'.
+
+\appnamewidth=\dimen147
+)
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks20
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (elsarticle-template-num.aux)
+\openout1 = `elsarticle-template-num.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count270
+\scratchdimen=\dimen148
+\scratchbox=\box58
+\nofMPsegments=\count271
+\nofMParguments=\count272
+\everyMPshowfont=\toks21
+\MPscratchCnt=\count273
+\MPscratchDim=\dimen149
+\MPnumerator=\count274
+\makeMPintoPDFobject=\count275
+\everyMPtoPDFconversion=\toks22
+)
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+)) [1
+
+{C:/Users/jeffe/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
+LaTeX Font Info:    Trying to load font information for U+msa on input line 121
+.
+
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 121
+.
+
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
+21.
+
+(C:\Users\jeffe\AppData\Local\Programs\MiKTeX\tex/latex/base\t1cmtt.fd
+File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+)
+
+Package natbib Warning: Citation `who2022' on page 1 undefined on input line 12
+8.
+
+
+Package natbib Warning: Citation `who2022' on page 1 undefined on input line 12
+8.
+
+
+Package natbib Warning: Citation `who2022' on page 1 undefined on input line 12
+8.
+
+
+Package natbib Warning: Citation `bourne2017' on page 1 undefined on input line
+ 128.
+
+
+Package natbib Warning: Citation `onu2019' on page 1 undefined on input line 12
+8.
+
+
+Package natbib Warning: Citation `bourne2020' on page 1 undefined on input line
+ 128.
+
+[1
+
+
+]
+
+Package natbib Warning: Citation `islam2019' on page 2 undefined on input line 
+130.
+
+
+Package natbib Warning: Citation `islam2019' on page 2 undefined on input line 
+130.
+
+
+Package natbib Warning: Citation `mandia2023' on page 2 undefined on input line
+ 130.
+
+
+Package natbib Warning: Citation `budrionis2022' on page 2 undefined on input l
+ine 130.
+
+
+Package natbib Warning: Citation `kuriakose2021' on page 2 undefined on input l
+ine 130.
+
+
+Package natbib Warning: Citation `cardillo2019' on page 2 undefined on input li
+ne 130.
+
+
+Package natbib Warning: Citation `bai2019' on page 2 undefined on input line 13
+0.
+
+
+Package natbib Warning: Citation `jiang2019' on page 2 undefined on input line 
+130.
+
+
+Package natbib Warning: Citation `joe2019' on page 2 undefined on input line 13
+0.
+
+
+Package natbib Warning: Citation `hoang2017' on page 2 undefined on input line 
+130.
+
+
+Package natbib Warning: Citation `tapu2017' on page 2 undefined on input line 1
+30.
+
+
+Package natbib Warning: Citation `saffoury2016' on page 2 undefined on input li
+ne 130.
+
+
+Package natbib Warning: Citation `poggi2016' on page 2 undefined on input line 
+130.
+
+
+Package natbib Warning: Citation `lakde2015' on page 2 undefined on input line 
+130.
+
+
+Package natbib Warning: Citation `hoang2017' on page 2 undefined on input line 
+130.
+
+
+Package natbib Warning: Citation `tapu2017' on page 2 undefined on input line 1
+30.
+
+
+Package natbib Warning: Citation `saffoury2016' on page 2 undefined on input li
+ne 130.
+
+
+Package natbib Warning: Citation `poggi2016' on page 2 undefined on input line 
+130.
+
+
+Package natbib Warning: Citation `poggi2015' on page 2 undefined on input line 
+130.
+
+
+Package natbib Warning: Citation `rizzo2017' on page 2 undefined on input line 
+130.
+
+
+Package natbib Warning: Citation `jiang2019' on page 2 undefined on input line 
+130.
+
+
+Package natbib Warning: Citation `lin2017' on page 2 undefined on input line 13
+0.
+
+
+Package natbib Warning: Citation `budrionis2022' on page 2 undefined on input l
+ine 132.
+
+
+Package natbib Warning: Citation `mandia2023' on page 2 undefined on input line
+ 132.
+
+
+Package natbib Warning: Citation `lecun2015' on page 2 undefined on input line 
+132.
+
+
+Package natbib Warning: Citation `goodfellow2016' on page 2 undefined on input 
+line 132.
+
+
+Package natbib Warning: Citation `schmidhuber2015' on page 2 undefined on input
+ line 132.
+
+
+Package natbib Warning: Citation `breve2020' on page 2 undefined on input line 
+134.
+
+
+Package natbib Warning: Citation `russakovsky2015' on page 2 undefined on input
+ line 134.
+
+[2]
+
+Package natbib Warning: Citation `sanga2023' on page 3 undefined on input line 
+136.
+
+
+Package natbib Warning: Citation `breve2020' on page 3 undefined on input line 
+136.
+
+
+Package natbib Warning: Citation `breve2023' on page 3 undefined on input line 
+136.
+
+
+Package natbib Warning: Citation `breve2020' on page 3 undefined on input line 
+138.
+
+
+Package natbib Warning: Citation `breve2023' on page 3 undefined on input line 
+138.
+
+
+Package natbib Warning: Citation `mandia2023' on page 3 undefined on input line
+ 150.
+
+[3]
+
+Package natbib Warning: Citation `budrionis2022' on page 4 undefined on input l
+ine 154.
+
+
+Package natbib Warning: Citation `islam2019' on page 4 undefined on input line 
+156.
+
+
+Package natbib Warning: Citation `kuriakose2021' on page 4 undefined on input l
+ine 158.
+
+
+Package natbib Warning: Citation `bai2019' on page 4 undefined on input line 16
+0.
+
+[4]
+
+Package natbib Warning: Citation `jiang2019' on page 5 undefined on input line 
+162.
+
+
+Package natbib Warning: Citation `joe2019' on page 5 undefined on input line 16
+4.
+
+
+Package natbib Warning: Citation `hoang2017' on page 5 undefined on input line 
+166.
+
+
+Package natbib Warning: Citation `tapu2013' on page 5 undefined on input line 1
+68.
+
+
+Package natbib Warning: Citation `tapu2017' on page 5 undefined on input line 1
+68.
+
+
+Package natbib Warning: Citation `lin2017' on page 5 undefined on input line 17
+0.
+
+
+Package natbib Warning: Citation `kumar2015' on page 5 undefined on input line 
+172.
+
+
+Package natbib Warning: Citation `saffoury2016' on page 5 undefined on input li
+ne 172.
+
+[5]
+
+Package natbib Warning: Citation `poggi2016' on page 6 undefined on input line 
+174.
+
+
+Package natbib Warning: Citation `poggi2015' on page 6 undefined on input line 
+174.
+
+
+Package natbib Warning: Citation `rizzo2017' on page 6 undefined on input line 
+176.
+
+
+Package natbib Warning: Citation `islam2018' on page 6 undefined on input line 
+178.
+
+
+Package natbib Warning: Citation `breve2020' on page 6 undefined on input line 
+182.
+
+Package epstopdf Info: Source file: <figVia.eps>
+(epstopdf)                    date: 2024-03-19 16:37:43
+(epstopdf)                    size: 871374 bytes
+(epstopdf)             Output file: <figVia-eps-converted-to.pdf>
+(epstopdf)                    date: 2025-04-23 16:37:00
+(epstopdf)                    size: 96577 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=figVia-eps-converted
+-to.pdf figVia.eps>
+(epstopdf)             \includegraphics on input line 185.
+Package epstopdf Info: Output file is already uptodate.
+<figVia-eps-converted-to.pdf, id=28, 157.58875pt x 96.36pt>
+File: figVia-eps-converted-to.pdf Graphic file (type pdf)
+<use figVia-eps-converted-to.pdf>
+Package pdftex.def Info: figVia-eps-converted-to.pdf  used on input line 185.
+(pdftex.def)             Requested size: 390.0pt x 238.51006pt.
+
+Package natbib Warning: There were undefined citations.
+
+[6] [7 <./figVia-eps-converted-to.pdf>] (elsarticle-template-num.aux)
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
+ ***********
+ ) 
+Here is how much of TeX's memory you used:
+ 3260 strings out of 474486
+ 47934 string characters out of 5743755
+ 1932542 words of memory out of 5000000
+ 25528 multiletter control sequences out of 15000+600000
+ 571036 words of font info for 72 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 72i,7n,79p,1381b,238s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\jeffe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm
+1000.pk> <C:\Users\jeffe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
+0\ectt1000.pk> <C:\Users\jeffe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
+/dpi600\ecti1200.pk> <C:\Users\jeffe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
+pen/ec/dpi600\ecti1000.pk> <C:\Users\jeffe\AppData\Local\MiKTeX\fonts/pk/ljfour
+/jknappen/ec/dpi600\tcrm1200.pk> <C:\Users\jeffe\AppData\Local\MiKTeX\fonts/pk/
+ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\jeffe\AppData\Local\MiKTeX\fon
+ts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\jeffe\AppData\Local\MiKT
+eX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1728.pk>
+Output written on elsarticle-template-num.pdf (8 pages, 201459 bytes).
+PDF statistics:
+ 318 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+

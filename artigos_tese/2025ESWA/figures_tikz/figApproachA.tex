@@ -1,0 +1,32 @@
+\documentclass[border=6pt]{standalone}
+\input{style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=4.5mm]
+% (a)
+\node[font=\bfseries\footnotesize] (la){(a)};
+\node[vb, draw=cInk!60, fill=gray!12, below=2mm of la, minimum width=26mm] (ia){Input image};
+\node[vb, draw=cExtract, fill=cExtractL, below=of ia, minimum width=26mm] (cnna){CNN};
+\node[vb, draw=cClass, fill=cClassL, below=of cnna, minimum width=26mm] (va){Full feature vector};
+\node[vb, draw=cClass, fill=cClassL, below=of va, minimum width=26mm] (ca){Supervised classifier};
+\node[vb, fill=cOut, text=white, font=\scriptsize\bfseries, below=of ca, minimum width=26mm] (oa){Clear / Obstructed};
+\foreach \x/\y in {ia/cnna,cnna/va,va/ca,ca/oa} \draw[vflow](\x)--(\y);
+% (b)
+\node[font=\bfseries\footnotesize, right=42mm of la] (lb){(b)};
+\node[vb, draw=cInk!60, fill=gray!12, below=2mm of lb, minimum width=30mm] (ib){Input image};
+\node[vb, draw=cExtract, fill=cExtractL, below=6mm of ib, xshift=-9mm, minimum width=15mm] (b1){CNN 1};
+\node[vb, draw=cExtract, fill=cExtractL, below=6mm of ib, xshift=9mm, minimum width=15mm] (b2){CNN 2};
+\node[vb, draw=cClass, fill=cClassL, below=4mm of b1, minimum width=15mm] (bv1){vec 1};
+\node[vb, draw=cReduce, fill=cReduceL, below=4mm of b2, minimum width=15mm] (bv2){vec 2};
+\node[vb, draw=cReduce, fill=cReduceL, below=5mm of ib |- bv1, yshift=-7mm, minimum width=30mm] (cat){Concatenated vector};
+\node[vb, draw=cClass, fill=cClassL, below=of cat, minimum width=30mm] (cb){Supervised classifier};
+\node[vb, fill=cOut, text=white, font=\scriptsize\bfseries, below=of cb, minimum width=30mm] (ob){Clear / Obstructed};
+\draw[vflow](ib)--(b1);\draw[vflow](ib)--(b2);
+\draw[vflow](b1)--(bv1);\draw[vflow](b2)--(bv2);
+\coordinate (by) at ([yshift=4mm]cat.north);
+\draw[line width=0.8pt,draw=cInk] (bv1.south) -- (bv1.south|-by);
+\draw[line width=0.8pt,draw=cInk] (bv2.south) -- (bv2.south|-by);
+\draw[line width=0.8pt,draw=cInk] (bv1.south|-by) -- (bv2.south|-by);
+\draw[vflow] (cat.north|-by) -- (cat.north);
+\draw[vflow](cat)--(cb);\draw[vflow](cb)--(ob);
+\end{tikzpicture}
+\end{document}

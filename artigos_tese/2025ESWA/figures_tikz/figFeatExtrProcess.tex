@@ -1,0 +1,13 @@
+\documentclass[border=8pt]{standalone}
+\input{style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=8mm]
+\node[card=cExtract, text width=46mm, fill=cExtractL] (cnn)
+  {\textbf{VGG16} — convolutional base\\[2pt]\footnotesize In: (224, 224, 3)\quad Out: (7, 7, 512)};
+\node[card=cReduce, below=of cnn, text width=46mm, fill=cReduceL] (flat)
+  {\textbf{Flatten}\\[2pt]\footnotesize In: (7, 7, 512)\quad Out: (25\,088)};
+\node[outb, fill=cOut, below=of flat, text width=42mm] (out){Feature vector (25\,088)};
+\draw[flow] (cnn)--(flat);
+\draw[flow] (flat)--(out);
+\end{tikzpicture}
+\end{document}

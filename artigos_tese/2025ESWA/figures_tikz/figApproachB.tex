@@ -1,0 +1,14 @@
+\documentclass[border=6pt]{standalone}
+\input{style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=5mm]
+\node[vstep, draw=cInk!60, fill=gray!12] (im){Input image};
+\node[vstep, draw=cExtract, fill=cExtractL, below=of im] (cnn){CNN};
+\node[vstep, draw=cClass, fill=cClassL, below=of cnn] (v){Full feature vector};
+\node[vstep, draw=cReduce, fill=white, below=of v] (r){Reduction\\\scriptsize PCA / UMAP / Relief-F};
+\node[vstep, draw=cReduce, fill=cReduceL, below=of r] (rv){Reduced vector\\\scriptsize 2--300 dims};
+\node[vstep, draw=cClass, fill=cClassL, below=of rv] (c){Supervised classifier};
+\node[vstep, fill=cOut, text=white, font=\footnotesize\bfseries, below=of c] (o){Clear / Obstructed};
+\foreach \a/\b in {im/cnn,cnn/v,v/r,r/rv,rv/c,c/o} \draw[vflow](\a)--(\b);
+\end{tikzpicture}
+\end{document}

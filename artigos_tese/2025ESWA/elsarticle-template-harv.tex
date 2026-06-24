@@ -1,0 +1,210 @@
+%% 
+%% Copyright 2007-2019 Elsevier Ltd
+%% 
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%% 
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%% 
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%% 
+%% Template article for Elsevier's document class `elsarticle'
+%% with harvard style bibliographic references
+
+\documentclass[preprint,12pt,authoryear]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times,authoryear]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn,authoryear]{elsarticle}
+%% \documentclass[final,3p,times,authoryear]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn,authoryear]{elsarticle}
+%% \documentclass[final,5p,times,authoryear]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn,authoryear]{elsarticle}
+
+%% For including figures, graphicx.sty has been loaded in
+%% elsarticle.cls. If you prefer to use the old commands
+%% please give \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers.
+%% \usepackage{lineno}
+
+\journal{Experts Systems With Applications}
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for theassociated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for theassociated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for theassociated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+\title{Advances in Navigational Assistance: A Cross-Analysis of 22 CNN Architectures with Machine Learning for the Visually Impaired}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{}
+%% \address[label1]{}
+%% \address[label2]{}
+
+\author{Jefferson Antonio Ribeiro Passerini}
+\ead{jefferson.passerini@unesp.brr}
+\author{Fabricio Breve}
+\ead{fabricio.breve@unesp.br}
+\address{Institute of Geosciences and Exact Sciences,
+	S\~{a}o Paulo State University (UNESP), Rio Claro, SP, 13506-900, Brazil}
+
+\begin{abstract}
+Autonomous mobility and navigation pose substantial challenges for visually impaired individuals, significantly limiting their independence and quality of life. Despite recent advances in computer vision facilitating the development of navigation assistance systems, the majority of these solutions still rely on specialized or high-cost hardware, restricting their practical application. In this context, the present study introduces an innovative approach leveraging the potential of Convolutional Neural Networks (CNNs), combined with transfer learning and supervised classification techniques, for categorizing images into clear paths or paths with obstacles. By integrating 22 CNN architectures with feature reduction/selection methods and supervised classifiers, we assessed the effectiveness of this methodology compared to a CNN specifically trained for this purpose. The findings indicate that the best-proposed approach achieved an accuracy of 0.9559, surpassing the reference model, which recorded an accuracy of 0.9412. Furthermore, we identified the most stable approach, which demonstrated an accuracy of 0.9474, without the need for specific CNN training. Finally, the study uncovers limitations in recognizing images containing ground traffic signage, pointing to directions for future improvements and adjustments in classification.
+\end{abstract}
+
+%%Graphical abstract
+%\begin{graphicalabstract}
+%\includegraphics{grabs}
+%\end{graphicalabstract}
+
+%%Research highlights
+\begin{highlights}
+\item Research highlight 1
+\item Research highlight 2
+\end{highlights}
+
+\begin{keyword}
+	Transfer Learning  \sep Convolution Neural Network \sep Supervised Learning \sep Visual Impaired Assistance \sep Obstacle Detection.
+%% keywords here, in the form: keyword \sep keyword
+
+%% PACS codes here, in the form: \PACS code \sep code
+
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+\end{keyword}
+
+\end{frontmatter}
+
+%% \linenumbers
+
+%% main text
+\section{Introduction}\label{sec:introdution}
+
+Visual impairments, particularly blindness and low vision, represent an escalating challenge for institutions and governments across the globe, as highlighted by the World Health Organization \cite{who2022}. The rising prevalence of eye-related diseases, coupled with a decline in visual acuity, significantly impacts individuals' quality of life and necessitates substantial financial resources for their treatment and rehabilitation \cite{who2022}. Currently, over 2.2 billion individuals suffer from some form of visual impairment, yet access to assistance and services for this demographic remains unequal, according to the United Nations \cite{who2022,bourne2017,onu2019,bourne2020}.
+
+Individuals with visual impairments face numerous challenges in their daily lives, especially in terms of mobility and navigation. Traditionally, this population has relied on canes and guide dogs as their primary means of locomotion \cite{islam2019}. However, advancements in computer vision have led to the development of various navigation systems \cite{islam2019,mandia2023,budrionis2022,kuriakose2021,cardillo2019,bai2019,jiang2019,joe2019,hoang2017,tapu2017,saffoury2016,poggi2016,lakde2015}. It's important to note that many of these systems are limited by the need for expensive, bulky, and/or customized equipment \cite{hoang2017,tapu2017,saffoury2016,poggi2016,poggi2015,rizzo2017}, as well as the requirement for high computational power, rendering them impractical for use on mobile devices. Additionally, some systems necessitate a network connection to a more powerful remote server \cite{jiang2019,lin2017}.
+
+A comprehensive literature review by Budrionis et al. \cite{budrionis2022} revealed that computer vision tools designed for visually impaired individuals operating on smartphones frequently utilize outdated image and video processing techniques. Another literature review by Mandia et al. \cite{mandia2023} found an increasing adoption of deep learning approaches \cite{lecun2015,goodfellow2016,schmidhuber2015}, which has grown in tandem with advancements in computational capabilities. Nonetheless, it is impractical for users to carry high-power computing devices for vision-based assistive solutions. Consequently, there is an increasing need for a deep learning system capable of performing inferences on an edge device, such as a smartphone, without relying on network connectivity or additional accessories.
+
+Breve and Fisher \cite{breve2020} proposed a framework employing Convolutional Neural Networks (CNNs), transfer learning, and semi-supervised learning (SSL) aimed at reducing computational costs and making it feasible for implementation on smartphones without the need for extra hardware. This framework leverages a smartphone's camera to instantly capture images of the user's surroundings and classify them in real time, providing immediate feedback. In this study, a dataset consisting of images from various outdoor and indoor environments under different lighting conditions, floor types, and obstacles was created to facilitate classifier training. The effectiveness of several CNN architectures was assessed by adjusting the pre-trained weights from the ImageNet dataset \cite{russakovsky2015}.
+
+Sanga et al. \cite{sanga2023} developed a prototype based on the framework proposed by Breve and Fisher \cite{breve2020}, consisting of a mobile app that captures video frames from the smartphone's camera, sends them to a server for image classification, and then returns the results to the user. Furthermore, Breve \cite{breve2023} significantly expanded the initial study by incorporating new CNN models, enhancing the cross-validation process, and applying pre-processing functions to improve image preparation. These improvements resulted in enhanced performance in most analyzed cases.
+
+Building on the work of Breve and Fisher \cite{breve2020} and Breve \cite{breve2023}, this paper extends the analysis of using CNNs as feature extractors, exploring various combinations of algorithms for feature extraction, reduction and/or selection, and supervised classifiers. The key contributions are as follows:
+
+1. Exploration of combined approaches involving CNNs, feature reduction and/or selection algorithms, and supervised classifiers.
+2. Examination of the full use of CNN-extracted features applied directly to classifiers, without employing dimensionality reduction models.
+3. Investigation of the application of dimensionality reduction models to CNN-extracted features prior to classification.
+4. Selection of the most effective approaches for the dataset studied.
+5. Analysis of classification shortcomings for the selected approaches.
+
+The remainder of the paper is organized as follows: Section 2 presents related work on assistance for visually impaired individuals. Section 3 introduces the dataset used in this study. Section 4 outlines the CNN architectures and algorithms utilized. Section 5 describes the methodology employed. Section 6 discusses the experimental results and analyses, comparing these models' performance on the dataset and exploring deficiencies in the proposed approach. Finally, conclusions are summarized in Section 7. 
+
+\section{Related Works}\label{sec:works}
+
+Several initiatives have been undertaken to incorporate computer vision into assistance for individuals with visual disabilities. Mandia et al. \cite{mandia2023} conducted a comprehensive analysis of current vision-based assistive solutions for visually impaired people.
+
+This analysis primarily focuses on systems utilizing cameras and summarizes the sensors, image processing algorithms, and communication protocols employed. Additionally, the study addresses the use of acoustic output devices, RFID, and GPS, along with cameras. The transition from traditional image processing techniques to the application of deep learning in assisting visually impaired individuals is highlighted. The paper concludes that the literature has not yet fully optimized deep learning models for edge devices.
+
+Budrionis et al. \cite{budrionis2022} provide an overview of recent prototypes of electronic travel aids (ETAs) that utilize smartphones to assist visually impaired individuals with orientation, navigation, and mobility. The authors conduct a systematic review of scientific achievements in this field and compare various smartphone-based ETA prototypes. The meta-analysis identified some attempts to employ cutting-edge computer vision methods based on deep neural networks. The study contrasts these findings with a survey conducted with blind experts to reveal a significant discrepancy between user needs and academic development in the field. The authors conclude that the development of affordable smartphone-based ETAs is crucial for visually impaired people in low-income countries and highlight the need for further research to address the identified gaps.
+
+Islam et al. \cite{islam2019} analyze the development of walking assistants for visually impaired individuals and highlight recent advancements, as well as their advantages and limitations. The authors aim to provide a comprehensive view of the current state of walking assistants and identify areas for future development in sensors, computer vision, and smartphone-based technology.
+
+In turn, Kuriakose et al. \cite{kuriakose2021} propose a scene recognition model based on EfficientNet-Lite for use in a smartphone application that assists in the navigation of blind and visually impaired people. The model is trained and tested using a custom dataset of indoor and outdoor scenes. Additionally, a proof-of-concept prototype of the application was developed on the Android platform.
+
+Bai et al. \cite{bai2019} introduced a wearable assistive device for visually impaired (VI) individuals that aids in navigation and object recognition in both indoor and outdoor environments. The device consists of an RGB-D camera, an inertial measurement unit, a smartphone, and an audio module. It employs a CNN-based object recognition system for perception and navigation. The system provides semantic information about the environment and interacts with the user through audio.
+
+Jiang et al. \cite{jiang2019} proposed a wearable system that utilizes stereo vision. The system leverages binocular vision sensors to capture images and selects the best images based on stereo image quality assessment. The selected images are then sent to the cloud for processing via a convolutional neural network (CNN), and the resulting information is returned to the user to assist in decision-making.
+
+Paul et al. \cite{joe2019} propose a system composed of a camera, GPS, infrared and light sensors connected to a microprocessor (Raspberry Pi) to process and transmit information about the user's environment. The camera captures images, while the microprocessor uses image processing techniques to analyze the images and identify objects and obstacles. The control unit then transmits this information to the user via audio output. The authors did not specify which processing techniques were used, mentioning only the use of the OpenCV library.
+
+Hoang et al. \cite{hoang2017} created a system that uses a Kinect sensor camera mounted on a belt to capture and analyze the surrounding environment. This system identifies obstacles and communicates this information to the user through audio feedback. To process the captured information, it is necessary to carry a laptop in a backpack.
+
+In 2013, Tapu et al. \cite{tapu2013} introduced a real-time obstacle detection and classification system that made use of videos captured by a smartphone's camera. They developed a set of techniques that included tracking, motion estimation, and clustering. Four years later, in 2017, Tapu et al. \cite{tapu2017} presented a more advanced framework based on convolutional neural networks (CNNs) to detect, track, and recognize objects in outdoor environments. However, to run this system, it is necessary to use a laptop computer, which must be carried in a backpack as a processing unit.
+
+Lin et al. \cite{lin2017} introduced a guidance system that makes use of a smartphone. The system incorporates convolutional neural networks (CNNs) for object recognition but requires a desktop server with a GPU and the unified computing device architecture (CUDA) to handle the computationally intensive task of object recognition. Although the system has an offline option, it is limited to recognizing faces and stairs.
+
+Kumar and Meher \cite{kumar2015} introduced an object recognition system that combines the use of CNN (Convolutional Neural Network) and RNN (Recurrent Neural Network). This system is capable of identifying common objects found in indoor environments and their colors, providing auditory feedback to the user. In contrast, Saffoury et al. \cite{saffoury2016} proposed a system that uses a smartphone and a laser pointer. The system employs laser triangulation to establish a collision prevention protocol and provides auditory feedback to the user.
+
+Poggi and Mattoccia \cite{poggi2016} conceived a wearable device composed of a pair of glasses equipped with a custom RGBD sensor and onboard processing performed by an FPGA, a glove with micro-motors for tactile feedback, a portable battery, a bone conduction headset, and a smartphone. This system utilizes deep learning techniques to semantically classify detected obstacles. In a previous work, Poggi et al. \cite{poggi2015} introduced a similar system aimed at recognizing pedestrian crosswalks.
+
+Rizzo et al. \cite{rizzo2017} present a fusion framework that combines signals from a stereo camera and an infrared sensor to detect obstacles using a CNN at multiple scales. They plan to incorporate this framework into a wearable vest.
+
+On the other hand, Islam and Sadi \cite{islam2018} used a CNN to detect potholes in the path and achieved impressive results. However, it is important to note that they used separate datasets for ``path potholes'' and ``non-path potholes'', with the latter including images of roads captured at a wider angle. This raises the possibility that the network learned style differences that are not relevant to the task at hand, simplifying its work.
+
+\section{Dataset}\label{sec:dataset}
+
+The VIA dataset \cite{breve2020} comprises 342 images distributed across two categories: 175 ``clear path'' images and 167 ``obstructed path'' images. The photos were taken using a smartphone camera and resized to 750 × 1000 pixels. The smartphone was held at chest height and tilted at an angle of 30º to 60º to capture several meters of the path ahead, including areas not reached by a standard cane. Despite its modest size, this dataset encompasses a variety of indoor and outdoor environments with different types of flooring, including dry and wet surfaces, natural and artificial lighting conditions, as well as obstacles such as stairs, trees, holes, animals, and traffic cones. Examples of these images can be seen in Fig.~\ref{fig:VIA}.
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{figs/figVia.eps}
+	\caption{Examples from the VIA dataset: (a) “clear path” category; and (b) “path with obstacles” category.} \label{fig:VIA}
+\end{figure}
+
+
+%% The Appendices part is started with the command \appendix;
+%% appendix sections are then done as normal sections
+%% \appendix
+
+%% \section{}
+%% \label{}
+
+%% If you have bibdatabase file and want bibtex to generate the
+%% bibitems, please use
+%%
+%%  \bibliographystyle{elsarticle-harv} 
+%%  \bibliography{<your bibdatabase>}
+
+%% else use the following coding to input the bibitems directly in the
+%% TeX file.
+
+\begin{thebibliography}{00}
+
+%% \bibitem[Author(year)]{label}
+%% Text of bibliographic item
+
+\bibitem[ ()]{}
+
+\end{thebibliography}
+\end{document}
+
+\endinput
+%%
+%% End of file `elsarticle-template-harv.tex'.

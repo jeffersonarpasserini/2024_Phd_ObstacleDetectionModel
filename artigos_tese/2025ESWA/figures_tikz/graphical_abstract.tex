@@ -1,0 +1,31 @@
+\documentclass[border=10pt]{standalone}
+\input{style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=4.5mm]
+\node[hdr, fill=cExtract, minimum width=70mm, font=\sffamily\bfseries] (h1){STAGE 1 — Feature extraction};
+\node[card=cExtract, below=2mm of h1, text width=66mm, fill=cExtractL] (cnn)
+  {\footnotesize Xception, VGG16/19, ResNet, Inception, MobileNet, DenseNet, EfficientNet \textit{(25 CNN extractors)}};
+\node[hdr, fill=cReduce, minimum width=70mm, below=4mm of cnn, font=\sffamily\bfseries] (h2){STAGE 2 — Dimensionality reduction / selection};
+\node[item=cReduce, below=2mm of h2.south, xshift=-26mm, minimum width=13mm] (pca){PCA};
+\node[item=cReduce, right=2mm of pca, minimum width=14mm] (umap){UMAP};
+\node[item=cReduce, right=2mm of umap, minimum width=15mm] (rel){Relief-F};
+\node[item=cReduce, right=2mm of rel, minimum width=14mm, draw=cReduce!70, dashed] (full){Full};
+\node[card=cReduce, below=3mm of umap, xshift=10mm, text width=56mm, fill=cReduceL] (fv){\footnotesize Selected feature vector — 2, 10, \ldots, 300 dims (or full)};
+\node[hdr, fill=cClass, minimum width=70mm, below=3mm of fv, font=\sffamily\bfseries] (h3){STAGE 3 — Classification};
+\node[card=cClass, below=2mm of h3, text width=66mm, fill=cClassL] (clf)
+  {\footnotesize SVM (linear) · SVM (RBF) · MLP · Logistic Regression · Random Forest · AdaBoost · Decision Tree · Na\"ive Bayes};
+\node[outb, fill=cClass, below=4mm of clf, xshift=-17mm, minimum width=30mm] (o1){Clear path};
+\node[outb, fill=cReduce, right=4mm of o1, minimum width=30mm] (o2){Obstructed path};
+% resultados
+\node[below=5mm of o1.south east, xshift=2mm, align=center, font=\sffamily\bfseries] (res)
+  {\color{cExtract}LOOCV accuracy: 0.9474 \quad$\bullet$\quad 10-fold accuracy: 0.9412};
+% arrows
+\draw[vflow](cnn)--(h2);
+\foreach \x in {pca,umap,rel,full} \draw[vflow](h2.south)--(\x.north);
+\coordinate (by) at ([yshift=3mm]fv.north);
+\foreach \x in {pca,umap,rel,full}{\draw[line width=0.8pt,draw=cInk] (\x.south) -- (\x.south|-by);}
+\draw[line width=0.8pt,draw=cInk] (pca.south|-by) -- (full.south|-by);
+\draw[vflow] (fv.north|-by) -- (fv.north);
+\draw[vflow](fv)--(h3); \draw[vflow](clf.south)--(o1); \draw[vflow](clf.south)--(o2);
+\end{tikzpicture}
+\end{document}

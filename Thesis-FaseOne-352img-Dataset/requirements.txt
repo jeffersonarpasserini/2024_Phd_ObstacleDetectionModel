@@ -1,0 +1,5 @@
+# Dependencies to run load_results.py
+pandas>=1.3
+
+# Optional — only needed to read the SPSS .sav files from Python:
+# pyreadstat>=1.1

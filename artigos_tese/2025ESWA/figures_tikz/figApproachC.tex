@@ -1,0 +1,23 @@
+\documentclass[border=6pt]{standalone}
+\input{style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=5mm]
+\node[vw, draw=cInk!60, fill=gray!12] (im){Input image};
+\node[vb, draw=cExtract, fill=cExtractL, below=6mm of im, xshift=-12mm] (c1){CNN 1};
+\node[vb, draw=cExtract, fill=cExtractL, below=6mm of im, xshift=12mm] (c2){CNN 2};
+\node[vb, draw=cClass, fill=cClassL, below=5mm of c1] (v1){feature vec 1};
+\node[vb, draw=cReduce, fill=cReduceL, below=5mm of c2] (v2){feature vec 2};
+\node[vw, draw=cReduce, fill=white, below=6mm of im |- v1, yshift=-9mm] (cc){Concatenate $\rightarrow$ reduction};
+\node[vw, draw=cReduce, fill=cReduceL, below=of cc] (rv){Reduced vector};
+\node[vw, draw=cClass, fill=cClassL, below=of rv] (clf){Supervised classifier};
+\node[vw, fill=cOut, text=white, font=\footnotesize\bfseries, below=of clf] (o){Clear / Obstructed};
+\draw[vflow](im)--(c1); \draw[vflow](im)--(c2);
+\draw[vflow](c1)--(v1); \draw[vflow](c2)--(v2);
+\coordinate (by) at ([yshift=4mm]cc.north);
+\draw[line width=0.8pt,draw=cInk] (v1.south) -- (v1.south|-by);
+\draw[line width=0.8pt,draw=cInk] (v2.south) -- (v2.south|-by);
+\draw[line width=0.8pt,draw=cInk] (v1.south|-by) -- (v2.south|-by);
+\draw[vflow] (cc.north|-by) -- (cc.north);
+\draw[vflow](cc)--(rv); \draw[vflow](rv)--(clf); \draw[vflow](clf)--(o);
+\end{tikzpicture}
+\end{document}
