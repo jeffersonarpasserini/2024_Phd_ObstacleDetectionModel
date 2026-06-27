@@ -10,7 +10,8 @@ Pipeline:
   1) Extrai features MobileNetV1 (avg pooling) da base estendida (com cache proprio,
      alinhado: features + labels + filenames).
   2) Split estratificado treino/calibracao (80/20) -> treina MLP -> varre threshold e
-     escolhe o tau* que MAXIMIZA F2 (recall pesa 2x) no conjunto de calibracao.
+     escolhe o tau* que MAXIMIZA o combined_score (0.5*recall+0.3*F2+0.1*MCC+0.1*precision)
+     no conjunto de calibracao — criterio identico ao Test0009 (global_best_threshold_combined).
   3) RETREINA o MLP em 100% dos dados (mesma config) -> pesos finais para deploy.
   4) Salva:
        model/classifier_model/00_classifier_model.h5   (MLP final)
@@ -58,7 +59,7 @@ BASE_PATH = os.path.dirname(os.path.abspath(__file__))                 # .../Fin
 PROJECT_PATH = os.path.abspath(os.path.join(BASE_PATH, '..'))          # .../Python_ObstacleDetection_Model
 DATASET_PATH = os.path.abspath(os.path.join(PROJECT_PATH, '..', 'via-dataset-extended'))
 
-MODEL_DIR = os.path.join(PROJECT_PATH, 'model')
+MODEL_DIR = os.path.join(BASE_PATH, 'model')
 CLASSIFIER_DIR = os.path.join(MODEL_DIR, 'classifier_model')
 FEATURE_DIR = os.path.join(BASE_PATH, 'features')
 for d in (MODEL_DIR, CLASSIFIER_DIR, FEATURE_DIR):
@@ -80,7 +81,10 @@ TRAIN = dict(epochs=250, batch_size=32, earlystop_patience=50,
              reduceLR_factor=0.5, reduceLR_patience=10, val_split=0.2)
 
 CALIB_FRACTION = 0.20   # holdout para calibrar o threshold (estratificado)
-FBETA = 2.0             # F2: recall pesa 2x -> criterio recall-first
+FBETA = 2.0             # F2: recall pesa 2x (usado no combined_score do Test0009)
+
+# Pesos do combined_score (replicados do Test0009 global_best_threshold_combined)
+COMBINED_W = dict(recall=0.5, f2=0.3, mcc=0.1, precision=0.1)
 
 
 # ----------------------------------------------------------------------------
@@ -191,24 +195,31 @@ def fit_mlp(model, X, y):
 # Calibracao do threshold por F2 (recall-first)
 # ----------------------------------------------------------------------------
 def sweep_threshold(y_true, y_prob):
+    """Varre thresholds e calcula métricas — alinhado ao Test0009 (range 0.1-0.9, 200 pts, operador >)."""
     rows = []
-    for thr in np.linspace(0.05, 0.95, 181):
-        y_pred = (y_prob >= thr).astype(int)
+    for thr in np.linspace(0.1, 0.9, 200):
+        y_pred = (y_prob > thr).astype(int)
+        rec  = recall_score(y_true, y_pred, pos_label=1, zero_division=0)
+        f2   = fbeta_score(y_true, y_pred, beta=FBETA, pos_label=1, zero_division=0)
+        mcc  = matthews_corrcoef(y_true, y_pred) if len(set(y_pred)) > 1 else 0.0
+        prec = precision_score(y_true, y_pred, pos_label=1, zero_division=0)
         rows.append(dict(
             threshold=round(float(thr), 4),
-            recall_obstacle=recall_score(y_true, y_pred, pos_label=1, zero_division=0),
+            recall_obstacle=rec,
             specificity=recall_score(y_true, y_pred, pos_label=0, zero_division=0),
-            precision=precision_score(y_true, y_pred, pos_label=1, zero_division=0),
+            precision=prec,
             f1=f1_score(y_true, y_pred, pos_label=1, zero_division=0),
-            f2=fbeta_score(y_true, y_pred, beta=FBETA, pos_label=1, zero_division=0),
+            f2=f2,
             accuracy=accuracy_score(y_true, y_pred),
-            mcc=matthews_corrcoef(y_true, y_pred) if len(set(y_pred)) > 1 else 0.0,
+            mcc=mcc,
+            combined_score=COMBINED_W['recall']*rec + COMBINED_W['f2']*f2
+                           + COMBINED_W['mcc']*mcc + COMBINED_W['precision']*prec,
         ))
     return pd.DataFrame(rows)
 
 
 def metrics_at(y_true, y_prob, thr):
-    y_pred = (y_prob >= thr).astype(int)
+    y_pred = (y_prob > thr).astype(int)
     tn, fp, fn, tp = confusion_matrix(y_true, y_pred, labels=[0, 1]).ravel()
     return dict(
         threshold=float(thr),
@@ -246,16 +257,18 @@ def main():
     sweep_path = os.path.join(MODEL_DIR, 'threshold_sweep_calib.csv')
     sweep.to_csv(sweep_path, index=False)
 
-    best = sweep.loc[sweep['f2'].idxmax()]
-    tau = float(best['threshold'])
-    print(f'\n==> tau* (F2-otimo, recall-first) = {tau:.4f}')
+    # Critério Test0009: argmax combined_score; em empate escolhe o MAIOR tau (mais conservador)
+    best_score = sweep['combined_score'].max()
+    candidates = sweep[sweep['combined_score'] == best_score]
+    tau = float(candidates['threshold'].max())
+    print(f'\n==> tau* (combined_score-otimo, criterio Test0009) = {tau:.4f}')
     print('    Metricas no holdout de calibracao @ tau*:')
     calib_metrics = metrics_at(y_cal, y_cal_prob, tau)
     for k, v in calib_metrics.items():
         print(f'      {k}: {v}')
 
     # pontos de operacao alternativos para a tese
-    alt = {f'thr_{t}': metrics_at(y_cal, y_cal_prob, t) for t in (0.3, 0.4, 0.5)}
+    alt = {f'thr_{t}': metrics_at(y_cal, y_cal_prob, t) for t in (0.3, 0.5, 0.6)}
 
     # ---- 2) retreino em 100% dos dados (pesos finais p/ deploy) ----
     print('\n==> [Etapa B] Retreinando MLP em 100% dos dados (pesos finais)')
@@ -275,7 +288,12 @@ def main():
         classifier=MLP, training=TRAIN,
         positive_class='obstacle (non-clear) = 1 ; clear = 0',
         operating_threshold=tau,
-        threshold_criterion=f'argmax F{int(FBETA)} no holdout de calibracao ({int(CALIB_FRACTION*100)}%)',
+        threshold_criterion=(
+            f'argmax combined_score (0.5*recall + 0.3*F{int(FBETA)} + 0.1*MCC + 0.1*precision) '
+            f'no holdout de calibracao ({int(CALIB_FRACTION*100)}%) — criterio Test0009; '
+            f'empate resolvido pelo maior tau'
+        ),
+        combined_weights=COMBINED_W,
         calib_metrics=calib_metrics,
         alt_operating_points=alt,
         seed=SEED,

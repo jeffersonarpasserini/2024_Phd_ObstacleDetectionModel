@@ -19,6 +19,7 @@ Rodar APOS 01:  python 02_build_combined_tflite.py
 """
 
 import os
+import numpy as np
 import tensorflow as tf
 from tensorflow.keras.applications.mobilenet import MobileNet, preprocess_input
 from tensorflow.keras.models import load_model, Model
@@ -48,7 +49,8 @@ def f1_metric(y_true, y_pred):
 # Caminhos
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 PROJECT_PATH = os.path.abspath(os.path.join(BASE_PATH, '..'))
-MODEL_DIR = os.path.join(PROJECT_PATH, 'model')
+DATASET_PATH = os.path.abspath(os.path.join(PROJECT_PATH, '..', 'via-dataset-extended'))
+MODEL_DIR = os.path.join(BASE_PATH, 'model')
 CLASSIFIER_PATH = os.path.join(MODEL_DIR, 'classifier_model', '00_classifier_model.h5')
 OUT_DIR = os.path.join(MODEL_DIR, 'combined_model')
 os.makedirs(OUT_DIR, exist_ok=True)
@@ -56,6 +58,7 @@ os.makedirs(OUT_DIR, exist_ok=True)
 IMAGE_SIZE = (224, 224)
 IMAGE_CHANNELS = 3
 ALPHA = 1.0
+REPR_DATASET_SIZE = 100  # imagens para calibrar quantizacao INT8
 
 
 def rename_layers(model, prefix):
@@ -102,17 +105,55 @@ def build_combined():
     return combined
 
 
+def get_representative_dataset():
+    """Gera amostras reais preprocessadas para calibrar a quantizacao INT8."""
+    import glob
+    from tensorflow.keras.preprocessing import image as keras_image
+    files = sorted(
+        glob.glob(os.path.join(DATASET_PATH, '*.jpg')) +
+        glob.glob(os.path.join(DATASET_PATH, '*.jpeg')) +
+        glob.glob(os.path.join(DATASET_PATH, '*.png'))
+    )[:REPR_DATASET_SIZE]
+
+    def generator():
+        for fpath in files:
+            img = keras_image.load_img(fpath, target_size=IMAGE_SIZE)
+            arr = keras_image.img_to_array(img)
+            arr = preprocess_input(arr)
+            yield [np.expand_dims(arr, axis=0).astype(np.float32)]
+
+    return generator
+
+
 def export_tflite(combined):
-    print('==> Convertendo para TFLite (float32)')
+    print('==> Convertendo para TFLite (float16 quantization)')
     converter = tf.lite.TFLiteConverter.from_keras_model(combined)
-    # float32 padrao (sem quantizacao). Para INT8, ver 03_validate_tflite.py / comentarios.
-    converter.optimizations = []  # explicitamente sem quantizacao
+    # Float16 quantization: pesos e constantes convertidos para float16.
+    # Escolhido em substituicao ao dynamic-range (int8 de pesos) porque o MobileNetV1
+    # tem 28 blocos de convolucao separavel com BatchNormalization — a quantizacao int8
+    # acumula erro atraves das camadas BN e gera divergencias de ate 71% na saida final.
+    # Float16 evita esse acumulo: reducao de ~2x no tamanho (14MB -> ~7MB),
+    # precisao virtualmente identica ao float32, sem dataset representativo,
+    # sem mudancas no contrato de entrada/saida do modelo no app Android.
+    converter.optimizations = [tf.lite.Optimize.DEFAULT]
+    converter.target_spec.supported_types = [tf.float16]
     tflite_model = converter.convert()
     path = os.path.join(OUT_DIR, 'classifier_model_combined.tflite')
     with open(path, 'wb') as f:
         f.write(tflite_model)
     size_mb = os.path.getsize(path) / (1024 ** 2)
     print(f'    TFLite salvo: {path}  ({size_mb:.2f} MB)')
+
+    # --- INT8 completo (opcional — requer validar paridade antes de embarcar) ---
+    # Para MobileNetV1 com BN, o INT8 só é seguro com dataset representativo completo
+    # que calibre os ranges de ativacao de cada camada individualmente.
+    # converter.representative_dataset = get_representative_dataset()
+    # converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
+    # converter.target_spec.supported_types = []          # limpar float16
+    # converter.inference_input_type  = tf.float32
+    # converter.inference_output_type = tf.float32
+    # (reexecutar 03_validate_tflite.py e confirmar max|Δprob| < 0.01 e divergencias == 0)
+
     print('\nOK. Proximo passo: 03_validate_tflite.py')
 
 

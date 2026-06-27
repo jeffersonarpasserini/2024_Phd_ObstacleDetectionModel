@@ -1,0 +1,100 @@
+{
+  "model_name": "Model03_F2_recall_first",
+  "extractor": {
+    "type": "MobileNetV1",
+    "pooling": "avg",
+    "alpha": 1.0,
+    "image_size": [
+      224,
+      224
+    ],
+    "feature_dim": 1024,
+    "preprocess": "mobilenet_v1 preprocess_input -> [-1,1]"
+  },
+  "classifier": {
+    "activation": "relu",
+    "dropout_rate": 0.4,
+    "learning_rate": 0.001,
+    "n_layers": 1,
+    "n_neurons": 256,
+    "optimizer": "adam",
+    "f1_alpha": 0.6,
+    "f1_beta": 1.5
+  },
+  "training": {
+    "epochs": 250,
+    "batch_size": 32,
+    "earlystop_patience": 50,
+    "reduceLR_factor": 0.5,
+    "reduceLR_patience": 10,
+    "val_split": 0.2
+  },
+  "positive_class": "obstacle (non-clear) = 1 ; clear = 0",
+  "operating_threshold": 0.2769,
+  "threshold_criterion": "argmax combined_score (0.5*recall + 0.3*F2 + 0.1*MCC + 0.1*precision) no holdout de calibracao (20%) \u2014 criterio Test0009; empate resolvido pelo maior tau",
+  "combined_weights": {
+    "recall": 0.5,
+    "f2": 0.3,
+    "mcc": 0.1,
+    "precision": 0.1
+  },
+  "calib_metrics": {
+    "threshold": 0.2769,
+    "accuracy": 0.9093264248704663,
+    "recall_obstacle": 0.9392265193370166,
+    "specificity": 0.8829268292682927,
+    "precision": 0.8762886597938144,
+    "f1": 0.9066666666666666,
+    "f2": 0.9259259259259259,
+    "mcc": 0.8205736532433661,
+    "TP": 170,
+    "TN": 181,
+    "FP": 24,
+    "FN": 11
+  },
+  "alt_operating_points": {
+    "thr_0.3": {
+      "threshold": 0.3,
+      "accuracy": 0.9119170984455959,
+      "recall_obstacle": 0.9337016574585635,
+      "specificity": 0.8926829268292683,
+      "precision": 0.8848167539267016,
+      "f1": 0.9086021505376344,
+      "f2": 0.9234972677595629,
+      "mcc": 0.8248299760607951,
+      "TP": 169,
+      "TN": 183,
+      "FP": 22,
+      "FN": 12
+    },
+    "thr_0.5": {
+      "threshold": 0.5,
+      "accuracy": 0.9119170984455959,
+      "recall_obstacle": 0.9171270718232044,
+      "specificity": 0.9073170731707317,
+      "precision": 0.8972972972972973,
+      "f1": 0.907103825136612,
+      "f2": 0.9130913091309131,
+      "mcc": 0.8235568107989916,
+      "TP": 166,
+      "TN": 186,
+      "FP": 19,
+      "FN": 15
+    },
+    "thr_0.6": {
+      "threshold": 0.6,
+      "accuracy": 0.9145077720207254,
+      "recall_obstacle": 0.9171270718232044,
+      "specificity": 0.9121951219512195,
+      "precision": 0.9021739130434783,
+      "f1": 0.9095890410958904,
+      "f2": 0.9140969162995595,
+      "mcc": 0.8286190424497863,
+      "TP": 166,
+      "TN": 187,
+      "FP": 18,
+      "FN": 15
+    }
+  },
+  "seed": 1980
+}
